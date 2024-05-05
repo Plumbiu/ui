@@ -1,0 +1,22 @@
+.vp-local-demo {
+  .button-demo {
+    button + button {
+      margin-left: 8px;
+    }
+    button {
+      margin-bottom: 8px;
+    }
+  }
+
+  .tag-demo {
+    > span {
+      + span {
+        margin-left: 8px;
+      }
+      margin-bottom: 8px;
+    }
+  }
+  a + a {
+    margin-left: 8px;
+  }
+}

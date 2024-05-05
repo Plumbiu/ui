@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+  font-family: Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  scrollbar-color: #a3a6ad;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #0003;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #0005;
+}
+
+.theme-dark ::-webkit-scrollbar-thumb {
+  background-color: #fff3;
+}
+.theme-dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #fff1;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}

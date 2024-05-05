@@ -1,0 +1,139 @@
+/* eslint-disable @stylistic/max-len */
+import React, { HTMLAttributes } from 'react'
+import { styled } from '@pigment-css/react'
+import { TBaseColor, TSize } from '../types'
+import { fcc_inline } from '../styles'
+import { borderRadiusVariants, colorsVar } from '../styles/vars'
+import { IconWrap } from '../icon'
+import { sizeVariants } from './constant'
+
+export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+  size?: TSize
+  circle?: boolean
+  color?: TBaseColor
+  outlined?: boolean
+  borderless?: boolean
+  disabled?: boolean
+  plain?: boolean
+
+  icon?: React.ReactNode
+  suffixIcon?: React.ReactNode
+}
+
+const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
+  return {
+    boxSizing: 'border-box',
+    verticalAlign: 'middle',
+    cursor: 'pointer',
+    boxShadow:
+      'rgba(0, 0, 0, 0.2) 0px 1px 1px -2px, rgba(0, 0, 0, 0.1) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;',
+    color: theme['text-1'],
+    opacity: 0.9,
+    transition: '0.175s',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    '&:disabled': {
+      filter: 'grayscale(1)',
+      opacity: 0.5,
+      cursor: 'not-allowed',
+      boxShadow: 'none',
+    },
+    lineHeight: 1,
+    gap: 4,
+    variants: [
+      ...sizeVariants,
+      ...borderRadiusVariants,
+      ...colorsVar.map((color) => ({
+        props: { color },
+        style: {
+          backgroundColor: theme[color],
+          borderColor: theme[color],
+          color: theme['text-1'],
+        },
+      })),
+      ...colorsVar.flatMap((color) => {
+        const commonProps = { outlined: true, color }
+        return [
+          {
+            props: { ...commonProps },
+            style: {
+              backgroundColor: 'transparent',
+              boxShadow: 'none',
+              borderColor: theme.vars[`${color}-1`],
+              color: theme.vars[`${color}-1`],
+            },
+          },
+          {
+            props: { ...commonProps, disabled: false },
+            style: {
+              '&:hover': {
+                backgroundColor: theme.vars[`${color}-6`],
+              },
+              '&:active': {
+                backgroundColor: theme.vars[`${color}-5`],
+              },
+            },
+          },
+        ]
+      }),
+      ...colorsVar.map((color) => ({
+        props: { plain: true, color },
+        style: {
+          backgroundColor: theme.vars[`${color}-6`],
+          color: theme.vars[`${color}-1`],
+        },
+      })),
+      {
+        props: { circle: true },
+        style: {
+          borderRadius: '50%',
+          aspectRatio: 1,
+          padding: '6px',
+        },
+      },
+      {
+        props: { disabled: false },
+        style: {
+          '&:hover': {
+            opacity: 0.75,
+          },
+          '&:active': {
+            opacity: 1,
+          },
+        },
+      },
+    ],
+  }
+})
+
+const Button: React.FC<ButtonProps> = (props) => {
+  const {
+    size = 'md',
+    circle = false,
+    color = 'primary',
+    outlined = false,
+    borderless = false,
+    disabled = false,
+    plain = false,
+    ...restProps
+  } = props
+  return (
+    <StyledButton
+      className={fcc_inline}
+      {...restProps}
+      size={size}
+      circle={circle}
+      color={color}
+      outlined={outlined}
+      borderless={borderless}
+      disabled={disabled}
+      plain={plain}
+    >
+      {!!props.icon && <IconWrap>{props.icon}</IconWrap>}
+      {!!props.children && <span>{props.children}</span>}
+      {!!props.suffixIcon && <IconWrap>{props.suffixIcon}</IconWrap>}
+    </StyledButton>
+  )
+}
+
+export default Button

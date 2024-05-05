@@ -1,0 +1,47 @@
+{
+  "name": "@plumbiu/ui",
+  "version": "0.0.1",
+  "description": "ui for plumbiu's blog",
+  "main": "src/index.js.mjs",
+  "scripts": {
+    "dev": "vite serve docs"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "ui",
+    "component",
+    "antd",
+    "design",
+    "css",
+    "blog",
+    "react"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plumbiu/ui"
+  },
+  "author": "Plumbiu",
+  "license": "MIT",
+  "dependencies": {
+    "@pigment-css/react": "^0.0.10",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "^6.23.0"
+  },
+  "devDependencies": {
+    "@mdx-js/react": "^3.0.1",
+    "@pigment-css/vite-plugin": "^0.0.10",
+    "@plumbiu/eslint-config": "^0.2.1",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^20.12.8",
+    "@types/react": "^18.3.1",
+    "@vitejs/plugin-react-swc": "^3.6.0",
+    "eslint": "8.57.0",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11",
+    "vite-pages-theme-doc": "^5.0.0",
+    "vite-plugin-react-pages": "^5.0.0"
+  }
+}
