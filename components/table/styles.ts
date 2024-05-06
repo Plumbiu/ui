@@ -18,7 +18,7 @@ export const StyledTable = styled('table')<
         ...colorsVar.flatMap((color) => {
           const commonBorder = `1px solid ${theme.vars[`${color}-5`]}`
           const commonBgColor = theme.vars[`${color}-6`]
-          const headerSperatorColor = theme.vars[`${color}-4`]
+          const radius = 10
           return [
             {
               props: { bordered: true },
@@ -37,23 +37,14 @@ export const StyledTable = styled('table')<
                     },
                   },
                 },
-              },
-            },
-            {
-              props: { bordered: false },
-              style: {
-                '& > thead': {
+                '& > tbody': {
                   '& > tr': {
-                    '& > td': {
-                      position: 'relative',
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        right: 0,
-                        width: 1,
-                        backgroundColor: headerSperatorColor,
-                        top: '30%',
-                        bottom: '30%',
+                    '&:last-child': {
+                      '& > td:first-child': {
+                        borderBottomLeftRadius: radius,
+                      },
+                      '& > td:last-child': {
+                        borderBottomRightRadius: radius,
                       },
                     },
                   },
@@ -82,10 +73,10 @@ export const StyledTable = styled('table')<
                     },
                     '&:first-child': {
                       '& >td:last-child': {
-                        borderStartEndRadius: 10,
+                        borderStartEndRadius: radius,
                       },
                       '& >td:first-child': {
-                        borderStartStartRadius: 10,
+                        borderStartStartRadius: radius,
                       },
                     },
                   },
