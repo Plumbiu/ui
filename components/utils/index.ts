@@ -18,3 +18,10 @@ export function isDarkColor(color: string) {
 
   return brightness < 155
 }
+
+export function formatUnit(val: string | number | undefined) {
+  if (val === undefined) {
+    return val
+  }
+  return typeof val === 'number' ? `${val}px` : val
+}

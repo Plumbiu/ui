@@ -3,6 +3,10 @@ import { TableContent } from './render'
 import { StyledTable } from './styles'
 import { TableProps } from './types'
 
+const tableStyle: React.CSSProperties = {
+  tableLayout: 'fixed'
+}
+
 const ScrollTable: React.FC<TableProps> = (props) => {
   const {
     bordered = true,
@@ -22,15 +26,15 @@ const ScrollTable: React.FC<TableProps> = (props) => {
 
   const ColGroup = (
     <colgroup>
-      {columns.map((column) => (
-        <col width={column.width} />
+      {columns.map(({ width }) => (
+        <col style={{width: width ?? 'auto'}} />
       ))}
     </colgroup>
   )
   return (
     <div>
       <div>
-        <StyledTable {...tableProps}>
+        <StyledTable style={tableStyle} {...tableProps}>
           {ColGroup}
           <thead>
             <TableContent columns={columns} rowKey={rowKey} isHead />
@@ -38,7 +42,7 @@ const ScrollTable: React.FC<TableProps> = (props) => {
         </StyledTable>
       </div>
       <div className={scrollCss} style={{ height: props.scroll?.y }}>
-        <StyledTable {...tableProps}>
+        <StyledTable style={tableStyle} {...tableProps}>
           {ColGroup}
           <tbody>
             {dataSource.map((data) => (

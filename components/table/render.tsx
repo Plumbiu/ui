@@ -1,19 +1,20 @@
-import { memo } from 'react'
 import { TableProps } from './types'
 
 export const TdTag: React.FC<{
   column: TableProps['columns'][number]
   isHead: boolean
   index: number
-}> = memo((props) => {
+}> = (props) => {
   const { column, isHead, index } = props
-  const { align, width, title, render } = column
+  const { align, title, render, hidden } = column
   return (
-    <td align={align} width={width}>
-      {isHead ? title : render ? render(title, column, index) : title}
-    </td>
+    hidden ? null : (
+      <td align={align}>
+        {isHead ? title : render ? render(title, column, index) : title}
+      </td>
+    )
   )
-})
+}
 
 export const TableContent: React.FC<{
   columns: TableProps['columns']
