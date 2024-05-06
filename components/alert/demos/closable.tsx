@@ -8,7 +8,7 @@ import { Alert } from '@plumbiu/ui'
 export default function Demo() {
   return (
     <>
-      <Alert closable>Alert</Alert>
+      <Alert closable description="Primary description">Alert</Alert>
       <br />
       <Alert closable closeIcon="x">
         Alert

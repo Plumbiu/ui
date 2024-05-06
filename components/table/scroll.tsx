@@ -10,6 +10,7 @@ const HeaderWrapperCss = css({
 
 const TableWrapperCss = css({
   overflow: 'auto',
+  position: 'relative',
 })
 
 const tableStyle: React.CSSProperties = {
@@ -17,11 +18,7 @@ const tableStyle: React.CSSProperties = {
 }
 
 const ScrollTable: React.FC<TableProps> = (props) => {
-  const {
-    columns = [],
-    dataSource = [],
-    rowKey = 'key',
-  } = props
+  const { columns = [], dataSource = [], rowKey = 'key' } = props
 
   const ColGroup = (
     <colgroup>
@@ -49,6 +46,7 @@ const ScrollTable: React.FC<TableProps> = (props) => {
           <tbody>
             {dataSource.map((data) => (
               <TableContent
+                dataSource={data}
                 key={data[rowKey]}
                 columns={columns}
                 rowKey={rowKey}

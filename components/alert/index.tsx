@@ -32,7 +32,7 @@ const StyledAlert = styled('div')<AlertProps>(({ theme }) => {
     justifyContent: 'space-between',
     borderWidth: 1,
     borderStyle: 'solid',
-    lineHeight: 1,
+    lineHeight: '16px',
     borderRadius: 8,
     padding: '8px 12px',
     color: theme.vars['text-1'],
@@ -67,7 +67,6 @@ const iconMap: Record<TColor, React.ReactNode> = {
 
 const headingCls = css({
   display: 'flex',
-  alignItems: 'flex-end',
   gap: 6,
 })
 

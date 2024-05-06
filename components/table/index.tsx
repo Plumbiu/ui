@@ -34,7 +34,12 @@ const Table: React.FC<TableProps> = (props) => {
       </thead>
       <tbody>
         {dataSource.map((data) => (
-          <TableContent key={data[rowKey]} columns={columns} rowKey={rowKey} />
+          <TableContent
+            dataSource={data}
+            key={data[rowKey]}
+            columns={columns}
+            rowKey={rowKey}
+          />
         ))}
       </tbody>
     </StyledTable>
