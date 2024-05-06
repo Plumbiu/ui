@@ -1,4 +1,5 @@
 import { HTMLAttributes } from 'react'
+import { TBaseColor } from '..'
 
 export interface TableColumnTypes<T extends Record<string, any>> {
   align?: 'left' | 'center' | 'right'
@@ -16,6 +17,7 @@ export interface TableColumnTypes<T extends Record<string, any>> {
 
 export interface TableProps extends HTMLAttributes<HTMLTableElement> {
   bordered?: boolean
+  color?: TBaseColor
   scroll?: { x?: number | string; y?: number | string }
 
   columns: TableColumnTypes<any>[]

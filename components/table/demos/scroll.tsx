@@ -102,5 +102,5 @@ const dataSource: DataSource[] = [
   },
 ]
 export default function Demo() {
-  return <Table scroll={{ y: 300 }} columns={columns} dataSource={dataSource} />
+  return <Table scroll={{ y: 300, x: 1300 }} columns={columns} dataSource={dataSource} />
 }

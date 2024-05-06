@@ -22,12 +22,6 @@ export const selfStart = css({
   alignSelf: 'flex-start',
 })
 
-export const scrollCss = css({
+export const overflowAutoCss = css({
   overflow: 'auto',
-  '&::-webkit-scrollbar': {
-    backgroundColor: 'transparent',
-  },
-  '&:hover': {
-    backgroundColor: 'inherit',
-  },
 })

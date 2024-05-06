@@ -1,3 +1,4 @@
+import { colorsVar } from '../styles/vars'
 import { TableContent } from './render'
 import ScrollTable from './scroll'
 import { StyledTable } from './styles'
@@ -9,15 +10,21 @@ const Table: React.FC<TableProps> = (props) => {
     columns = [],
     dataSource = [],
     rowKey = 'key',
+    color: custormColor = 'info',
     ...restProps
   } = props
+
+  const color = colorsVar.includes(custormColor) ? custormColor : 'info'
+
   const tableProps = {
     bordered,
     columns,
     dataSource,
     rowKey,
+    color,
     ...restProps,
   }
+
   return props.scroll ? (
     <ScrollTable {...tableProps} />
   ) : (

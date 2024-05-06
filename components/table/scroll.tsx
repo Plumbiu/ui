@@ -1,48 +1,50 @@
-import { scrollCss } from '../styles'
+import { css } from '@pigment-css/react'
+import { overflowAutoCss } from '../styles'
 import { TableContent } from './render'
 import { StyledTable } from './styles'
 import { TableProps } from './types'
 
+const HeaderWrapperCss = css({
+  overflow: 'hidden',
+})
+
+const TableWrapperCss = css({
+  overflow: 'auto',
+})
+
 const tableStyle: React.CSSProperties = {
-  tableLayout: 'fixed'
+  tableLayout: 'fixed',
 }
 
 const ScrollTable: React.FC<TableProps> = (props) => {
   const {
-    bordered = true,
     columns = [],
     dataSource = [],
     rowKey = 'key',
-    ...restProps
   } = props
-
-  const tableProps = {
-    bordered,
-    columns,
-    dataSource,
-    rowKey,
-    ...restProps,
-  }
 
   const ColGroup = (
     <colgroup>
       {columns.map(({ width }) => (
-        <col style={{width: width ?? 'auto'}} />
+        <col style={{ width: width ?? 'auto' }} />
       ))}
     </colgroup>
   )
   return (
-    <div>
-      <div>
-        <StyledTable style={tableStyle} {...tableProps}>
+    <div className={TableWrapperCss}>
+      <div className={HeaderWrapperCss} style={{ width: props.scroll?.x }}>
+        <StyledTable style={tableStyle} {...props}>
           {ColGroup}
           <thead>
             <TableContent columns={columns} rowKey={rowKey} isHead />
           </thead>
         </StyledTable>
       </div>
-      <div className={scrollCss} style={{ height: props.scroll?.y }}>
-        <StyledTable style={tableStyle} {...tableProps}>
+      <div
+        className={overflowAutoCss}
+        style={{ maxHeight: props.scroll?.y, width: props.scroll?.x }}
+      >
+        <StyledTable style={tableStyle} {...props}>
           {ColGroup}
           <tbody>
             {dataSource.map((data) => (
