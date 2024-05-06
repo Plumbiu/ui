@@ -29,7 +29,7 @@ const columns: TableColumnTypes<DataSource>[] = [
     title: 'Address',
     dataIndex: 'address',
     key: 'Address',
-    render: (node, record, index) => <Tag>{node}</Tag>,
+    render: (row) => <Tag>{row.address}</Tag>,
   },
   {
     title: 'Skill',

@@ -1,15 +1,19 @@
 import { HTMLAttributes } from 'react'
 import { TBaseColor } from '..'
 
-export type DefaultData= Record<string, any>
+export type DefaultData = Record<string, any>
 export interface TableColumnTypes<T extends DefaultData> {
   align?: 'left' | 'center' | 'right'
   className?: string | ((key: string) => string)
   colSpan?: number
-  fixed?: boolean
   dataIndex: string
   key: string
-  render?: (node: string, record: T, index: number) => React.ReactNode
+  render?: (
+    row: T,
+    column: TableColumnTypes<T>,
+    rowIndex: number,
+    colIndex: number,
+  ) => React.ReactNode
   hidden?: boolean
   width?: string | number
   title: string

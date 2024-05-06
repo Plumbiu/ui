@@ -33,7 +33,7 @@ const ScrollTable: React.FC<TableProps> = (props) => {
         <StyledTable style={tableStyle} {...props}>
           {ColGroup}
           <thead>
-            <TableContent columns={columns} rowKey={rowKey} isHead />
+            <TableContent rowIndex={0} columns={columns} rowKey={rowKey} isHead />
           </thead>
         </StyledTable>
       </div>
@@ -44,10 +44,11 @@ const ScrollTable: React.FC<TableProps> = (props) => {
         <StyledTable style={tableStyle} {...props}>
           {ColGroup}
           <tbody>
-            {dataSource.map((data) => (
+            {dataSource.map((data, rowIndex) => (
               <TableContent
+                rowIndex={rowIndex + 1}
                 dataSource={data}
-                key={data[rowKey]}
+                key={data?.[rowKey] ?? rowIndex}
                 columns={columns}
                 rowKey={rowKey}
               />

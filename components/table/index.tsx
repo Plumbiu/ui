@@ -30,15 +30,16 @@ const Table: React.FC<TableProps> = (props) => {
   ) : (
     <StyledTable {...tableProps}>
       <thead>
-        <TableContent columns={columns} rowKey={rowKey} isHead />
+        <TableContent rowIndex={0} columns={columns} rowKey={rowKey} isHead />
       </thead>
       <tbody>
-        {dataSource.map((data) => (
+        {dataSource.map((data, rowIndex) => (
           <TableContent
             dataSource={data}
-            key={data[rowKey]}
+            key={data?.[rowKey] ?? rowIndex}
             columns={columns}
             rowKey={rowKey}
+            rowIndex={rowIndex + 1}
           />
         ))}
       </tbody>
