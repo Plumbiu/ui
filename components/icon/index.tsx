@@ -2,7 +2,8 @@
 import { styled } from '@pigment-css/react'
 import { HTMLAttributes, SVGProps } from 'react'
 import { colorsVar, sizesVar } from '../styles/vars'
-import { TFullColor, TSize } from '..'
+import { TColor, TSize } from '..'
+
 
 export function MaterialSymbolsCheckCircleRounded(
   props: SVGProps<SVGSVGElement>,
@@ -57,9 +58,11 @@ export function MaterialSymbolsInfoRounded(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+
 interface IconProps extends HTMLAttributes<HTMLSpanElement> {
   size?: TSize
-  color?: TFullColor
+  color?: TColor
+  hover?: boolean
 }
 
 const sizesMap: Record<TSize, number> = {
@@ -88,13 +91,23 @@ export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
         },
       },
     })),
+    {
+      props: { hover: true },
+      style: {
+        cursor: 'pointer',
+        transition: 'color 0.1s',
+        '&:hover': {
+          color: theme.vars['text-3'],
+        },
+      }
+    }
   ],
 }))
 
 export const IconWrap: React.FC<IconProps> = (props) => {
-  const { color, size = 'md', ...restProps } = props
+  const { color, size = 'md', hover = false, ...restProps } = props
   return (
-    <StyledIcon {...restProps} color={color} size={size}>
+    <StyledIcon {...restProps} hover={hover} color={color} size={size}>
       {props.children}
     </StyledIcon>
   )

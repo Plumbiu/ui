@@ -70,14 +70,6 @@ const headingCls = css({
   gap: 6,
 })
 
-const closeIconCls = css(({ theme }) => ({
-  cursor: 'pointer',
-  transition: 'color 0.1s',
-  '&:hover': {
-    color: theme.vars['text-3'],
-  },
-}))
-
 const actionCls = css({
   alignSelf: 'flex-start',
   display: 'flex',
@@ -122,12 +114,12 @@ const Alert: React.FC<AlertProps> = (props) => {
           {closable && (
             <IconWrap
               size="lg"
+              hover
               onClick={() => {
                 setVisible(false)
                 onClose && onClose()
               }}
               color={color}
-              className={closeIconCls}
             >
               {closeIcon}
             </IconWrap>

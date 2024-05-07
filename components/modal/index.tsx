@@ -1,5 +1,5 @@
 import { css, keyframes, styled } from '@pigment-css/react'
-import { IconWrap } from '../icon'
+import { IconWrap, MaterialSymbolsCloseRounded } from '../icon'
 import { fcb } from '../styles'
 import Button from '../button'
 import React from 'react'
@@ -132,7 +132,9 @@ const Modal: React.FC<ModalProps> = (props) => {
       <StyledModal ref={modalRef}>
         <div className={fcb}>
           <div className={titleCls}>{title}</div>
-          <IconWrap>X</IconWrap>
+          <IconWrap size="lg" hover onClick={() => onClose?.()}>
+            <MaterialSymbolsCloseRounded />
+          </IconWrap>
         </div>
         {renderButton}
       </StyledModal>
