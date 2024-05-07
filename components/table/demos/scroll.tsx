@@ -18,12 +18,14 @@ const columns: TableColumnTypes<DataSource>[] = [
     dataIndex: 'name',
     key: 'Name',
     width: 150,
+    fixed: true,
   },
   {
     title: 'Age',
     dataIndex: 'age',
     key: 'Age',
     width: 150,
+    fixed: true,
   },
   {
     title: 'Address',
@@ -102,5 +104,5 @@ const dataSource: DataSource[] = [
   },
 ]
 export default function Demo() {
-  return <Table scroll={{ y: 300, x: 1300 }} columns={columns} dataSource={dataSource} />
+  return <Table scroll={{ y: 200, x: 1300 }} columns={columns} dataSource={dataSource} />
 }

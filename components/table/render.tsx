@@ -8,9 +8,18 @@ export const TdTag: React.FC<{
   dataSource?: DefaultData
 }> = (props) => {
   const { column, isHead, colIndex, rowIndex, dataSource } = props
-  const { align, title, render, hidden, dataIndex } = column
+  const { align, title, render, hidden, dataIndex, fixed } = column
+  let style: React.CSSProperties | undefined = undefined
+  if (fixed) {
+    style = {
+      ...style ?? {},
+      position: 'sticky',
+      left: column.__left__,
+      zIndex: 10
+    }
+  }
   return hidden ? null : (
-    <td align={align}>
+    <td align={align} style={style}>
       {isHead
         ? title
         : render

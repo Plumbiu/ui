@@ -13,6 +13,7 @@ export const StyledTable = styled('table')<
       borderCollapse: 'separate',
       listStyle: 'none',
       fontSize: 14,
+      position: 'relative',
       color: theme.vars['text-1'],
       variants: [
         ...colorsVar.flatMap((color) => {
@@ -65,11 +66,11 @@ export const StyledTable = styled('table')<
                 },
                 '& > thead': {
                   overflow: 'hidden',
-                  backgroundColor: commonBgColor,
                   fontWeight: 600,
                   '& > tr': {
                     '& > td': {
                       padding: 14,
+                     backgroundColor: commonBgColor,
                     },
                     '&:first-child': {
                       '& >td:last-child': {
@@ -88,6 +89,7 @@ export const StyledTable = styled('table')<
                     '& > td': {
                       padding: '10px 14px',
                       borderBottom: commonBorder,
+                      backgroundColor: theme.vars['background'],
                     },
                     '&:first-child>td': {
                       borderTop: commonBorder,

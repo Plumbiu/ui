@@ -1,8 +1,16 @@
+import { css } from '@pigment-css/react'
 import { colorsVar } from '../styles/vars'
 import { TableContent } from './render'
-import ScrollTable from './scroll'
 import { StyledTable } from './styles'
 import { TableProps } from './types'
+import { overflowAutoCss } from '../styles'
+import { calFixedLeft } from './utils'
+
+const theadCls = css({
+  position: 'sticky',
+  top: 0,
+  zIndex: 99,
+})
 
 const Table: React.FC<TableProps> = (props) => {
   const {
@@ -24,26 +32,40 @@ const Table: React.FC<TableProps> = (props) => {
     color,
     ...restProps,
   }
+  const ColGroup = (
+    <colgroup>
+      {columns.map(({ width }) => (
+        <col style={{ width: width ?? 'auto' }} />
+      ))}
+    </colgroup>
+  )
 
-  return props.scroll ? (
-    <ScrollTable {...tableProps} />
-  ) : (
-    <StyledTable {...tableProps}>
-      <thead>
-        <TableContent rowIndex={0} columns={columns} rowKey={rowKey} isHead />
-      </thead>
-      <tbody>
-        {dataSource.map((data, rowIndex) => (
-          <TableContent
-            dataSource={data}
-            key={data?.[rowKey] ?? rowIndex}
-            columns={columns}
-            rowKey={rowKey}
-            rowIndex={rowIndex + 1}
-          />
-        ))}
-      </tbody>
-    </StyledTable>
+  if (props.scroll) {
+    calFixedLeft(columns)
+  }
+  return (
+    <div className={overflowAutoCss} style={{ height: props.scroll?.y }}>
+      <StyledTable
+        style={{ minWidth: props.scroll?.x, tableLayout: props.scroll ? 'fixed' : 'auto' }}
+        {...tableProps}
+      >
+        {ColGroup}
+        <thead className={theadCls}>
+          <TableContent rowIndex={0} columns={columns} rowKey={rowKey} isHead />
+        </thead>
+        <tbody>
+          {dataSource.map((data, rowIndex) => (
+            <TableContent
+              rowIndex={rowIndex + 1}
+              dataSource={data}
+              key={data?.[rowKey] ?? rowIndex}
+              columns={columns}
+              rowKey={rowKey}
+            />
+          ))}
+        </tbody>
+      </StyledTable>
+    </div>
   )
 }
 
