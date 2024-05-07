@@ -59,12 +59,11 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
                 inset: 0,
                 borderRadius: 'inherit',
                 opacity: 0,
-                transition: 'opacity .8s cubic-bezier(0.08, 0.82, 0.17, 1)',
+                transition: 'opacity .3s cubic-bezier(0.08, 0.82, 0.17, 1)',
                 boxShadow: `0 0 0 4px ${theme.vars[`${color}-3`]}`,
               },
               '&:active::after': {
                 opacity: 0.4,
-                transition: '0s',
               },
             },
           },

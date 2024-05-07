@@ -8,9 +8,8 @@ import Portal from '../utils/portal'
 
 const modalAnimation = keyframes`
   from {
-    opacity: 0;
+    opacity: 0.4;
   }
-
   to {
     opacity: 1;
   }
@@ -53,14 +52,14 @@ const StyledMask = styled('div')({
 const StyledModal = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
+  overflow: 'auto',
   justifyContent: 'space-between',
   position: 'fixed',
   zIndex: 10000,
-  top: '20%',
+  top: '50%',
   left: '50%',
-  transform: 'translateX(-50%)',
+  transform: 'translate(-50%, calc(-50% - 220px))',
   minWidth: 320,
-  minHeight: 180,
   backgroundColor: theme.vars['background'],
   borderRadius: 6,
   padding: '8px 16px',
@@ -84,6 +83,11 @@ const footerCls = css({
   },
 })
 
+const contentCls = css(({ theme }) => ({
+  fontSize: 14,
+  color: theme.vars['text-1']
+}))
+
 const Modal: React.FC<ModalProps> = (props) => {
   const {
     visible,
@@ -98,8 +102,6 @@ const Modal: React.FC<ModalProps> = (props) => {
   const modalRef = React.useRef<HTMLDivElement>(null)
 
   useClickAway(() => {
-    console.log(111)
-
     onClose?.()
   }, modalRef)
 
@@ -132,17 +134,18 @@ const Modal: React.FC<ModalProps> = (props) => {
       <StyledModal ref={modalRef}>
         <div className={fcb}>
           <div className={titleCls}>{title}</div>
-          <IconWrap size="lg" onClick={() => onClose?.()}>
+          <IconWrap size="lg" hover onClick={() => onClose?.()}>
             <MaterialSymbolsCloseRounded />
           </IconWrap>
         </div>
+        <div className={contentCls}>{props.children}</div>
         {renderButton}
       </StyledModal>
     )
     if (mask) {
       node = (
         <StyledMask>
-          <div>{node}</div>
+          {node}
         </StyledMask>
       )
     }

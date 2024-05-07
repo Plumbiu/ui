@@ -2,7 +2,7 @@ export const sizeVariants = [
   {
     props: { size: 'lg' },
     style: {
-      height: 34,
+      height: 32,
       padding: '0 16px',
       fontSize: 16,
     },
@@ -10,7 +10,7 @@ export const sizeVariants = [
   {
     props: { size: 'md' },
     style: {
-      height: 30,
+      height: 28,
       fontSize: 14,
       padding: '0 12px',
     },
@@ -18,7 +18,7 @@ export const sizeVariants = [
   {
     props: { size: 'sm' },
     style: {
-      height: 26,
+      height: 24,
       fontSize: 12,
       padding: '0 8px',
     },

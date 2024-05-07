@@ -17,7 +17,9 @@ export default function Demo() {
         visible={visible}
         onClose={() => setVisible(false)}
         title="标题标题标题"
-      />
+      >
+        <p>自定义内容</p>
+      </Modal>
     </div>
   )
 }
