@@ -83,9 +83,6 @@ const actionCls = css({
   display: 'flex',
   alignItems: 'center',
   gap: 4,
-  '& > button': {
-    boxShadow: 'none',
-  },
 })
 
 const Alert: React.FC<AlertProps> = (props) => {

@@ -25,13 +25,12 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
     boxSizing: 'border-box',
     verticalAlign: 'middle',
     cursor: 'pointer',
-    boxShadow:
-      'rgba(0, 0, 0, 0.2) 0px 1px 1px -2px, rgba(0, 0, 0, 0.1) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;',
     color: theme['text-1'],
     opacity: 0.9,
     transition: '0.175s',
     borderWidth: 1,
     borderStyle: 'solid',
+    position: 'relative',
     '&:disabled': {
       filter: 'grayscale(1)',
       opacity: 0.5,
@@ -49,6 +48,20 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
           backgroundColor: theme[color],
           borderColor: theme[color],
           color: theme['text-1'],
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            borderRadius: 'inherit',
+            opacity: 0,
+            transition: '.3s',
+            boxShadow: `0 0 0 4px ${theme.vars[`${color}-3`]}`,
+          },
+          '&:active::after': {
+            opacity: 0.4,
+            transition: '0s',
+            boxShadow: `0 0 0 4px ${theme.vars[`${color}-3`]}`,
+          }
         },
       })),
       ...colorsVar.flatMap((color) => {
@@ -68,9 +81,6 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
             style: {
               '&:hover': {
                 backgroundColor: theme.vars[`${color}-6`],
-              },
-              '&:active': {
-                backgroundColor: theme.vars[`${color}-5`],
               },
             },
           },
@@ -95,9 +105,6 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
         props: { disabled: false },
         style: {
           '&:hover': {
-            opacity: 0.75,
-          },
-          '&:active': {
             opacity: 1,
           },
         },
