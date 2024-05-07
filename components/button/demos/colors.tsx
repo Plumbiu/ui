@@ -1,4 +1,5 @@
 /**
+ * @order 2
  * @description 通过 color 属性控制颜色
  * @title 颜色
  */

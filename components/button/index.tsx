@@ -5,7 +5,7 @@ import { TBaseColor, TSize } from '../types'
 import { fcc_inline } from '../styles'
 import { borderRadiusVariants, colorsVar } from '../styles/vars'
 import { IconWrap } from '../icon'
-import { sizeVariants } from './constant'
+import { sizeVariants } from './constants'
 
 export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   size?: TSize

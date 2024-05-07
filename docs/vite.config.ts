@@ -23,8 +23,6 @@ export default defineConfig({
               const match = relative.match(/(.*)\/demos\/(.*)\.([tj]sx|mdx?)$/)
               if (!match) throw new Error('unexpected file: ' + demoFilePath)
               const [_, componentName, demoName] = match
-              console.log(componentName, '---', demoName)
-
               const pageId = `/components/demos/${componentName}`
               // register page data
               api.addPageData({

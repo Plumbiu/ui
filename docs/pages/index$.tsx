@@ -1,12 +1,12 @@
 /**
- * @title Index Page Title
+ * @title 首页
  */
 
 const Page = () => {
   return (
     <div>
-      <h1>Home page</h1>
-      <p>You can customize the whole home page using React.</p>
+      <h1>@plumbiu/ui</h1>
+      <p></p>
     </div>
   )
 }
