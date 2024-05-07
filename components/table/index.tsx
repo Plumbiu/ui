@@ -9,7 +9,6 @@ import { calFixedLeft } from './utils'
 const theadCls = css({
   position: 'sticky',
   top: 0,
-  zIndex: 99,
 })
 
 const Table: React.FC<TableProps> = (props) => {
@@ -19,6 +18,7 @@ const Table: React.FC<TableProps> = (props) => {
     dataSource = [],
     rowKey = 'key',
     color: custormColor = 'info',
+    headZIndex = 99,
     ...restProps
   } = props
 
@@ -50,7 +50,7 @@ const Table: React.FC<TableProps> = (props) => {
         {...tableProps}
       >
         {ColGroup}
-        <thead className={theadCls}>
+        <thead className={theadCls} style={{ zIndex: headZIndex }}>
           <TableContent rowIndex={0} columns={columns} rowKey={rowKey} isHead />
         </thead>
         <tbody>

@@ -6,20 +6,34 @@ export const TdTag: React.FC<{
   colIndex: number
   rowIndex: number
   dataSource?: DefaultData
+  key: string
 }> = (props) => {
-  const { column, isHead, colIndex, rowIndex, dataSource } = props
-  const { align, title, render, hidden, dataIndex, fixed } = column
+  const { column, isHead, colIndex, rowIndex, dataSource, key } = props
+  const {
+    align,
+    title,
+    render,
+    hidden,
+    dataIndex,
+    fixed,
+    className,
+    zIndex = 10,
+  } = column
   let style: React.CSSProperties | undefined = undefined
   if (fixed) {
     style = {
-      ...style ?? {},
+      ...(style ?? {}),
       position: 'sticky',
       left: column.__left__,
-      zIndex: 10
+      zIndex,
     }
   }
   return hidden ? null : (
-    <td align={align} style={style}>
+    <td
+      align={align}
+      style={style}
+      className={typeof className === 'string' ? className : className?.(key)}
+    >
       {isHead
         ? title
         : render

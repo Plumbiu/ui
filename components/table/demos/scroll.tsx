@@ -1,11 +1,13 @@
 /**
- * @description 基本表格-只展示数据
- * @title 基本
+ * @order 4
+ * @description 固定列需要指定 width 宽度，默认为 220px
+ * @title 固定列
  */
 /* eslint-disable @stylistic/max-len */
 import { Table, TableColumnTypes, Tag } from '@plumbiu/ui'
 
 interface DataSource {
+  key: string
   name: string
   age: number
   address: string
@@ -41,68 +43,17 @@ const columns: TableColumnTypes<DataSource>[] = [
   },
 ]
 
-const dataSource: DataSource[] = [
-  {
+const dataSource: DataSource[] = []
+
+for (let i = 0; i < 40; i++) {
+  dataSource.push({
+    key: `${i}`,
     name: 'xiaoming',
     age: 18,
     address: 'beijing',
     skill: 'game',
-  },
-  {
-    name: 'xiaohong',
-    age: 17,
-    address: 'shanghai',
-    skill: 'book',
-  },
-  {
-    name: 'xiaogang',
-    age: 18,
-    address: 'hangzhou',
-    skill: 'pc',
-  },
-  {
-    name: 'xiaoshuai',
-    age: 21,
-    address: 'shenzhen',
-    skill: 'mobile',
-  },
-  {
-    name: 'xiaoshuai',
-    age: 21,
-    address: 'shenzhen',
-    skill: 'mobile',
-  },
-  {
-    name: 'xiaoshuai',
-    age: 21,
-    address: 'shenzhen',
-    skill: 'mobile',
-  },
-  {
-    name: 'xiaoshuai',
-    age: 21,
-    address: 'shenzhen',
-    skill: 'mobile',
-  },
-  {
-    name: 'xiaoshuai',
-    age: 21,
-    address: 'shenzhen',
-    skill: 'mobile',
-  },
-  {
-    name: 'xiaoshuai',
-    age: 21,
-    address: 'shenzhen',
-    skill: 'mobile',
-  },
-  {
-    name: 'xiaoshuai',
-    age: 21,
-    address: 'shenzhen',
-    skill: 'mobile',
-  },
-]
+  })
+}
 export default function Demo() {
-  return <Table scroll={{ y: 200, x: 1300 }} columns={columns} dataSource={dataSource} />
+  return <Table scroll={{ y: 400, x: 1300 }} columns={columns} dataSource={dataSource} />
 }

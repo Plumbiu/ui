@@ -1,12 +1,13 @@
 /**
- * @description 使单元格全部加上边框
- * @title 边框
+ * @order 3
+ * @description 表格具备 @plumbiu/ui 提供的 5 种基本颜色
+ * @title 颜色
  */
-/* eslint-disable @stylistic/max-len */
 import { Button, TBaseColor, Table, TableColumnTypes, Tag } from '@plumbiu/ui'
 import { useState } from 'react'
 
 interface DataSource {
+  key: string
   name: string
   age: number
   address: string
@@ -16,38 +17,39 @@ const columns: TableColumnTypes<DataSource>[] = [
   {
     title: 'Name',
     dataIndex: 'name',
-    key: 'Name',
   },
   {
     title: 'Age',
     dataIndex: 'age',
-    key: 'Age',
   },
   {
     title: 'Address',
     dataIndex: 'address',
-    key: 'Address',
     render: (row) => <Tag>{row.address}</Tag>,
   },
 ]
 
 const dataSource: DataSource[] = [
   {
+    key: '1',
     name: 'xiaoming',
     age: 18,
     address: 'beijing',
   },
   {
+    key: '2',
     name: 'xiaohong',
     age: 17,
     address: 'shanghai',
   },
   {
+    key: '3',
     name: 'xiaogang',
     age: 18,
     address: 'hangzhou',
   },
   {
+    key: '4',
     name: 'xiaoshuai',
     age: 21,
     address: 'shenzhen',

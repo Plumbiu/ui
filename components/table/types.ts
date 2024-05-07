@@ -1,14 +1,15 @@
 import { HTMLAttributes } from 'react'
 import { TBaseColor } from '..'
 
-export type DefaultData = Record<string, any>
+export type DefaultData = Record<'key' | string, any>
 export interface TableColumnTypes<T extends DefaultData> {
   align?: 'left' | 'center' | 'right'
   className?: string | ((key: string) => string)
   colSpan?: number
   dataIndex: string
-  key: string
+  key?: string
   fixed?: boolean
+  zIndex?: number
   render?: (
     row: T,
     column: TableColumnTypes<T>,
@@ -25,6 +26,7 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
   bordered?: boolean
   color?: TBaseColor
   scroll?: { x?: number | string; y?: number | string }
+  headZIndex?: number
 
   columns: TableColumnTypes<any>[]
   dataSource: DefaultData[]

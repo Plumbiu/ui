@@ -54,7 +54,7 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
             inset: 0,
             borderRadius: 'inherit',
             opacity: 0,
-            transition: '.3s',
+            transition: '.5s',
             boxShadow: `0 0 0 4px ${theme.vars[`${color}-3`]}`,
           },
           '&:active::after': {
