@@ -24,7 +24,7 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
   return {
     cursor: 'pointer',
     color: theme['text-1'],
-    opacity: 0.9,
+    opacity: 1,
     transition: '0.175s',
     borderWidth: 1,
     borderStyle: 'solid',
@@ -59,7 +59,7 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
                 inset: 0,
                 borderRadius: 'inherit',
                 opacity: 0,
-                transition: '.5s',
+                transition: 'opacity .8s cubic-bezier(0.08, 0.82, 0.17, 1)',
                 boxShadow: `0 0 0 4px ${theme.vars[`${color}-3`]}`,
               },
               '&:active::after': {
@@ -111,7 +111,7 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
         props: { disabled: false },
         style: {
           '&:hover': {
-            opacity: 1,
+            opacity: 0.9,
           },
         },
       },

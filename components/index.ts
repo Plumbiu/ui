@@ -17,4 +17,7 @@ export * from './tag'
 export { default as Table } from './table'
 export * from './table'
 
+export { default as Modal } from './modal'
+export * from './modal'
+
 export type * from './types'

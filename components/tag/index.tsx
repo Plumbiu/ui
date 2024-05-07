@@ -23,7 +23,7 @@ const StyledTag = styled('span')<TagProps>(({ theme }) => {
     borderColor: 'transparent',
     padding: '3px 7px',
     fontSize: 12,
-    borderRadius: 5,
+    borderRadius: 4,
     variants: [
       ...colorsVar.flatMap((color) => {
         return [

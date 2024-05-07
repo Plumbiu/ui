@@ -13,6 +13,12 @@ export const fcc = css({
   justifyContent: 'center',
 })
 
+export const fcb = css({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+})
+
 export const transparent_border = css({
   borderWidth: 1,
   borderStyle: 'solid',
