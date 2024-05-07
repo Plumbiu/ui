@@ -132,7 +132,7 @@ const Modal: React.FC<ModalProps> = (props) => {
       <StyledModal ref={modalRef}>
         <div className={fcb}>
           <div className={titleCls}>{title}</div>
-          <IconWrap size="lg" hover onClick={() => onClose?.()}>
+          <IconWrap size="lg" onClick={() => onClose?.()}>
             <MaterialSymbolsCloseRounded />
           </IconWrap>
         </div>
