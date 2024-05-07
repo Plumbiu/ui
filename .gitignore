@@ -35,14 +35,3 @@ twid.config.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-pnpm-lock.yaml
-/index.js
-media-dist
-twid-dist
-
-record-your-life.json
-storage
-
-packages/gui/release
-packages/gui/dist-electron
