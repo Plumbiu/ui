@@ -22,8 +22,6 @@ export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
 
 const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
   return {
-    boxSizing: 'border-box',
-    verticalAlign: 'middle',
     cursor: 'pointer',
     color: theme['text-1'],
     opacity: 0.9,

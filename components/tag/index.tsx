@@ -4,6 +4,7 @@ import { TColor } from '../types'
 import { colorsVar } from '../styles/vars'
 import { isDarkColor, formatHex } from '../utils'
 import { IconWrap } from '../icon'
+import { fcc_inline } from '../styles'
 
 export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
   color?: TColor
@@ -16,10 +17,6 @@ export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
 
 const StyledTag = styled('span')<TagProps>(({ theme }) => {
   return {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    verticalAlign: 'middle',
     gap: 4,
     borderWidth: 1,
     borderStyle: 'solid',
@@ -90,7 +87,7 @@ const Tag: React.FC<TagProps> = (props) => {
     tagProps.color = customColor
   }
   return (
-    <StyledTag {...tagProps}>
+    <StyledTag className={fcc_inline} {...tagProps}>
       {icon && <IconWrap>{icon}</IconWrap>}
       <span>{props.children}</span>
       {suffixIcon && <IconWrap>{suffixIcon}</IconWrap>}

@@ -4,6 +4,7 @@ export const fcc_inline = css({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
+  verticalAlign: 'middle',
 })
 
 export const fcc = css({

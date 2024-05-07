@@ -23,5 +23,6 @@
       "@plumbiu/ui": ["./components/index.ts"],
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts", "./theme.d.ts"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts", "./theme.d.ts"],
+  "exclude": ["dist/**", "node_modules/**"]
 }

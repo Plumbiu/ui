@@ -1,5 +1,3 @@
-/* eslint-disable @stylistic/max-len */
-/* eslint-disable @stylistic/function-paren-newline */
 export function formatHex(hex: string) {
   if (hex.length === 4) {
     return hex + hex.slice(1)
@@ -14,7 +12,6 @@ export function isDarkColor(color: string) {
   const c_g = parseInt(hex.slice(2, 4), 16)
   const c_b = parseInt(hex.slice(4, 6), 16)
   const brightness = (c_r * 299 + c_g * 587 + c_b * 114) / 1000
-  console.log(brightness)
 
   return brightness < 155
 }
