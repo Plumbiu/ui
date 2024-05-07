@@ -42,28 +42,36 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
     variants: [
       ...sizeVariants,
       ...borderRadiusVariants,
-      ...colorsVar.map((color) => ({
-        props: { color },
-        style: {
-          backgroundColor: theme[color],
-          borderColor: theme[color],
-          color: theme['text-1'],
-          '&::after': {
-            content: '""',
-            position: 'absolute',
-            inset: 0,
-            borderRadius: 'inherit',
-            opacity: 0,
-            transition: '.5s',
-            boxShadow: `0 0 0 4px ${theme.vars[`${color}-3`]}`,
+      ...colorsVar.flatMap((color) => {
+        return [
+          {
+            props: { color },
+            style: {
+              backgroundColor: theme[color],
+              borderColor: theme[color],
+              color: theme['text-1'],
+            },
           },
-          '&:active::after': {
-            opacity: 0.4,
-            transition: '0s',
-            boxShadow: `0 0 0 4px ${theme.vars[`${color}-3`]}`,
-          }
-        },
-      })),
+          {
+            props: { color, disabled: false },
+            style: {
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                inset: 0,
+                borderRadius: 'inherit',
+                opacity: 0,
+                transition: '.5s',
+                boxShadow: `0 0 0 4px ${theme.vars[`${color}-3`]}`,
+              },
+              '&:active::after': {
+                opacity: 0.4,
+                transition: '0s',
+              },
+            },
+          },
+        ]
+      }),
       ...colorsVar.flatMap((color) => {
         const commonProps = { outlined: true, color }
         return [
@@ -98,7 +106,7 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
         style: {
           borderRadius: '50%',
           aspectRatio: 1,
-          padding: '6px',
+          padding: 6,
         },
       },
       {

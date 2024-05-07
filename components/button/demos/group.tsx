@@ -11,6 +11,7 @@ export default function Demo() {
       <ButtonGroup>
         <Button icon="<">Previous Page</Button>
         <Button icon=">">Next Page</Button>
+        <Button icon=">">Next Page</Button>
       </ButtonGroup>
     </div>
   )

@@ -17,16 +17,25 @@ const borderColor = {
 }
 const StyledButtonGroup = styled('div')<ButtonGroupProps>(({ theme }) => {
   return {
-    overflow: 'hidden',
     width: 'max-content',
     '& > button': {
-      borderRadius: 0,
+      '&:not(:first-child):not(:last-child)': {
+        borderRadius: 0
+      },
+      '&:first-child': {
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+      },
+      '&:last-child': {
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
+      },
       position: 'relative',
       marginLeft: '0!important',
       marginRight: '0!important',
       boxShadow: 'none',
       borderColor: 'transparent',
-      '&:not(:first-child)::after': {
+      '&:not(:first-child)::before': {
         content: '""',
         position: 'absolute',
         width: 1,
