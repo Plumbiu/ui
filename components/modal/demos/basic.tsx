@@ -13,12 +13,29 @@ export default function Demo() {
     <div>
       <Button onClick={() => setVisible(true)}>显示 Modal</Button>
       <Modal
-      portal={document.documentElement}
+        portal={document.documentElement}
         visible={visible}
         onClose={() => setVisible(false)}
         title="标题标题标题"
       >
-        <p>自定义内容</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
       </Modal>
     </div>
   )

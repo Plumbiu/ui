@@ -14,7 +14,6 @@ const modalAnimation = keyframes`
     opacity: 1;
   }
 `
-
 export interface ModalProps {
   visible?: boolean
   destoryOnClose?: boolean
@@ -28,7 +27,6 @@ export interface ModalProps {
   width?: number
   height?: number
   centered?: boolean
-  className?: string
   style?: React.CSSProperties
   maskClosable?: boolean
   mask?: boolean
@@ -68,7 +66,7 @@ const StyledModal = styled('div')(({ theme }) => ({
   '&>div:first-child>span>svg': {
     width: 20,
     fontSize: 20,
-  }
+  },
 }))
 
 const titleCls = css(({ theme }) => ({
@@ -107,16 +105,21 @@ const contentCls = css(({ theme }) => {
     '&::after': {
       bottom: p / 3,
       top: 'unset',
-    }
+    },
   }
 })
+
+let node: React.ReactNode = null
 
 const Modal: React.FC<ModalProps> = (props) => {
   const {
     visible,
-    mask = true,
+    mask = false,
     title,
     footer,
+    destoryOnClose,
+    closable = true,
+    maskClosable = true,
     onOk,
     onCancel,
     onClose,
@@ -125,57 +128,59 @@ const Modal: React.FC<ModalProps> = (props) => {
   const modalRef = React.useRef<HTMLDivElement>(null)
 
   useClickAway(() => {
-    onClose?.()
+    if (maskClosable) {
+      onClose?.()
+    }
   }, modalRef)
 
-  const renderButton =
-    footer === undefined ? (
-      <div className={footerCls}>
-        <Button
-          onClick={() => {
-            onClose?.()
-            onOk?.()
-          }}
-        >
-          确认
-        </Button>
-        <Button
-          onClick={() => {
-            onClose?.()
-            onCancel?.()
-          }}
-          outlined
-        >
-          取消
-        </Button>
-      </div>
-    ) : (
-      footer
-    )
-  function renderNode() {
-    let node: React.ReactNode = (
+  if (node === null) {
+    node = (
       <StyledModal ref={modalRef}>
         <div className={fcb}>
           <div className={titleCls}>{title}</div>
-          <IconWrap size="lg" hover onClick={() => onClose?.()}>
-            <MaterialSymbolsCloseRounded />
-          </IconWrap>
+          {closable ? (
+            <IconWrap size="lg" hover onClick={() => onClose?.()}>
+              <MaterialSymbolsCloseRounded />
+            </IconWrap>
+          ) : null}
         </div>
         <div className={contentCls}>{props.children}</div>
-        {renderButton}
+        {footer === undefined ? (
+          <div className={footerCls}>
+            <Button
+              onClick={() => {
+                onClose?.()
+                onOk?.()
+              }}
+            >
+              确认
+            </Button>
+            <Button
+              onClick={() => {
+                onClose?.()
+                onCancel?.()
+              }}
+              outlined
+            >
+              取消
+            </Button>
+          </div>
+        ) : (
+          footer
+        )}
       </StyledModal>
     )
+
     if (mask) {
       node = <StyledMask>{node}</StyledMask>
     }
-    return <Portal target={portal}>{node}</Portal>
   }
 
-  if (!visible) {
-    return null
+  if (!visible && destoryOnClose) {
+    node = null
   }
 
-  return renderNode()
+  return visible ? <Portal target={portal}>{node}</Portal> : null
 }
 
 export default Modal
