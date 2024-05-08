@@ -14,6 +14,8 @@ const modalAnimation = keyframes`
     opacity: 1;
   }
 `
+
+const GAP = 12
 export interface ModalProps {
   visible?: boolean
   destoryOnClose?: boolean
@@ -77,6 +79,8 @@ const titleCls = css(({ theme }) => ({
 const footerCls = css({
   display: 'flex',
   justifyContent: 'flex-end',
+  position: 'relative',
+  paddingTop: GAP,
   '& > button': {
     minWidth: 56,
     '&+button': {
@@ -86,27 +90,31 @@ const footerCls = css({
 })
 
 const contentCls = css(({ theme }) => {
-  const p = 36
   return {
     position: 'relative',
     fontSize: 14,
-    paddingTop: p,
-    paddingBottom: p,
+    paddingTop: GAP,
+    paddingBottom: GAP,
     color: theme.vars['text-1'],
     '&::after,&::before': {
+      content: '""',
       position: 'absolute',
       left: -16,
       right: -16,
-      top: p / 3,
-      content: '""',
+      top: 0,
+      bottom: 0,
       height: 1,
       backgroundColor: theme.vars['info-5'],
     },
     '&::after': {
-      bottom: p / 3,
+      bottom: 0,
       top: 'unset',
     },
   }
+})
+
+const modalHeadCls = css({
+  marginBottom: GAP
 })
 
 let node: React.ReactNode = null
@@ -136,7 +144,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   if (node === null) {
     node = (
       <StyledModal ref={modalRef}>
-        <div className={fcb}>
+        <div className={`${fcb} ${modalHeadCls}`}>
           <div className={titleCls}>{title}</div>
           {closable ? (
             <IconWrap size="lg" hover onClick={() => onClose?.()}>
