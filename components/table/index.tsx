@@ -1,9 +1,9 @@
 import { css } from '@pigment-css/react'
-import { colorsVar } from '../styles/vars'
+import { colorsVar } from '../_styles/vars'
 import { TableContent } from './render'
 import { StyledTable } from './styles'
 import { TableProps } from './types'
-import { overflowAutoCss } from '../styles'
+import { overflowAutoCss } from '../_styles/css'
 import { calFixedLeft } from './utils'
 
 const theadCls = css({

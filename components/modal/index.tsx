@@ -1,10 +1,10 @@
 import { css, keyframes, styled } from '@pigment-css/react'
 import { IconWrap, MaterialSymbolsCloseRounded } from '../icon'
-import { fcb } from '../styles'
+import { fcb } from '../_styles/css'
 import Button from '../button'
 import React from 'react'
 import { useClickAway } from 'ahooks'
-import Portal from '../utils/portal'
+import Portal from '../_common/portal'
 
 const modalAnimation = keyframes`
   from {
@@ -61,10 +61,14 @@ const StyledModal = styled('div')(({ theme }) => ({
   transform: 'translate(-50%, calc(-50% - 220px))',
   minWidth: 320,
   backgroundColor: theme.vars['background'],
-  borderRadius: 6,
-  padding: '8px 16px',
+  borderRadius: 8,
+  padding: '12px 16px',
   boxShadow: theme.boxShadow,
   animation: `0.2s ${modalAnimation}`,
+  '&>div:first-child>span>svg': {
+    width: 20,
+    fontSize: 20,
+  }
 }))
 
 const titleCls = css(({ theme }) => ({
@@ -83,10 +87,29 @@ const footerCls = css({
   },
 })
 
-const contentCls = css(({ theme }) => ({
-  fontSize: 14,
-  color: theme.vars['text-1']
-}))
+const contentCls = css(({ theme }) => {
+  const p = 36
+  return {
+    position: 'relative',
+    fontSize: 14,
+    paddingTop: p,
+    paddingBottom: p,
+    color: theme.vars['text-1'],
+    '&::after,&::before': {
+      position: 'absolute',
+      left: -16,
+      right: -16,
+      top: p / 3,
+      content: '""',
+      height: 1,
+      backgroundColor: theme.vars['info-5'],
+    },
+    '&::after': {
+      bottom: p / 3,
+      top: 'unset',
+    }
+  }
+})
 
 const Modal: React.FC<ModalProps> = (props) => {
   const {
@@ -143,11 +166,7 @@ const Modal: React.FC<ModalProps> = (props) => {
       </StyledModal>
     )
     if (mask) {
-      node = (
-        <StyledMask>
-          {node}
-        </StyledMask>
-      )
+      node = <StyledMask>{node}</StyledMask>
     }
     return <Portal target={portal}>{node}</Portal>
   }

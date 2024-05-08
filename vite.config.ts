@@ -22,8 +22,8 @@ export default defineConfig({
   ],
   build: {
     lib: {
+      formats: ['es'],
       entry: resolve(__dirname, 'components/index.ts'),
-      name: '@plumbiu/ui',
       fileName: 'index.js',
     },
     rollupOptions: {
@@ -34,10 +34,7 @@ export default defineConfig({
         },
       },
     },
-    minify: true,
     cssTarget: 'chrome61',
-  },
-  css: {
   },
   resolve: {
     alias: {

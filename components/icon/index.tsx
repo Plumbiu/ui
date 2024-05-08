@@ -1,7 +1,7 @@
 /* eslint-disable @stylistic/max-len */
 import { styled } from '@pigment-css/react'
 import { HTMLAttributes, SVGProps } from 'react'
-import { colorsVar, sizesVar } from '../styles/vars'
+import { colorsVar, sizesVar } from '../_styles/vars'
 import { TColor, TSize } from '..'
 
 
@@ -58,7 +58,6 @@ export function MaterialSymbolsInfoRounded(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-
 interface IconProps extends HTMLAttributes<HTMLSpanElement> {
   size?: TSize
   color?: TColor
@@ -75,6 +74,7 @@ export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
   '& > svg': {
     display: 'block',
   },
+  color: theme.vars['text-1'],
   variants: [
     ...colorsVar.map((color) => ({
       props: { color },

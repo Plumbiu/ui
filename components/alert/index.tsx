@@ -9,8 +9,8 @@ import {
   MaterialSymbolsCloseRounded,
   MaterialSymbolsInfoRounded,
 } from '../icon'
-import { colorsVar } from '../styles/vars'
-import { selfStart } from '../styles'
+import { colorsVar } from '../_styles/vars'
+import { selfStart } from '../_styles/css'
 
 export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
   color?: TColor

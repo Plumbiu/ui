@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react'
 import { styled } from '@pigment-css/react'
 import { TBaseColor, TSize } from '../types'
-import { colorsVar, fontSizeVariants } from '../styles/vars'
+import { colorsVar, fontSizeVariants } from '../_styles/vars'
 
 export interface LinkProps extends HTMLAttributes<HTMLAnchorElement> {
   size?: TSize

@@ -2,8 +2,8 @@
 import React, { HTMLAttributes } from 'react'
 import { styled } from '@pigment-css/react'
 import { TBaseColor, TSize } from '../types'
-import { fcc_inline } from '../styles'
-import { borderRadiusVariants, colorsVar } from '../styles/vars'
+import { fcc_inline } from '../_styles/css'
+import { borderRadiusVariants, colorsVar } from '../_styles/vars'
 import { IconWrap } from '../icon'
 import { sizeVariants } from './constants'
 

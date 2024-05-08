@@ -1,6 +1,6 @@
 import { styled } from '@pigment-css/react'
 import { TableProps } from './types'
-import { colorsVar } from '../styles/vars'
+import { colorsVar } from '../_styles/vars'
 
 export const StyledTable = styled('table')<
   Pick<TableProps, 'bordered' | 'color'>
