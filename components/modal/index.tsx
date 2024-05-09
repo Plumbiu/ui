@@ -40,27 +40,34 @@ export interface ModalProps {
   wrapClassName?: string
 }
 
-const StyledMask = styled('div')({
+const StyledMask = styled('div')<{
+  mask: boolean
+}>({
   position: 'fixed',
+  overflow: 'hidden scroll',
   top: 0,
   bottom: 0,
   left: 0,
   right: 0,
   zIndex: 9999,
   backgroundColor: 'rgba(0, 0, 0, 0.45)',
+  variants: [
+    {
+      props: { mask: false },
+      style: {
+        backgroundColor: 'transparent',
+      },
+    },
+  ],
 })
 
 const StyledModal = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
   overflow: 'auto',
-  justifyContent: 'space-between',
-  position: 'fixed',
-  zIndex: 10000,
-  top: '8vh',
-  left: '50%',
+  marginTop: '7vh',
+  marginLeft: '50%',
+  marginBottom: '3vh',
   transform: 'translate(-50%)',
-  minWidth: 320,
+  minWidth: 300,
   backgroundColor: theme.vars['background'],
   borderRadius: 8,
   padding: '12px 16px',
@@ -92,31 +99,35 @@ const footerCls = css({
 
 const contentCls = css(({ theme }) => {
   return {
-    position: 'relative',
     fontSize: 14,
-    paddingTop: GAP,
     paddingBottom: GAP,
     color: theme.vars['text-1'],
-    '&::after,&::before': {
+    position: 'relative',
+    '&::after': {
       content: '""',
       position: 'absolute',
       left: -16,
       right: -16,
-      top: 0,
       bottom: 0,
       height: 1,
       backgroundColor: theme.vars['info-5'],
     },
-    '&::after': {
-      bottom: 0,
-      top: 'unset',
-    },
   }
 })
 
-const modalHeadCls = css({
-  marginBottom: GAP,
-})
+const modalHeadCls = css(({ theme }) => ({
+  paddingBottom: GAP,
+  position: 'relative',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    left: -16,
+    right: -16,
+    bottom: 0,
+    height: 1,
+    backgroundColor: theme.vars['info-5'],
+  },
+}))
 
 const Modal: React.FC<ModalProps> = (props) => {
   const {
@@ -143,50 +154,43 @@ const Modal: React.FC<ModalProps> = (props) => {
   }, modalRef)
 
   let node: React.ReactNode = (
-    <StyledModal style={{ zIndex }} ref={modalRef}>
-      <div className={`${fcb} ${modalHeadCls}`}>
-        <div className={titleCls}>{title}</div>
-        {closable ? (
-          <IconWrap size="lg" hover onClick={() => onClose?.()}>
-            <MaterialSymbolsCloseRounded />
-          </IconWrap>
-        ) : null}
-      </div>
-      <div className={contentCls}>{props.children}</div>
-      {footer === undefined ? (
-        <div className={footerCls}>
-          <Button
-            onClick={() => {
-              onClose?.()
-              onOk?.()
-            }}
-          >
-            确认
-          </Button>
-          <Button
-            onClick={() => {
-              onClose?.()
-              onCancel?.()
-            }}
-            outlined
-          >
-            取消
-          </Button>
+    <StyledMask mask={mask} style={{ zIndex: maskZIndex }}>
+      <StyledModal style={{ zIndex }} ref={modalRef}>
+        <div className={`${fcb} ${modalHeadCls}`}>
+          <div className={titleCls}>{title}</div>
+          {closable ? (
+            <IconWrap size="lg" hover onClick={() => onClose?.()}>
+              <MaterialSymbolsCloseRounded />
+            </IconWrap>
+          ) : null}
         </div>
-      ) : (
-        footer
-      )}
-    </StyledModal>
+        <div className={contentCls}>{props.children}</div>
+        {footer === undefined ? (
+          <div className={footerCls}>
+            <Button
+              onClick={() => {
+                onClose?.()
+                onOk?.()
+              }}
+            >
+              确认
+            </Button>
+            <Button
+              onClick={() => {
+                onClose?.()
+                onCancel?.()
+              }}
+              outlined
+            >
+              取消
+            </Button>
+          </div>
+        ) : (
+          footer
+        )}
+      </StyledModal>
+    </StyledMask>
   )
-
-  if (mask) {
-    node = (
-      <div>
-        <StyledMask style={{ zIndex: maskZIndex }} />
-        {node}
-      </div>
-    )
-  }
 
   if (!visible && destoryOnClose) {
     node = null
