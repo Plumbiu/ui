@@ -2,9 +2,8 @@ import { css } from '@pigment-css/react'
 import { colorsVar } from '../_styles/vars'
 import { TableContent } from './render'
 import { StyledFooter, StyledTable } from './styles'
-import { TableProps } from './types'
+import { DefaultData, TableProps } from './types'
 import { overflowAutoCss } from '../_styles/css'
-import { calFixedLeft } from './utils'
 
 const theadCls = css({
   position: 'sticky',
@@ -41,9 +40,26 @@ const Table: React.FC<TableProps> = (props) => {
       ))}
     </colgroup>
   )
-
-  if (props.scroll) {
-    calFixedLeft(columns)
+  const extraSummary: DefaultData = { [rowKey]: '__summary' }
+  let left = 0
+  for (const column of columns) {
+    const { fixed, width, dataIndex, summary } = column
+    if (dataIndex && summary) {
+      extraSummary[dataIndex] =
+        typeof summary === 'function'
+          ? (extraSummary[dataIndex] = summary(dataSource))
+          : summary
+    }
+    if (fixed) {
+      column.__left__ = left
+      if (typeof width === 'string') {
+        left += parseFloat(width)
+      } else if (typeof width === 'number') {
+        left += width
+      } else {
+        left += 200
+      }
+    }
   }
   return (
     <div className={overflowAutoCss} style={{ height: props.scroll?.y }}>
@@ -62,7 +78,7 @@ const Table: React.FC<TableProps> = (props) => {
           <TableContent rowIndex={0} columns={columns} rowKey={rowKey} isHead />
         </thead>
         <tbody>
-          {dataSource.map((data, rowIndex) => (
+          {[...dataSource, ...(extraSummary[rowKey] ? [extraSummary] : [])].map((data, rowIndex) => (
             <TableContent
               rowIndex={rowIndex + 1}
               data={data}

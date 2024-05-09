@@ -61,9 +61,6 @@ export const StyledTable = styled('table')<
                     transition: 'background-color 0.1s',
                     overflow: 'hidden',
                   },
-                  '&:hover > td': {
-                    backgroundColor: commonBgColor,
-                  },
                 },
                 '& > thead': {
                   overflow: 'hidden',
@@ -71,7 +68,7 @@ export const StyledTable = styled('table')<
                   '& > tr': {
                     '& > td': {
                       padding: 14,
-                     backgroundColor: commonBgColor,
+                      backgroundColor: commonBgColor,
                     },
                     '&:first-child': {
                       '& >td:last-child': {
@@ -87,6 +84,9 @@ export const StyledTable = styled('table')<
                   overflow: 'hidden',
                   backgroundColor: theme.vars['background'],
                   '& > tr': {
+                    '&:hover > td': {
+                      backgroundColor: commonBgColor,
+                    },
                     '& > td': {
                       padding: '10px 14px',
                       borderBottom: commonBorder,

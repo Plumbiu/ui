@@ -4,7 +4,7 @@ import { TBaseColor } from '..'
 export type DefaultData = Record<'key' | string, any>
 export interface TableColumnTypes<T extends DefaultData> {
   align?: 'left' | 'center' | 'right'
-  className?: string | ((key: string) => string)
+  className?: string
   colSpan?: number
   dataIndex: string
   key?: string
@@ -26,7 +26,7 @@ export interface TableColumnTypes<T extends DefaultData> {
 export interface TableProps extends HTMLAttributes<HTMLTableElement> {
   bordered?: boolean
   color?: TBaseColor
-  scroll?: { x?: number | string; y?: number | string }
+  scroll?: { x?: number; y?: number }
   headZIndex?: number
   fixed?: boolean
 

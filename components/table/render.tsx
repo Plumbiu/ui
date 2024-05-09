@@ -6,9 +6,8 @@ export const TdTag: React.FC<{
   colIndex: number
   rowIndex: number
   data?: DefaultData
-  key: string
 }> = (props) => {
-  const { column, isHead, colIndex, rowIndex, data, key } = props
+  const { column, isHead, colIndex, rowIndex, data } = props
   const {
     align,
     title,
@@ -32,13 +31,15 @@ export const TdTag: React.FC<{
     <td
       align={align}
       style={style}
-      className={typeof className === 'string' ? className : className?.(key)}
+      className={className}
     >
       {isHead
         ? title
-        : render
-        ? render(data, column, rowIndex, colIndex)
-        : data?.[dataIndex]}
+        : data?.[dataIndex]
+        ? render
+          ? render(data, column, rowIndex, colIndex)
+          : data[dataIndex]
+        : null}
     </td>
   )
 }
