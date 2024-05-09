@@ -19,6 +19,7 @@ export interface TableColumnTypes<T extends DefaultData> {
   hidden?: boolean
   width?: string | number
   title: string
+  summary?: React.ReactNode | ((data: T[]) => React.ReactNode)
   [key: string]: any
 }
 
@@ -27,8 +28,10 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
   color?: TBaseColor
   scroll?: { x?: number | string; y?: number | string }
   headZIndex?: number
+  fixed?: boolean
 
   columns: TableColumnTypes<any>[]
   dataSource: DefaultData[]
   rowKey?: string
+  footer?: React.ReactNode
 }

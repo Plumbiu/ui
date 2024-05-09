@@ -1,6 +1,7 @@
 import { styled } from '@pigment-css/react'
 import { TableProps } from './types'
 import { colorsVar } from '../_styles/vars'
+import { TBaseColor } from '../types'
 
 export const StyledTable = styled('table')<
   Pick<TableProps, 'bordered' | 'color'>
@@ -104,3 +105,21 @@ export const StyledTable = styled('table')<
     }
   },
 )
+
+export const StyledFooter = styled('div')<{
+  color: TBaseColor
+}>(({ theme }) => ({
+  padding: 14,
+  borderBottomLeftRadius: 10,
+  borderBottomRightRadius: 10,
+  variants: [
+    ...colorsVar.map((color) => {
+      return {
+        props: { color },
+        style: {
+          backgroundColor: theme.vars[`${color}-6`],
+        },
+      }
+    }),
+  ],
+}))

@@ -5,10 +5,10 @@ export const TdTag: React.FC<{
   isHead: boolean
   colIndex: number
   rowIndex: number
-  dataSource?: DefaultData
+  data?: DefaultData
   key: string
 }> = (props) => {
-  const { column, isHead, colIndex, rowIndex, dataSource, key } = props
+  const { column, isHead, colIndex, rowIndex, data, key } = props
   const {
     align,
     title,
@@ -37,24 +37,24 @@ export const TdTag: React.FC<{
       {isHead
         ? title
         : render
-        ? render(dataSource, column, rowIndex, colIndex)
-        : dataSource?.[dataIndex]}
+        ? render(data, column, rowIndex, colIndex)
+        : data?.[dataIndex]}
     </td>
   )
 }
 
 export const TableContent: React.FC<{
-  dataSource?: DefaultData
+  data?: DefaultData
   columns: TableProps['columns']
   rowKey: string
   isHead?: boolean
   rowIndex: number
-}> = ({ columns, dataSource, rowKey, rowIndex, isHead = false }) => {
+}> = ({ columns, rowKey, rowIndex, isHead = false, data }) => {
   return (
     <tr>
       {columns.map((column, colIndex) => (
         <TdTag
-          dataSource={dataSource}
+          data={data}
           key={column[rowKey]}
           column={column}
           colIndex={colIndex}

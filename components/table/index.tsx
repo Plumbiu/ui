@@ -1,7 +1,7 @@
 import { css } from '@pigment-css/react'
 import { colorsVar } from '../_styles/vars'
 import { TableContent } from './render'
-import { StyledTable } from './styles'
+import { StyledFooter, StyledTable } from './styles'
 import { TableProps } from './types'
 import { overflowAutoCss } from '../_styles/css'
 import { calFixedLeft } from './utils'
@@ -19,6 +19,8 @@ const Table: React.FC<TableProps> = (props) => {
     rowKey = 'key',
     color: custormColor = 'info',
     headZIndex = 99,
+    footer,
+    fixed = true,
     ...restProps
   } = props
 
@@ -46,18 +48,24 @@ const Table: React.FC<TableProps> = (props) => {
   return (
     <div className={overflowAutoCss} style={{ height: props.scroll?.y }}>
       <StyledTable
-        style={{ minWidth: props.scroll?.x, tableLayout: props.scroll ? 'fixed' : 'auto' }}
+        style={{
+          minWidth: props.scroll?.x,
+          tableLayout: props.scroll ? 'fixed' : 'auto',
+        }}
         {...tableProps}
       >
         {ColGroup}
-        <thead className={theadCls} style={{ zIndex: headZIndex }}>
+        <thead
+          className={theadCls}
+          style={{ zIndex: headZIndex, position: fixed ? undefined : 'static' }}
+        >
           <TableContent rowIndex={0} columns={columns} rowKey={rowKey} isHead />
         </thead>
         <tbody>
           {dataSource.map((data, rowIndex) => (
             <TableContent
               rowIndex={rowIndex + 1}
-              dataSource={data}
+              data={data}
               key={data?.[rowKey] ?? rowIndex}
               columns={columns}
               rowKey={rowKey}
@@ -65,6 +73,7 @@ const Table: React.FC<TableProps> = (props) => {
           ))}
         </tbody>
       </StyledTable>
+      {!!footer && <StyledFooter color={color}>{footer}</StyledFooter>}
     </div>
   )
 }
