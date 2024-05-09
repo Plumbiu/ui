@@ -35,6 +35,7 @@ export interface ModalProps {
   maskStyle?: React.CSSProperties
   closable?: boolean
   closeIcon?: React.ReactNode
+  maskZIndex?: number
   zIndex?: number
   wrapClassName?: string
 }
@@ -56,9 +57,9 @@ const StyledModal = styled('div')(({ theme }) => ({
   justifyContent: 'space-between',
   position: 'fixed',
   zIndex: 10000,
-  top: '50%',
+  top: '8vh',
   left: '50%',
-  transform: 'translate(-50%, calc(-50% - 220px))',
+  transform: 'translate(-50%)',
   minWidth: 320,
   backgroundColor: theme.vars['background'],
   borderRadius: 8,
@@ -114,15 +115,15 @@ const contentCls = css(({ theme }) => {
 })
 
 const modalHeadCls = css({
-  marginBottom: GAP
+  marginBottom: GAP,
 })
-
-let node: React.ReactNode = null
 
 const Modal: React.FC<ModalProps> = (props) => {
   const {
     visible,
-    mask = false,
+    mask = true,
+    maskZIndex,
+    zIndex,
     title,
     footer,
     destoryOnClose,
@@ -141,47 +142,50 @@ const Modal: React.FC<ModalProps> = (props) => {
     }
   }, modalRef)
 
-  if (node === null) {
-    node = (
-      <StyledModal ref={modalRef}>
-        <div className={`${fcb} ${modalHeadCls}`}>
-          <div className={titleCls}>{title}</div>
-          {closable ? (
-            <IconWrap size="lg" hover onClick={() => onClose?.()}>
-              <MaterialSymbolsCloseRounded />
-            </IconWrap>
-          ) : null}
+  let node: React.ReactNode = (
+    <StyledModal style={{ zIndex }} ref={modalRef}>
+      <div className={`${fcb} ${modalHeadCls}`}>
+        <div className={titleCls}>{title}</div>
+        {closable ? (
+          <IconWrap size="lg" hover onClick={() => onClose?.()}>
+            <MaterialSymbolsCloseRounded />
+          </IconWrap>
+        ) : null}
+      </div>
+      <div className={contentCls}>{props.children}</div>
+      {footer === undefined ? (
+        <div className={footerCls}>
+          <Button
+            onClick={() => {
+              onClose?.()
+              onOk?.()
+            }}
+          >
+            确认
+          </Button>
+          <Button
+            onClick={() => {
+              onClose?.()
+              onCancel?.()
+            }}
+            outlined
+          >
+            取消
+          </Button>
         </div>
-        <div className={contentCls}>{props.children}</div>
-        {footer === undefined ? (
-          <div className={footerCls}>
-            <Button
-              onClick={() => {
-                onClose?.()
-                onOk?.()
-              }}
-            >
-              确认
-            </Button>
-            <Button
-              onClick={() => {
-                onClose?.()
-                onCancel?.()
-              }}
-              outlined
-            >
-              取消
-            </Button>
-          </div>
-        ) : (
-          footer
-        )}
-      </StyledModal>
-    )
+      ) : (
+        footer
+      )}
+    </StyledModal>
+  )
 
-    if (mask) {
-      node = <StyledMask>{node}</StyledMask>
-    }
+  if (mask) {
+    node = (
+      <div>
+        <StyledMask style={{ zIndex: maskZIndex }} />
+        {node}
+      </div>
+    )
   }
 
   if (!visible && destoryOnClose) {

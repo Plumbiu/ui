@@ -74,7 +74,6 @@ export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
   '& > svg': {
     display: 'block',
   },
-  color: theme.vars['text-1'],
   variants: [
     ...colorsVar.map((color) => ({
       props: { color },
