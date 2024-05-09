@@ -13,7 +13,6 @@ export default function Demo() {
     <div>
       <Button onClick={() => setVisible(true)}>显示 Modal</Button>
       <Modal
-        portal={document.documentElement}
         visible={visible}
         onClose={() => setVisible(false)}
         title="标题标题标题"
@@ -36,7 +35,6 @@ export default function Demo() {
         <p>Some contents...</p>
         <p>Some contents...</p>
         <p>Some contents...</p>
-
       </Modal>
     </div>
   )

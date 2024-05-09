@@ -21,13 +21,15 @@ export interface ModalProps {
   destoryOnClose?: boolean
   onClose?: () => void
   onOk?: () => void
+  okText?: string
   onCancel?: () => void
+  cancelText?: string
   portal?: HTMLElement
   title?: React.ReactNode
   footer?: React.ReactNode
   children?: React.ReactNode
-  width?: number
-  height?: number
+  width?: number | string
+  height?: number | string
   centered?: boolean
   style?: React.CSSProperties
   maskClosable?: boolean
@@ -40,34 +42,22 @@ export interface ModalProps {
   wrapClassName?: string
 }
 
-const StyledMask = styled('div')<{
-  mask: boolean
-}>({
+const StyledMask = styled('div')({
   position: 'fixed',
-  overflow: 'hidden scroll',
+  overflow: 'auto',
   top: 0,
   bottom: 0,
   left: 0,
   right: 0,
   zIndex: 9999,
-  backgroundColor: 'rgba(0, 0, 0, 0.45)',
-  variants: [
-    {
-      props: { mask: false },
-      style: {
-        backgroundColor: 'transparent',
-      },
-    },
-  ],
 })
 
 const StyledModal = styled('div')(({ theme }) => ({
-  overflow: 'auto',
+  margin: '0 auto',
   marginTop: '7vh',
-  marginLeft: '50%',
   marginBottom: '3vh',
-  transform: 'translate(-50%)',
-  minWidth: 300,
+  minWidth: 380,
+  width: 'max-content',
   backgroundColor: theme.vars['background'],
   borderRadius: 8,
   padding: '12px 16px',
@@ -141,11 +131,18 @@ const Modal: React.FC<ModalProps> = (props) => {
     closable = true,
     maskClosable = true,
     onOk,
+    okText = '确定',
+    style,
+    maskStyle,
     onCancel,
+    width,
+    height,
+    cancelText = '取消',
     onClose,
     portal,
   } = props
   const modalRef = React.useRef<HTMLDivElement>(null)
+  console.log(style)
 
   useClickAway(() => {
     if (maskClosable) {
@@ -154,8 +151,16 @@ const Modal: React.FC<ModalProps> = (props) => {
   }, modalRef)
 
   let node: React.ReactNode = (
-    <StyledMask mask={mask} style={{ zIndex: maskZIndex }}>
-      <StyledModal style={{ zIndex }} ref={modalRef}>
+    <StyledMask
+      style={{
+        ...maskStyle,
+        zIndex: maskZIndex,
+        width,
+        height,
+        backgroundColor: mask ? 'rgba(0, 0, 0, 0.45)' : 'transparent',
+      }}
+    >
+      <StyledModal style={{ ...style, zIndex }} ref={modalRef}>
         <div className={`${fcb} ${modalHeadCls}`}>
           <div className={titleCls}>{title}</div>
           {closable ? (
@@ -173,7 +178,7 @@ const Modal: React.FC<ModalProps> = (props) => {
                 onOk?.()
               }}
             >
-              确认
+              {okText}
             </Button>
             <Button
               onClick={() => {
@@ -182,7 +187,7 @@ const Modal: React.FC<ModalProps> = (props) => {
               }}
               outlined
             >
-              取消
+              {cancelText}
             </Button>
           </div>
         ) : (

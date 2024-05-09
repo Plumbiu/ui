@@ -12,5 +12,5 @@ export default function Portal({ children, target }: PortalProps) {
     setIsMounted(true)
   }, [])
 
-  return isMounted && createPortal(children, target ?? document.documentElement)
+  return isMounted && createPortal(children, target ?? document.body)
 }
