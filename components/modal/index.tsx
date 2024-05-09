@@ -50,6 +50,7 @@ const StyledMask = styled('div')({
   left: 0,
   right: 0,
   zIndex: 9999,
+  animation: `0.15s ${modalAnimation}`,
 })
 
 const StyledModal = styled('div')(({ theme }) => ({
@@ -62,7 +63,6 @@ const StyledModal = styled('div')(({ theme }) => ({
   borderRadius: 8,
   padding: '12px 16px',
   boxShadow: theme.boxShadow,
-  animation: `0.2s ${modalAnimation}`,
   '&>div:first-child>span>svg': {
     width: 20,
     fontSize: 20,
