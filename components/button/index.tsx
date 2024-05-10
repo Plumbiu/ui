@@ -112,7 +112,7 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
         props: { disabled: false },
         style: {
           '&:hover': {
-            opacity: 0.9,
+            opacity: 0.85,
           },
           '&:active': {
             opacity: 1

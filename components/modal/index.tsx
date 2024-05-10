@@ -2,7 +2,7 @@ import { css, keyframes, styled } from '@pigment-css/react'
 import { IconWrap, MaterialSymbolsCloseRounded } from '../icon'
 import { fcb } from '../_styles/css'
 import Button from '../button'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useClickAway } from 'ahooks'
 import Portal from '../_common/portal'
 
@@ -29,7 +29,6 @@ export interface ModalProps {
   footer?: React.ReactNode
   children?: React.ReactNode
   width?: number | string
-  height?: number | string
   centered?: boolean
   style?: React.CSSProperties
   maskClosable?: boolean
@@ -50,14 +49,24 @@ const StyledMask = styled('div')({
   left: 0,
   right: 0,
   zIndex: 9999,
+  lineHeight: 1.575,
   animation: `0.15s ${modalAnimation}`,
+  textAlign: 'center',
+  '&::after': {
+    content: '""',
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    height: '100%',
+  }
 })
 
 const StyledModal = styled('div')(({ theme }) => ({
+  position: 'relative',
+  top: 40,
+  textAlign: 'left',
   margin: '0 auto',
-  marginTop: '7vh',
-  marginBottom: '3vh',
   minWidth: 380,
+  maxWidth: 'calc(100vw - 32px)',
   width: 'max-content',
   backgroundColor: theme.vars['background'],
   borderRadius: 8,
@@ -74,34 +83,34 @@ const titleCls = css(({ theme }) => ({
   color: theme.vars['title-1'],
 }))
 
-const footerCls = css({
+const footerCls = css(({ theme }) => ({
   display: 'flex',
   justifyContent: 'flex-end',
   position: 'relative',
   paddingTop: GAP,
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    left: -16,
+    right: -16,
+    top: 0,
+    height: 1,
+    backgroundColor: theme.vars['info-5'],
+  },
   '& > button': {
     minWidth: 56,
     '&+button': {
       marginLeft: 8,
     },
   },
-})
+}))
 
 const contentCls = css(({ theme }) => {
   return {
     fontSize: 14,
     paddingBottom: GAP,
+    paddingTop: GAP,
     color: theme.vars['text-1'],
-    position: 'relative',
-    '&::after': {
-      content: '""',
-      position: 'absolute',
-      left: -16,
-      right: -16,
-      bottom: 0,
-      height: 1,
-      backgroundColor: theme.vars['info-5'],
-    },
   }
 })
 
@@ -123,7 +132,6 @@ const Modal: React.FC<ModalProps> = (props) => {
   const {
     visible,
     mask = true,
-    maskZIndex,
     zIndex,
     title,
     footer,
@@ -132,11 +140,11 @@ const Modal: React.FC<ModalProps> = (props) => {
     maskClosable = true,
     onOk,
     okText = '确定',
-    style,
-    maskStyle,
+    style = {},
+    maskStyle = {},
     onCancel,
+    centered,
     width,
-    height,
     cancelText = '取消',
     onClose,
     portal,
@@ -147,20 +155,37 @@ const Modal: React.FC<ModalProps> = (props) => {
   useClickAway(() => {
     if (maskClosable) {
       onClose?.()
+      console.log(modalRef.current?.style)
     }
   }, modalRef)
 
+  useEffect(() => {
+    document.body.style.overflow = visible ? 'hidden' : ''
+  }, [visible])
+
+  let modalStyles: React.CSSProperties = {
+    ...style,
+    width,
+  }
+
+  const maskStyles: React.CSSProperties = {
+    ...maskStyle,
+    zIndex,
+    backgroundColor: mask ? 'rgba(0, 0, 0, 0.45)' : 'transparent',
+  }
+
+  if (centered) {
+    modalStyles = {
+      ...modalStyles,
+      top: 0,
+      display: 'inline-block',
+      verticalAlign: 'middle',
+    }
+  }
+
   let node: React.ReactNode = (
-    <StyledMask
-      style={{
-        ...maskStyle,
-        zIndex: maskZIndex,
-        width,
-        height,
-        backgroundColor: mask ? 'rgba(0, 0, 0, 0.45)' : 'transparent',
-      }}
-    >
-      <StyledModal style={{ ...style, zIndex }} ref={modalRef}>
+    <StyledMask style={maskStyles}>
+      <StyledModal style={modalStyles} ref={modalRef}>
         <div className={`${fcb} ${modalHeadCls}`}>
           <div className={titleCls}>{title}</div>
           {closable ? (
