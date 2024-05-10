@@ -18,7 +18,6 @@ const modalAnimation = keyframes`
 const GAP = 12
 export interface ModalProps {
   visible?: boolean
-  destoryOnClose?: boolean
   onClose?: () => void
   onOk?: () => void
   okText?: string
@@ -39,6 +38,7 @@ export interface ModalProps {
   maskZIndex?: number
   zIndex?: number
   wrapClassName?: string
+  keyboard?: boolean
 }
 
 const StyledMask = styled('div')({
@@ -57,7 +57,7 @@ const StyledMask = styled('div')({
     display: 'inline-block',
     verticalAlign: 'middle',
     height: '100%',
-  }
+  },
 })
 
 const StyledModal = styled('div')(({ theme }) => ({
@@ -135,39 +135,28 @@ const Modal: React.FC<ModalProps> = (props) => {
     visible,
     mask = true,
     zIndex,
+    maskStyle = {},
+    portal,
     title,
     footer,
-    destoryOnClose,
     closable = true,
     maskClosable = true,
     onOk,
     okText = '确定',
     style = {},
-    maskStyle = {},
     onCancel,
     centered,
     width,
     cancelText = '取消',
     onClose,
-    portal,
+    keyboard = true,
   } = props
+
   const modalRef = React.useRef<HTMLDivElement>(null)
-
-  useClickAway(() => {
-    if (maskClosable) {
-      onClose?.()
-    }
-  }, modalRef)
-
-  useEffect(() => {
-    document.body.style.overflow = visible ? 'hidden' : ''
-  }, [visible])
-
   let modalStyles: React.CSSProperties = {
     ...style,
     width,
   }
-
   const maskStyles: React.CSSProperties = {
     ...maskStyle,
     zIndex,
@@ -182,50 +171,74 @@ const Modal: React.FC<ModalProps> = (props) => {
     }
   }
 
-  let node: React.ReactNode = (
-    <StyledMask style={maskStyles}>
-      <StyledModal style={modalStyles} ref={modalRef}>
-        <div className={`${fcb} ${modalHeadCls}`}>
-          <div className={titleCls}>{title}</div>
-          {closable ? (
-            <IconWrap size="lg" hover onClick={() => onClose?.()}>
-              <MaterialSymbolsCloseRounded />
-            </IconWrap>
-          ) : null}
-        </div>
-        <div className={contentCls}>{props.children}</div>
-        {footer === undefined ? (
-          <div className={footerCls}>
-            <Button
-              onClick={() => {
-                onClose?.()
-                onOk?.()
-              }}
-            >
-              {okText}
-            </Button>
-            <Button
-              onClick={() => {
-                onClose?.()
-                onCancel?.()
-              }}
-              outlined
-            >
-              {cancelText}
-            </Button>
-          </div>
-        ) : (
-          footer
-        )}
-      </StyledModal>
-    </StyledMask>
-  )
+  useClickAway(() => {
+    if (maskClosable) {
+      onClose?.()
+    }
+  }, modalRef)
 
-  if (!visible && destoryOnClose) {
-    node = null
+  function handleESC(e: KeyboardEvent) {
+    if (visible && e.key === 'Escape') {
+      onClose?.()
+    }
   }
 
-  return visible ? <Portal target={portal}>{node}</Portal> : null
+  useEffect(() => {
+    if (keyboard) {
+      window.addEventListener('keyup', handleESC)
+    }
+    document.body.style.overflow = visible ? 'hidden' : ''
+    return () => {
+      keyboard && window.removeEventListener('keyup', handleESC)
+    }
+  }, [visible])
+
+  const node = (
+    <Portal target={portal}>
+      <StyledMask style={maskStyles}>
+        <StyledModal style={modalStyles} ref={modalRef}>
+          <div className={`${fcb} ${modalHeadCls}`}>
+            <div className={titleCls}>{title}</div>
+            {closable ? (
+              <IconWrap size="lg" hover onClick={() => onClose?.()}>
+                <MaterialSymbolsCloseRounded />
+              </IconWrap>
+            ) : null}
+          </div>
+          <div className={contentCls}>{props.children}</div>
+          {footer === undefined ? (
+            <div className={footerCls}>
+              <Button
+                onClick={() => {
+                  onClose?.()
+                  onOk?.()
+                }}
+              >
+                {okText}
+              </Button>
+              <Button
+                onClick={() => {
+                  onClose?.()
+                  onCancel?.()
+                }}
+                outlined
+              >
+                {cancelText}
+              </Button>
+            </div>
+          ) : (
+            footer
+          )}
+        </StyledModal>
+      </StyledMask>
+    </Portal>
+  )
+
+  if (!visible) {
+    return null
+  }
+
+  return node
 }
 
 export default Modal
