@@ -5,6 +5,7 @@ import Button from '../button'
 import React, { useEffect } from 'react'
 import { useClickAway } from 'ahooks'
 import Portal from '../_common/portal'
+import destorySet from './destory'
 
 const modalAnimation = keyframes`
   from {
@@ -39,6 +40,7 @@ export interface ModalProps {
   zIndex?: number
   wrapClassName?: string
   keyboard?: boolean
+  top?: number
 }
 
 const StyledMask = styled('div')({
@@ -130,7 +132,9 @@ const modalHeadCls = css(({ theme }) => ({
   },
 }))
 
-const Modal: React.FC<ModalProps> = (props) => {
+const Modal: React.FC<ModalProps> & {
+  destoryAll: () => void
+} = (props) => {
   const {
     visible,
     mask = true,
@@ -150,12 +154,18 @@ const Modal: React.FC<ModalProps> = (props) => {
     cancelText = '取消',
     onClose,
     keyboard = true,
+    top,
   } = props
+
+  if (onClose) {
+    destorySet.add(onClose)
+  }
 
   const modalRef = React.useRef<HTMLDivElement>(null)
   let modalStyles: React.CSSProperties = {
     ...style,
     width,
+    top
   }
   const maskStyles: React.CSSProperties = {
     ...maskStyle,
@@ -239,6 +249,13 @@ const Modal: React.FC<ModalProps> = (props) => {
   }
 
   return node
+}
+
+Modal.destoryAll = () => {
+  destorySet.forEach((fn) => {
+    fn?.()
+  })
+  destorySet.clear()
 }
 
 export default Modal
