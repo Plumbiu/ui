@@ -152,12 +152,10 @@ const Modal: React.FC<ModalProps> = (props) => {
     portal,
   } = props
   const modalRef = React.useRef<HTMLDivElement>(null)
-  console.log(style)
 
   useClickAway(() => {
     if (maskClosable) {
       onClose?.()
-      console.log(modalRef.current?.style)
     }
   }, modalRef)
 

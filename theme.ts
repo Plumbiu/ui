@@ -8,7 +8,7 @@ export const light = {
   'info-5': '#e9e9eb',
   'info-6': '#f4f4f5',
   'info-7': '#f7f7f7',
-  'primary-1': '#326bfb',
+  'primary-1': '#326bff',
   'primary-2': '#79bbff',
   'primary-3': '#a0cfff',
   'primary-4': '#c6e2ff',
