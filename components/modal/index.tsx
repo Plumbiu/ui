@@ -62,7 +62,9 @@ const StyledMask = styled('div')({
 
 const StyledModal = styled('div')(({ theme }) => ({
   position: 'relative',
-  top: 40,
+  display: 'inline-block',
+  verticalAlign: 'top',
+  top: 50,
   textAlign: 'left',
   margin: '0 auto',
   minWidth: 380,
@@ -178,7 +180,6 @@ const Modal: React.FC<ModalProps> = (props) => {
     modalStyles = {
       ...modalStyles,
       top: 0,
-      display: 'inline-block',
       verticalAlign: 'middle',
     }
   }

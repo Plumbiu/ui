@@ -20,7 +20,7 @@ export const StyledTable = styled('table')<
         ...colorsVar.flatMap((color) => {
           const commonBorder = `1px solid ${theme.vars[`${color}-5`]}`
           const commonBgColor = theme.vars[`${color}-6`]
-          const radius = 10
+          const radius = 6
           return [
             {
               props: { bordered: true },
