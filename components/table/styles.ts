@@ -82,7 +82,7 @@ export const StyledTable = styled('table')<
                 },
                 '& > tbody': {
                   overflow: 'hidden',
-                  backgroundColor: theme.vars['background'],
+                  backgroundColor: theme.vars['background-1'],
                   '& > tr': {
                     '&:hover > td': {
                       backgroundColor: commonBgColor,
@@ -90,7 +90,7 @@ export const StyledTable = styled('table')<
                     '& > td': {
                       padding: '10px 14px',
                       borderBottom: commonBorder,
-                      backgroundColor: theme.vars['background'],
+                      backgroundColor: theme.vars['background-1'],
                     },
                     '&:first-child>td': {
                       borderTop: commonBorder,

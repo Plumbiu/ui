@@ -72,7 +72,7 @@ const StyledModal = styled('div')(({ theme }) => ({
   minWidth: 380,
   maxWidth: 'calc(100vw - 32px)',
   width: 'max-content',
-  backgroundColor: theme.vars['background'],
+  backgroundColor: theme.vars['background-1'],
   borderRadius: 8,
   padding: '12px 16px',
   boxShadow: theme.boxShadow,

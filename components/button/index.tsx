@@ -23,6 +23,7 @@ export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
 const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
   return {
     cursor: 'pointer',
+    outline: 'none',
     color: theme['text-1'],
     opacity: 1,
     transition: '0.175s',
