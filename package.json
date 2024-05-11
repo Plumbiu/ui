@@ -25,7 +25,7 @@
   "author": "Plumbiu",
   "license": "MIT",
   "dependencies": {
-    "@pigment-css/react": "^0.0.10",
+    "@pigment-css/react": "^0.0.11",
     "ahooks": "^3.7.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@mdx-js/react": "^3.0.1",
-    "@pigment-css/vite-plugin": "^0.0.10",
+    "@pigment-css/vite-plugin": "^0.0.11",
     "@plumbiu/eslint-config": "^0.2.1",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.12.8",
