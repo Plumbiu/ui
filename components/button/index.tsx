@@ -3,7 +3,7 @@ import React, { HTMLAttributes } from 'react'
 import { styled } from '@pigment-css/react'
 import { TBaseColor, TSize } from '../types'
 import { fcc_inline } from '../_styles/css'
-import { borderRadiusVariants, colorsVar } from '../_styles/vars'
+import { borderRadiusVariants, colorsVar, wave } from '../_styles/vars'
 import { IconWrap } from '../icon'
 import { sizeVariants } from './constants'
 import ButtonGroup from './group'
@@ -43,6 +43,7 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
     lineHeight: 1,
     gap: 4,
     borderRadius: 4,
+    ...wave,
     variants: [
       ...sizeVariants,
       ...borderRadiusVariants,
@@ -60,17 +61,7 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
             props: { color, disabled: false },
             style: {
               '&::after': {
-                content: '""',
-                position: 'absolute',
-                inset: 0,
-                borderRadius: 'inherit',
-                opacity: 0,
-                transition: 'opacity .3s cubic-bezier(.645,.045,.355,1)',
                 boxShadow: `0 0 0 4px ${theme.vars[`${color}-3`]}`,
-              },
-              '&:active::after': {
-                opacity: 0.4,
-                transition: '0s',
               },
             },
           },
@@ -117,7 +108,7 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
         props: { disabled: false },
         style: {
           '&:hover': {
-            opacity: 0.85,
+            opacity: 0.9,
           },
           '&:active': {
             opacity: 1,
