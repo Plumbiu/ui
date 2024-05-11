@@ -19,4 +19,7 @@ export * from './table'
 export { default as Modal } from './modal'
 export * from './modal'
 
+export { default as Input } from './input'
+export * from './input'
+
 export type * from './types'

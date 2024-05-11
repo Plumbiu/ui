@@ -8,14 +8,6 @@ export const sizeVariants = [
     },
   },
   {
-    props: { size: 'md' },
-    style: {
-      height: 28,
-      fontSize: 14,
-      padding: '0 12px',
-    },
-  },
-  {
     props: { size: 'sm' },
     style: {
       height: 24,

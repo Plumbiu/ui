@@ -1,7 +1,7 @@
 /* eslint-disable @stylistic/max-len */
 import { styled } from '@pigment-css/react'
 import { HTMLAttributes, SVGProps } from 'react'
-import { colorsVar, sizesVar } from '../_styles/vars'
+import { colorsVar } from '../_styles/vars'
 import { TColor, TSize } from '..'
 
 
@@ -64,15 +64,18 @@ interface IconProps extends HTMLAttributes<HTMLSpanElement> {
   hover?: boolean
 }
 
-const sizesMap: Record<TSize, number> = {
+const sizeMap: Record<TSize, number> = {
   sm: 12,
   md: 14,
   lg: 16,
 }
 
+const sizeVar: TSize[] = ['sm', 'md']
 export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
   '& > svg': {
     display: 'block',
+    width: 14,
+    fontSize: 14,
   },
   variants: [
     ...colorsVar.map((color) => ({
@@ -81,12 +84,12 @@ export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
         color: theme[color],
       },
     })),
-    ...sizesVar.map((size) => ({
+    ...sizeVar.map((size) => ({
       props: { size },
       style: {
         '& > svg': {
-          width: sizesMap[size],
-          fontSize: sizesMap[size],
+          width: sizeMap[size],
+          fontSize: sizeMap[size],
         },
       },
     })),

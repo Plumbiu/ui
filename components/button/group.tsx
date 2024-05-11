@@ -18,6 +18,7 @@ const borderColor = {
 const StyledButtonGroup = styled('div')<ButtonGroupProps>(({ theme }) => {
   return {
     width: 'max-content',
+    borderRadius: 4,
     '& > button': {
       '&:not(:first-child):not(:last-child)': {
         borderRadius: 0
@@ -51,7 +52,7 @@ const StyledButtonGroup = styled('div')<ButtonGroupProps>(({ theme }) => {
 })
 
 const ButtonGroup: React.FC<ButtonGroupProps> = (props) => {
-  const { size = 'md', ...restProps } = props
+  const { size, ...restProps } = props
   return (
     <StyledButtonGroup {...restProps} size={size}>
       {props.children}

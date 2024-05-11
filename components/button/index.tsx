@@ -37,8 +37,12 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
       cursor: 'not-allowed',
       boxShadow: 'none',
     },
+    height: 28,
+    fontSize: 14,
+    padding: '0 12px',
     lineHeight: 1,
     gap: 4,
+    borderRadius: 4,
     variants: [
       ...sizeVariants,
       ...borderRadiusVariants,
@@ -128,7 +132,7 @@ const Button: React.FC<ButtonProps> & {
   ButtonGroup: typeof ButtonGroup
 } = (props) => {
   const {
-    size = 'md',
+    size,
     circle = false,
     color = 'primary',
     outlined = false,

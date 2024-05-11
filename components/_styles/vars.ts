@@ -8,12 +8,6 @@ export const fontSizeVariants = [
     },
   },
   {
-    props: { size: 'md' },
-    style: {
-      fontSize: 14,
-    },
-  },
-  {
     props: { size: 'sm' },
     style: {
       fontSize: 12,
@@ -24,12 +18,6 @@ export const fontSizeVariants = [
 export const borderRadiusVariants = [
   {
     props: { size: 'lg' },
-    style: {
-      borderRadius: 4,
-    },
-  },
-  {
-    props: { size: 'md' },
     style: {
       borderRadius: 4,
     },
