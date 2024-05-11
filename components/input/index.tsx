@@ -1,5 +1,4 @@
 import { styled } from '@pigment-css/react'
-import { wave } from '../_styles/vars'
 import { HTMLAttributes } from 'react'
 import { fcc_inline } from '../_styles/css'
 
@@ -24,7 +23,6 @@ const StyledInput = styled('input')<InputProps>(({ theme }) => {
     '&::placeholder': {
       color: theme.vars['text-4'],
     },
-    ...wave,
     variants: [
       {
         props: { disabled: false },
