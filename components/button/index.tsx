@@ -6,6 +6,7 @@ import { fcc_inline } from '../_styles/css'
 import { borderRadiusVariants, colorsVar } from '../_styles/vars'
 import { IconWrap } from '../icon'
 import { sizeVariants } from './constants'
+import ButtonGroup from './group'
 
 export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   size?: TSize
@@ -67,7 +68,6 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
                 opacity: 0.4,
                 transition: '0s',
               },
-
             },
           },
         ]
@@ -116,15 +116,17 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
             opacity: 0.85,
           },
           '&:active': {
-            opacity: 1
-          }
+            opacity: 1,
+          },
         },
       },
     ],
   }
 })
 
-const Button: React.FC<ButtonProps> = (props) => {
+const Button: React.FC<ButtonProps> & {
+  ButtonGroup: typeof ButtonGroup
+} = (props) => {
   const {
     size = 'md',
     circle = false,
@@ -153,5 +155,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     </StyledButton>
   )
 }
+
+Button.ButtonGroup = ButtonGroup
 
 export default Button

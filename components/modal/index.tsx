@@ -6,6 +6,7 @@ import React, { useEffect } from 'react'
 import { useClickAway } from 'ahooks'
 import Portal from '../_common/portal'
 import destorySet from './destory'
+import { useEventListener } from 'ahooks'
 
 const modalAnimation = keyframes`
   from {
@@ -165,7 +166,7 @@ const Modal: React.FC<ModalProps> & {
   let modalStyles: React.CSSProperties = {
     ...style,
     width,
-    top
+    top,
   }
   const maskStyles: React.CSSProperties = {
     ...maskStyle,
@@ -188,19 +189,15 @@ const Modal: React.FC<ModalProps> & {
   }, modalRef)
 
   function handleESC(e: KeyboardEvent) {
-    if (visible && e.key === 'Escape') {
+    if (visible && keyboard && e.key === 'Escape') {
       onClose?.()
     }
   }
 
+  useEventListener('keyup', handleESC)
+
   useEffect(() => {
-    if (keyboard) {
-      window.addEventListener('keyup', handleESC)
-    }
     document.body.style.overflow = visible ? 'hidden' : ''
-    return () => {
-      keyboard && window.removeEventListener('keyup', handleESC)
-    }
   }, [visible])
 
   const node = (

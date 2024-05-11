@@ -4,7 +4,9 @@
   "description": "ui for plumbiu's blog",
   "main": "src/index.js.mjs",
   "scripts": {
-    "dev": "vite serve docs"
+    "dev": "vite serve docs",
+    "build-docs": "vite build docs",
+    "preview-docs": "vite preview docs"
   },
   "files": [
     "dist"

@@ -3,7 +3,9 @@
  * @description 按钮组合
  * @title group
  */
-import { Button, ButtonGroup } from '@plumbiu/ui'
+import { Button } from '@plumbiu/ui'
+
+const { ButtonGroup } = Button
 
 export default function Demo() {
   return (
