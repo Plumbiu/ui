@@ -8,7 +8,13 @@ import { Input } from '@plumbiu/ui'
 export default function Demo() {
   return (
     <>
-      <Input placeholder='xxx' />
+      <Input
+        placeholder="xxx"
+        wait={500}
+        onChange={(e) => {
+          console.log(e)
+        }}
+      />
     </>
   )
 }
