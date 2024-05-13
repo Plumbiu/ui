@@ -79,11 +79,13 @@ const Table: React.FC<TableProps> = (props) => {
 
   return (
     <div
+   
       ref={tabledRef}
       className={overflowAutoCss}
       style={{ height: props.scroll?.y }}
     >
       <StyledTable
+       
         style={{
           minWidth: props.scroll?.x,
           tableLayout: props.scroll ? 'fixed' : 'auto',
@@ -97,7 +99,7 @@ const Table: React.FC<TableProps> = (props) => {
         >
           <TableContent posX={pos?.left} rowIndex={0} columns={columns} rowKey={rowKey} isHead />
         </thead>
-        <tbody>
+        <tbody >
           {dataSource.map((data, rowIndex) => (
             <TableContent
               posX={pos?.left} 

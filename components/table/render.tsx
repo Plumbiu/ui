@@ -1,5 +1,6 @@
 import React from 'react'
 import { DefaultData, TableProps } from './types'
+import clsx from 'clsx'
 
 export const TdTag: React.FC<{
   column: TableProps['columns'][number]
@@ -45,11 +46,18 @@ export const TdTag: React.FC<{
       style.right = column.__right__
     }
   }
+
+  const cl = clsx([
+    className,
+    {
+      '__shadow': hasShadow
+    }
+  ])
   return hidden ? null : (
     <td
       align={align}
       style={style}
-      className={`${className ?? ''} ${hasShadow ? '__shadow' : ''}`}
+      className={cl}
       colSpan={colSpan}
       rowSpan={rowSpan}
     >
