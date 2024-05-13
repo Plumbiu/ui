@@ -3,7 +3,7 @@ import { styled } from '@pigment-css/react'
 import { HTMLAttributes, SVGProps } from 'react'
 import { colorsVar } from '../_styles/vars'
 import { TColor, TSize } from '..'
-
+import { fcc_inline } from '../_styles/css'
 
 export function MaterialSymbolsCheckCircleRounded(
   props: SVGProps<SVGSVGElement>,
@@ -72,11 +72,11 @@ const sizeMap: Record<TSize, number> = {
 
 const sizeVar: TSize[] = ['sm', 'md']
 export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
-  '& > svg': {
-    display: 'block',
-    width: 14,
-    fontSize: 14,
+  '& svg': {
+    width: '1em',
+    height: '1em',
   },
+  fontSize: 14,
   variants: [
     ...colorsVar.map((color) => ({
       props: { color },
@@ -87,10 +87,7 @@ export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
     ...sizeVar.map((size) => ({
       props: { size },
       style: {
-        '& > svg': {
-          width: sizeMap[size],
-          fontSize: sizeMap[size],
-        },
+        fontSize: sizeMap[size],
       },
     })),
     {
@@ -101,15 +98,21 @@ export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
         '&:hover': {
           color: theme.vars['text-3'],
         },
-      }
-    }
+      },
+    },
   ],
 }))
 
 export const IconWrap: React.FC<IconProps> = (props) => {
   const { color, size = 'md', hover = false, ...restProps } = props
   return (
-    <StyledIcon {...restProps} hover={hover} color={color} size={size}>
+    <StyledIcon
+      className={fcc_inline}
+      {...restProps}
+      hover={hover}
+      color={color}
+      size={size}
+    >
       {props.children}
     </StyledIcon>
   )

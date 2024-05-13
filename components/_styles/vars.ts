@@ -49,7 +49,7 @@ export const wave = {
     opacity: 0,
     transition: 'opacity .2s cubic-bezier(.645,.045,.355,1)',
   },
-  '&:active::after,&:focus::after': {
+  '&:active::after': {
     opacity: 0.4,
     transition: '0s',
   },
