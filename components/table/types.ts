@@ -8,7 +8,7 @@ export interface TableColumnTypes<T extends DefaultData> {
   colSpan?: number
   dataIndex: string
   key?: string
-  fixed?: boolean
+  fixed?: boolean | 'right' | 'left'
   zIndex?: number
   render?: (
     row: T,

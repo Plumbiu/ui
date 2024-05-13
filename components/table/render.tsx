@@ -23,8 +23,12 @@ export const TdTag: React.FC<{
     style = {
       ...(style ?? {}),
       position: 'sticky',
-      left: column.__left__,
       zIndex,
+    }
+    if (column.__left__ !== undefined) {
+      style.left = column.__left__
+    } else if (column.__right__ !== undefined) {
+      style.right = column.__right__
     }
   }
   return hidden ? null : (

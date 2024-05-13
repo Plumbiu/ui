@@ -4,6 +4,10 @@ import { TableContent } from './render'
 import { StyledFooter, StyledTable } from './styles'
 import { TableProps } from './types'
 import { overflowAutoCss } from '../_styles/css'
+import { useRef } from 'react'
+import { useScroll } from 'ahooks'
+import React from 'react'
+import { calOffset } from './utils'
 
 const theadCls = css({
   position: 'sticky',
@@ -33,29 +37,45 @@ const Table: React.FC<TableProps> = (props) => {
     color,
     ...restProps,
   }
-  const ColGroup = (
-    <colgroup>
-      {columns.map(({ width }) => (
-        <col style={{ width: width ?? 'auto' }} />
-      ))}
-    </colgroup>
+
+  const tabledRef = useRef(null)
+  const pos = useScroll(tabledRef)
+  console.log(pos)
+
+  const ColGroup = React.useMemo(
+    () => (
+      <colgroup>
+        {columns.map(({ width }) => (
+          <col style={{ width: width ?? 'auto' }} />
+        ))}
+      </colgroup>
+    ),
+    [],
   )
-  let left = 0
-  for (const column of columns) {
-    const { fixed, width} = column
-    if (fixed) {
-      column.__left__ = left
-      if (typeof width === 'string') {
-        left += parseFloat(width)
-      } else if (typeof width === 'number') {
-        left += width
-      } else {
-        left += 200
+
+  if (props.scroll) {
+    let left = 0
+    let right = 0
+    for (const column of columns) {
+      const { fixed, width } = column
+      if (fixed) {
+        if (fixed === 'left' || fixed === true) {
+          column.__left__ = left
+          left += calOffset(width)
+        } else if (fixed === 'right') {
+          column.__right__ = right
+          right += calOffset(width)
+        }
       }
     }
   }
+
   return (
-    <div className={overflowAutoCss} style={{ height: props.scroll?.y }}>
+    <div
+      ref={tabledRef}
+      className={overflowAutoCss}
+      style={{ height: props.scroll?.y }}
+    >
       <StyledTable
         style={{
           minWidth: props.scroll?.x,
