@@ -2,7 +2,7 @@ import { css } from '@pigment-css/react'
 import { colorsVar } from '../_styles/vars'
 import { TableContent } from './render'
 import { StyledFooter, StyledTable } from './styles'
-import { DefaultData, TableProps } from './types'
+import { TableProps } from './types'
 import { overflowAutoCss } from '../_styles/css'
 
 const theadCls = css({
@@ -40,16 +40,9 @@ const Table: React.FC<TableProps> = (props) => {
       ))}
     </colgroup>
   )
-  const extraSummary: DefaultData = { [rowKey]: '__summary' }
   let left = 0
   for (const column of columns) {
-    const { fixed, width, dataIndex, summary } = column
-    if (dataIndex && summary) {
-      extraSummary[dataIndex] =
-        typeof summary === 'function'
-          ? (extraSummary[dataIndex] = summary(dataSource))
-          : summary
-    }
+    const { fixed, width} = column
     if (fixed) {
       column.__left__ = left
       if (typeof width === 'string') {
@@ -78,7 +71,7 @@ const Table: React.FC<TableProps> = (props) => {
           <TableContent rowIndex={0} columns={columns} rowKey={rowKey} isHead />
         </thead>
         <tbody>
-          {[...dataSource, ...(extraSummary[rowKey] ? [extraSummary] : [])].map((data, rowIndex) => (
+          {dataSource.map((data, rowIndex) => (
             <TableContent
               rowIndex={rowIndex + 1}
               data={data}
