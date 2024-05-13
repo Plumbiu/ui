@@ -30,6 +30,13 @@ const columns: TableColumnTypes<DataSource>[] = [
     fixed: true,
   },
   {
+    title: 'Age',
+    dataIndex: 'age',
+    key: 'Age',
+    width: 150,
+    fixed: true,
+  },
+  {
     title: 'Address',
     dataIndex: 'address',
     key: 'Address',

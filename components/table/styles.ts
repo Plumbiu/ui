@@ -16,6 +16,9 @@ export const StyledTable = styled('table')<
       fontSize: 14,
       position: 'relative',
       color: theme.vars['text-1'],
+      '& .__shadow': {
+        boxShadow: 'inset 10px 0 8px -8px rgba(5, 5, 5, 0.06)',
+      },
       variants: [
         ...colorsVar.flatMap((color) => {
           const commonBorder = `1px solid ${theme.vars[`${color}-5`]}`

@@ -6,6 +6,7 @@ export interface TableColumnTypes<T extends DefaultData> {
   align?: 'left' | 'center' | 'right'
   className?: string
   colSpan?: number
+  rowSpan?: number
   dataIndex: string
   key?: string
   fixed?: boolean | 'right' | 'left'

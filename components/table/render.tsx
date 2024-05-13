@@ -1,3 +1,4 @@
+import React from 'react'
 import { DefaultData, TableProps } from './types'
 
 export const TdTag: React.FC<{
@@ -6,18 +7,26 @@ export const TdTag: React.FC<{
   colIndex: number
   rowIndex: number
   data?: DefaultData
+  posX?: number
 }> = (props) => {
-  const { column, isHead, colIndex, rowIndex, data } = props
+  const { column, isHead, colIndex, rowIndex, data, posX } = props
   const {
     align,
     title,
     render,
     hidden,
     dataIndex,
+    width,
     fixed,
     className,
     zIndex = 10,
+    colSpan,
+    rowSpan,
   } = column
+
+  const hasShadow = fixed && posX && column.__left__ && width && posX > column.__left__
+  console.log(posX, column.__left__, hasShadow)
+
   let style: React.CSSProperties | undefined = undefined
   if (fixed) {
     style = {
@@ -35,7 +44,9 @@ export const TdTag: React.FC<{
     <td
       align={align}
       style={style}
-      className={className}
+      className={`${className ?? ''} ${hasShadow ? '__shadow' : ''}`}
+      colSpan={colSpan}
+      rowSpan={rowSpan}
     >
       {isHead
         ? title
@@ -54,11 +65,13 @@ export const TableContent: React.FC<{
   rowKey: string
   isHead?: boolean
   rowIndex: number
-}> = ({ columns, rowKey, rowIndex, isHead = false, data }) => {
+  posX?: number
+}> = ({ columns, rowKey, rowIndex, isHead = false, data, posX }) => {
   return (
     <tr>
       {columns.map((column, colIndex) => (
         <TdTag
+          posX={posX}
           data={data}
           key={column[rowKey]}
           column={column}

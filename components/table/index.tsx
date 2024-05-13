@@ -40,23 +40,13 @@ const Table: React.FC<TableProps> = (props) => {
 
   const tabledRef = useRef(null)
   const pos = useScroll(tabledRef)
-  console.log(pos)
+  console.log(tabledRef)
 
-  const ColGroup = React.useMemo(
-    () => (
-      <colgroup>
-        {columns.map(({ width }) => (
-          <col style={{ width: width ?? 'auto' }} />
-        ))}
-      </colgroup>
-    ),
-    [],
-  )
-
-  if (props.scroll) {
+  const ColGroup = React.useMemo(() => {
     let left = 0
     let right = 0
-    for (const column of columns) {
+    for (let i = 0; i < columns.length; i++) {
+      const column = columns[i]
       const { fixed, width } = column
       if (fixed) {
         if (fixed === 'left' || fixed === true) {
@@ -68,7 +58,14 @@ const Table: React.FC<TableProps> = (props) => {
         }
       }
     }
-  }
+    return (
+      <colgroup>
+        {columns.map(({ width }) => (
+          <col style={{ width: width ?? 'auto' }} />
+        ))}
+      </colgroup>
+    )
+  }, [columns, props.scroll])
 
   return (
     <div
@@ -88,11 +85,12 @@ const Table: React.FC<TableProps> = (props) => {
           className={theadCls}
           style={{ zIndex: headZIndex, position: fixed ? undefined : 'static' }}
         >
-          <TableContent rowIndex={0} columns={columns} rowKey={rowKey} isHead />
+          <TableContent posX={pos?.left} rowIndex={0} columns={columns} rowKey={rowKey} isHead />
         </thead>
         <tbody>
           {dataSource.map((data, rowIndex) => (
             <TableContent
+              posX={pos?.left} 
               rowIndex={rowIndex + 1}
               data={data}
               key={data?.[rowKey] ?? rowIndex}
