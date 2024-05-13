@@ -45,6 +45,7 @@ const Table: React.FC<TableProps> = (props) => {
   const ColGroup = React.useMemo(() => {
     let left = 0
     let right = 0
+    let shadowLeft = 0
     for (let i = 0; i < columns.length; i++) {
       const column = columns[i]
       const { fixed, width } = column
@@ -52,6 +53,15 @@ const Table: React.FC<TableProps> = (props) => {
         if (fixed === 'left' || fixed === true) {
           column.__left__ = left
           left += calOffset(width)
+          if (i === 0) {
+            column.__shadowLeft__ = 0
+          } else {
+            const lastFixed = columns[i - 1].fixed 
+            column.__shadowLeft__ = shadowLeft
+            if (!lastFixed) {
+              shadowLeft += left
+            }
+          }
         } else if (fixed === 'right') {
           column.__right__ = right
           right += calOffset(width)

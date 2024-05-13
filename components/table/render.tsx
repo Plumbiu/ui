@@ -24,8 +24,13 @@ export const TdTag: React.FC<{
     rowSpan,
   } = column
 
-  const hasShadow = fixed && posX && column.__left__ && width && posX > column.__left__
-  console.log(posX, column.__left__, hasShadow)
+  const hasShadow =
+    fixed &&
+    posX &&
+    column.__shadowLeft__ !== undefined &&
+    width &&
+    posX > column.__shadowLeft__
+  console.log(posX, column.__shadowLeft__, hasShadow)
 
   let style: React.CSSProperties | undefined = undefined
   if (fixed) {
