@@ -122,8 +122,11 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
             props: { loading: true, color },
             style: {
               opacity: 0.65,
-              '&::after': {
-                boxShadow: `0 0 0 4px ${theme.vars[`${color}-3`]}`,
+              '&:hover': {
+                opacity: 0.5,
+              },
+              '&:active': {
+                opacity: 0.65,
               },
             },
           },
