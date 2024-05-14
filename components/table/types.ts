@@ -18,7 +18,7 @@ export interface TableColumnTypes<T extends DefaultData> {
     colIndex: number,
   ) => React.ReactNode
   hidden?: boolean
-  width?: string | number
+  width?:  number
   title: string
   [key: string]: any
 }

@@ -4,7 +4,7 @@ import { TableContent } from './render'
 import { StyledFooter, StyledTable } from './styles'
 import { TableProps } from './types'
 import { overflowAutoCss } from '../_styles/css'
-import { useEffect, useRef } from 'react'
+import { RefObject, useEffect, useRef } from 'react'
 import { useScroll } from 'ahooks'
 import React from 'react'
 import { calOffset } from './utils'
@@ -38,8 +38,16 @@ const Table: React.FC<TableProps> = (props) => {
     ...restProps,
   }
 
-  const tabledRef = useRef(null)
-  const pos = useScroll(tabledRef, ({ left }) => pos?.left !== left)
+  const tabledRef = useRef<RefObject<HTMLDivElement>['current']>(null)
+  const pos = useScroll(tabledRef, ({ left }) => {
+    if (!pos) {
+      return true
+    }
+    if (Math.abs(pos.left - left) > 40 || pos.left <= 40) {
+      return true
+    }
+    return false
+  })
 
   const ColGroup = React.useMemo(() => {
     let left = 0

@@ -10,7 +10,15 @@ export const TdTag: React.FC<{
   data?: DefaultData
   posX?: number
 }> = (props) => {
-  const { column, isHead, colIndex, rowIndex, data, posX } = props
+  const {
+    column,
+    isHead,
+    colIndex,
+    rowIndex,
+    data,
+    posX,
+  } = props
+
   const {
     align,
     title,
@@ -46,11 +54,16 @@ export const TdTag: React.FC<{
     }
   }
 
+
   const cl = clsx([
     className,
     {
-      __shadow: column.__shadow__ && posX && fixed !== 'right',
-      __shadow_right: column.__shadow__ && fixed === 'right',
+      __shadow: column.__shadow__ && posX !== 0 && fixed !== 'right',
+      __shadow_right:
+        column.__shadow__ &&
+        column.width &&
+        posX != null &&
+        fixed === 'right',
     },
   ])
 
@@ -74,7 +87,6 @@ export const TdTag: React.FC<{
       colSpan={colSpan}
       rowSpan={rowSpan}
     >
-
       {renderTd()}
     </td>
   )

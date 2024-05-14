@@ -18,12 +18,12 @@ export const StyledTable = styled('table')<
       color: theme.vars['text-1'],
       '& .__shadow': {
         zIndex: 10,
-        boxShadow: 'inset -10px 0 8px -8px rgba(5, 5, 5, 0.06)',
+        boxShadow: 'inset -10px 0 8px -8px rgba(5, 5, 5, 0.12)',
         transition: '0.3s',
       },
       '& .__shadow_right': {
         zIndex: 10,
-        boxShadow: 'inset 10px 0 8px -8px rgba(5, 5, 5, 0.06)',
+        boxShadow: 'inset 10px 0 8px -8px rgba(5, 5, 5, 0.12)',
         transition: '0.3s',
       },
       variants: [
