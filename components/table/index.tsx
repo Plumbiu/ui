@@ -50,36 +50,6 @@ const Table: React.FC<TableProps> = (props) => {
   })
 
   const ColGroup = React.useMemo(() => {
-    let left = 0
-    let shadowLeft = 0
-    let right = 0
-    for (let i = 0; i < columns.length; i++) {
-      const column = columns[i]
-      const { fixed, width } = column
-      if (fixed === 'right' || !fixed) {
-        continue
-      }
-      column.__left__ = left
-      left += calOffset(width)
-      if (i === 0) {
-        column.__shadowLeft__ = 0
-      } else {
-        const lastFixed = columns[i - 1].fixed
-        column.__shadowLeft__ = shadowLeft
-        if (!lastFixed) {
-          shadowLeft += left
-        }
-      }
-    }
-    for (let i = columns.length - 1; i >= 0; i--) {
-      const column = columns[i]
-      const { fixed, width } = column
-      if (fixed === 'left' || !fixed) {
-        continue
-      }
-      column.__right__ = right
-      right += calOffset(width)
-    }
     return (
       <colgroup>
         {columns.map(({ width }) => (
@@ -94,16 +64,10 @@ const Table: React.FC<TableProps> = (props) => {
     if (!posX) {
       return
     }
-    let isFirstRightFixed = true
     for (let colIndex = 0; colIndex < columns.length; colIndex++) {
       const column = columns[colIndex]
-      const { fixed, width } = column
-      if (!fixed || !width) {
-        continue
-      }
-      if (fixed === 'right' && isFirstRightFixed) {
-        columns[colIndex].__shadow__ = true
-        isFirstRightFixed = false
+      const { fixed } = column
+      if (!fixed || fixed === 'right') {
         continue
       }
       if (fixed === 'left' || fixed === true) {
@@ -123,6 +87,48 @@ const Table: React.FC<TableProps> = (props) => {
       }
     }
   }, [pos])
+
+  useEffect(() => {
+    let left = 0
+    let right = 0
+    let shadowLeft = 0
+    let isFirstRightFixed = true
+    for (let i = 0; i < columns.length; i++) {
+      const column = columns[i]
+      const { fixed, width } = column
+      if (!fixed) {
+        continue
+      }
+      if (fixed === 'right') {
+        if (isFirstRightFixed) {
+          columns[i].__shadow__ = true
+          isFirstRightFixed = false
+        }
+      } else {
+        column.__left__ = left
+        left += calOffset(width)
+        if (i === 0) {
+          column.__shadowLeft__ = 0
+        } else {
+          const lastFixed = columns[i - 1].fixed
+          column.__shadowLeft__ = shadowLeft
+          if (!lastFixed) {
+            shadowLeft += left
+          }
+        }
+      }
+    }
+
+    for (let i = columns.length - 1; i >= 0; i--) {
+      const column = columns[i]
+      const { fixed, width } = column
+      if (fixed === 'left' || !fixed) {
+        continue
+      }
+      column.__right__ = right
+      right += calOffset(width)
+    }
+  }, [])
 
   return (
     <div

@@ -1,7 +1,7 @@
 /**
  * @order 4
- * @description 固定列需要指定 width 宽度，默认为 220px
- * @title 固定列
+ * @description 堆叠固定列，建议和 border 一起使用
+ * @title 堆叠固定列
  */
 import { Link, Table } from '@plumbiu/ui'
 
@@ -26,8 +26,17 @@ const columns = [
   { title: 'Column 4', dataIndex: 'address', key: '4' },
   { title: 'Column 5', dataIndex: 'address', key: '5' },
   { title: 'Column 6', dataIndex: 'address', key: '6' },
-  { title: 'Column 7', dataIndex: 'address', key: '7' },
-  { title: 'Column 8', dataIndex: 'address', key: '8' },
+  {
+    title: 'Column 7',
+    dataIndex: 'address',
+    key: '7',
+    fixed: 'right' as const,
+  },
+  {
+    title: 'Column 8',
+    dataIndex: 'address',
+    key: '8',
+  },
   {
     title: 'Action',
     key: 'operation',
@@ -49,9 +58,15 @@ const data = [
     age: 40,
     address: 'London Park',
   },
-];
-
+]
 
 export default function Demo() {
-  return <Table scroll={{ y: 400, x: 1300 }} columns={columns} dataSource={data} />
+  return (
+    <Table
+      bordered
+      scroll={{ y: 400, x: 1300 }}
+      columns={columns}
+      dataSource={data}
+    />
+  )
 }

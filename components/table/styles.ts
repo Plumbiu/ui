@@ -16,16 +16,6 @@ export const StyledTable = styled('table')<
       fontSize: 14,
       position: 'relative',
       color: theme.vars['text-1'],
-      '& .__shadow': {
-        zIndex: 10,
-        boxShadow: 'inset -10px 0 8px -8px rgba(5, 5, 5, 0.12)',
-        transition: '0.3s',
-      },
-      '& .__shadow_right': {
-        zIndex: 10,
-        boxShadow: 'inset 10px 0 8px -8px rgba(5, 5, 5, 0.12)',
-        transition: '0.3s',
-      },
       variants: [
         ...colorsVar.flatMap((color) => {
           const commonBorder = `1px solid ${theme.vars[`${color}-5`]}`
@@ -35,6 +25,9 @@ export const StyledTable = styled('table')<
             {
               props: { bordered: true },
               style: {
+                '& .__shadow': {
+                  borderRight: commonBorder,
+                },
                 '& tr': {
                   '& > td': {
                     borderLeft: commonBorder,
@@ -60,6 +53,21 @@ export const StyledTable = styled('table')<
                       },
                     },
                   },
+                },
+              },
+            },
+            {
+              props: { bordered: false },
+              style: {
+                '& .__shadow': {
+                  zIndex: 10,
+                  boxShadow: 'inset -10px 0 8px -8px rgba(5, 5, 5, 0.12)',
+                  transition: '0.3s',
+                },
+                '& .__shadow_right': {
+                  zIndex: 10,
+                  boxShadow: 'inset 10px 0 8px -8px rgba(5, 5, 5, 0.12)',
+                  transition: '0.3s',
                 },
               },
             },

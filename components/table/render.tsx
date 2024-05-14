@@ -61,7 +61,6 @@ export const TdTag: React.FC<{
       __shadow: column.__shadow__ && posX !== 0 && fixed !== 'right',
       __shadow_right:
         column.__shadow__ &&
-        column.width &&
         posX != null &&
         fixed === 'right',
     },
