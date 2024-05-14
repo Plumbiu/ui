@@ -7,7 +7,7 @@ export interface TableColumnTypes<T extends DefaultData> {
   className?: string
   colSpan?: number
   rowSpan?: number
-  dataIndex: string
+  dataIndex?: string
   key?: string
   fixed?: boolean | 'right' | 'left'
   zIndex?: number

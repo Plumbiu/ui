@@ -17,7 +17,6 @@ export const TdTag: React.FC<{
     render,
     hidden,
     dataIndex,
-    width,
     fixed,
     className,
     zIndex = 10,
@@ -25,13 +24,13 @@ export const TdTag: React.FC<{
     rowSpan,
   } = column
 
-  const hasShadow =
-    fixed &&
-    posX &&
-    column.__shadowLeft__ !== undefined &&
-    width &&
-    posX > column.__shadowLeft__
-  console.log(posX, column.__shadowLeft__, hasShadow)
+  if (hidden) {
+    return null
+  }
+
+  if (!dataIndex && !render) {
+    return null
+  }
 
   let style: React.CSSProperties | undefined = undefined
   if (fixed) {
@@ -50,10 +49,24 @@ export const TdTag: React.FC<{
   const cl = clsx([
     className,
     {
-      '__shadow': hasShadow
-    }
+      __shadow: column.__shadow__ && posX && fixed !== 'right',
+      __shadow_right: column.__shadow__ && fixed === 'right',
+    },
   ])
-  return hidden ? null : (
+
+  function renderTd() {
+    if (isHead) {
+      return title
+    }
+    if (render) {
+      return render(data, column, rowIndex, colIndex)
+    }
+    if (!dataIndex) {
+      return null
+    }
+    return data?.[dataIndex]
+  }
+  return (
     <td
       align={align}
       style={style}
@@ -61,13 +74,8 @@ export const TdTag: React.FC<{
       colSpan={colSpan}
       rowSpan={rowSpan}
     >
-      {isHead
-        ? title
-        : data?.[dataIndex]
-        ? render
-          ? render(data, column, rowIndex, colIndex)
-          : data[dataIndex]
-        : null}
+
+      {renderTd()}
     </td>
   )
 }
@@ -82,17 +90,19 @@ export const TableContent: React.FC<{
 }> = ({ columns, rowKey, rowIndex, isHead = false, data, posX }) => {
   return (
     <tr>
-      {columns.map((column, colIndex) => (
-        <TdTag
-          posX={posX}
-          data={data}
-          key={column[rowKey]}
-          column={column}
-          colIndex={colIndex}
-          isHead={isHead}
-          rowIndex={rowIndex}
-        />
-      ))}
+      {columns.map((column, colIndex) => {
+        return (
+          <TdTag
+            posX={posX}
+            data={data}
+            key={column[rowKey]}
+            column={column}
+            colIndex={colIndex}
+            isHead={isHead}
+            rowIndex={rowIndex}
+          />
+        )
+      })}
     </tr>
   )
 }

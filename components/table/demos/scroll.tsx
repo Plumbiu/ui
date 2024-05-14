@@ -3,64 +3,55 @@
  * @description 固定列需要指定 width 宽度，默认为 220px
  * @title 固定列
  */
-/* eslint-disable @stylistic/max-len */
-import { Table, TableColumnTypes, Tag } from '@plumbiu/ui'
+import { Link, Table } from '@plumbiu/ui'
 
-interface DataSource {
-  key: string
-  name: string
-  age: number
-  address: string
-  skill: string
-}
-
-const columns: TableColumnTypes<DataSource>[] = [
+const columns = [
   {
-    title: 'Name',
+    title: 'Full Name',
+    width: 100,
     dataIndex: 'name',
-    key: 'Name',
-    width: 150,
-    fixed: true,
+    key: 'name',
+    fixed: 'left' as const,
   },
   {
     title: 'Age',
+    width: 100,
     dataIndex: 'age',
-    key: 'Age',
-    width: 150,
-    fixed: true,
+    key: 'age',
+    fixed: 'left' as const,
   },
+  { title: 'Column 1', dataIndex: 'address', key: '1' },
+  { title: 'Column 2', dataIndex: 'address', key: '2' },
+  { title: 'Column 3', dataIndex: 'address', key: '3' },
+  { title: 'Column 4', dataIndex: 'address', key: '4' },
+  { title: 'Column 5', dataIndex: 'address', key: '5' },
+  { title: 'Column 6', dataIndex: 'address', key: '6' },
+  { title: 'Column 7', dataIndex: 'address', key: '7' },
+  { title: 'Column 8', dataIndex: 'address', key: '8' },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'Age',
-    width: 150,
-    fixed: true,
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'Address',
-    render: (row) => <Tag>{row.address}</Tag>,
-  },
-  {
-    title: 'Skill',
-    dataIndex: 'skill',
-    key: 'Skill',
-    width: 150,
+    title: 'Action',
+    key: 'operation',
+    fixed: 'right' as const,
+    width: 100,
+    render: () => <Link>action</Link>,
   },
 ]
+const data = [
+  {
+    key: '1',
+    name: 'John Brown',
+    age: 32,
+    address: 'New York Park',
+  },
+  {
+    key: '2',
+    name: 'Jim Green',
+    age: 40,
+    address: 'London Park',
+  },
+];
 
-const dataSource: DataSource[] = []
 
-for (let i = 0; i < 40; i++) {
-  dataSource.push({
-    key: `${i}`,
-    name: 'xiaoming',
-    age: 18,
-    address: 'beijing',
-    skill: 'game',
-  })
-}
 export default function Demo() {
-  return <Table scroll={{ y: 400, x: 1300 }} columns={columns} dataSource={dataSource} />
+  return <Table scroll={{ y: 400, x: 1300 }} columns={columns} dataSource={data} />
 }
