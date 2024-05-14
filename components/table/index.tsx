@@ -39,7 +39,7 @@ const Table: React.FC<TableProps> = (props) => {
   }
 
   const tabledRef = useRef(null)
-  const pos = useScroll(tabledRef)
+  const pos = useScroll(tabledRef, ({ left }) => pos?.left !== left)
 
   const ColGroup = React.useMemo(() => {
     let left = 0
