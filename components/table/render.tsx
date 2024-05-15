@@ -8,15 +8,13 @@ export const TdTag: React.FC<{
   colIndex: number
   rowIndex: number
   data?: DefaultData
-  posX?: number
-}> = (props) => {
+}> = React.memo((props) => {
   const {
     column,
     isHead,
     colIndex,
     rowIndex,
     data,
-    posX,
   } = props
 
   const {
@@ -38,7 +36,7 @@ export const TdTag: React.FC<{
 
   if (!dataIndex && !render) {
     return null
-  }
+  }  
 
   let style: React.CSSProperties | undefined = undefined
   if (fixed) {
@@ -54,17 +52,15 @@ export const TdTag: React.FC<{
     }
   }
 
-
   const cl = clsx([
-    className,
+    {className: !!className},
     {
-      __shadow: column.__shadow__ && posX !== 0 && fixed !== 'right',
+      __shadow: column.__shadow__ && fixed !== 'right',
       __shadow_right:
         column.__shadow__ &&
-        posX != null &&
         fixed === 'right',
     },
-  ])
+  ]) || undefined
 
   function renderTd() {
     if (isHead) {
@@ -89,7 +85,16 @@ export const TdTag: React.FC<{
       {renderTd()}
     </td>
   )
-}
+}, (prevProps) => {
+  const { column } = prevProps
+  if (typeof column.render === 'function') {
+    return false
+  }
+  if (!column.fixed) {
+    return true
+  }
+  return false
+})
 
 export const TableContent: React.FC<{
   data?: DefaultData
@@ -97,14 +102,12 @@ export const TableContent: React.FC<{
   rowKey: string
   isHead?: boolean
   rowIndex: number
-  posX?: number
-}> = ({ columns, rowKey, rowIndex, isHead = false, data, posX }) => {
+}> = ({ columns, rowKey, rowIndex, isHead = false, data }) => {
   return (
     <tr>
       {columns.map((column, colIndex) => {
         return (
           <TdTag
-            posX={posX}
             data={data}
             key={column[rowKey]}
             column={column}
