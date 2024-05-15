@@ -1,10 +1,9 @@
 import { css } from '@pigment-css/react'
-import { colorsVar } from '../_styles/vars'
 import { TableTr } from './render'
 import { StyledFooter, StyledTable } from './styles'
-import { TableProps } from './types'
+import { ITableOperaParams, TableProps } from './types'
 import { overflowAutoCss } from '../_styles/css'
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import useColumns from './hooks/columns'
 
 const theadCls = css({
@@ -19,7 +18,7 @@ const Table: React.FC<TableProps> = (props) => {
     columns = [],
     dataSource = [],
     rowKey = 'key',
-    color: custormColor = 'info',
+    color = 'info',
     headZIndex,
     footer,
     showHeader = true,
@@ -27,8 +26,6 @@ const Table: React.FC<TableProps> = (props) => {
     tableLayout,
     ...restProps
   } = props
-
-  const color = colorsVar.includes(custormColor) ? custormColor : 'info'
 
   const tableProps = {
     bordered,
@@ -39,9 +36,26 @@ const Table: React.FC<TableProps> = (props) => {
     ...restProps,
   }
 
+  const [operaParams, setOperaParams] = useState<ITableOperaParams>()
   const { ColGroup } = useColumns({
     columns,
+    bordered,
   })
+
+  const clonedDataSouce = dataSource.slice(0)
+  const mergedDataSource = useMemo(() => {
+    if (operaParams === undefined) {
+      return clonedDataSouce
+    }
+    const { sorter, filter } = operaParams
+    if (sorter) {
+      clonedDataSouce.sort(sorter)
+    }
+    if (filter) {
+      clonedDataSouce.filter(filter)
+    }
+    return clonedDataSouce
+  }, [operaParams])
 
   return (
     <div className={overflowAutoCss} style={{ maxHeight: props.scroll?.y }}>
@@ -53,17 +67,25 @@ const Table: React.FC<TableProps> = (props) => {
         {...tableProps}
       >
         {ColGroup}
-        {showHeader && <thead
-          className={theadCls}
-          style={{
-            zIndex: headZIndex,
-            position: sticky ? undefined : 'static'
-          }}
-        >
-          <TableTr rowIndex={0} columns={columns} rowKey={rowKey} isHead />
-        </thead>}
+        {showHeader && (
+          <thead
+            className={theadCls}
+            style={{
+              zIndex: headZIndex,
+              position: sticky ? undefined : 'static',
+            }}
+          >
+            <TableTr
+              setOperaParams={setOperaParams}
+              rowIndex={0}
+              columns={columns}
+              rowKey={rowKey}
+              isHead
+            />
+          </thead>
+        )}
         <tbody>
-          {dataSource.map((data, rowIndex) => (
+          {mergedDataSource.map((data, rowIndex) => (
             <TableTr
               rowIndex={rowIndex + 1}
               data={data}

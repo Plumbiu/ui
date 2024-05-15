@@ -3,41 +3,44 @@ import { TableProps } from '../types'
 
 interface IUsePosition {
   columns: TableProps['columns']
+  bordered?: boolean
 }
 
 const useColumns = (props: IUsePosition) => {
-  const { columns } = props
+  const { columns, bordered } = props
 
   const ColGroup = useMemo(() => {
-    let left = 0
-    let lastLeftFixed
-    // left
-    for (let i = 0; i < columns.length; i++) {
-      const column = columns[i]
-      const { fixed, width } = column
-      if (fixed !== 'left') {
-        continue
+    if (!bordered) {
+      let left = 0
+      let lastLeftFixed
+      // left
+      for (let i = 0; i < columns.length; i++) {
+        const column = columns[i]
+        const { fixed, width } = column
+        if (fixed !== 'left') {
+          continue
+        }
+        lastLeftFixed = column
+        column._left = left
+        left += width ?? 200
       }
-      lastLeftFixed = column
-      column._left = left
-      left += width ?? 200
-    }
-    lastLeftFixed && (lastLeftFixed._shadow = true)
-
-    // right
-    let lastRightFixed
-    let right = 0
-    for (let i = columns.length - 1; i >= 0; i--) {
-      const column = columns[i]
-      const { fixed, width } = column
-      if (fixed !== 'right') {
-        continue
+      lastLeftFixed && (lastLeftFixed._shadow = true)
+  
+      // right
+      let lastRightFixed
+      let right = 0
+      for (let i = columns.length - 1; i >= 0; i--) {
+        const column = columns[i]
+        const { fixed, width } = column
+        if (fixed !== 'right') {
+          continue
+        }
+        lastRightFixed = column
+        column._right = right
+        right += width ?? 200
       }
-      lastRightFixed = column
-      column._right = right
-      right += width ?? 200
+      lastRightFixed && (lastRightFixed._shadow = true)
     }
-    lastRightFixed && (lastRightFixed._shadow = true)
 
     return (
       <colgroup>
@@ -46,7 +49,7 @@ const useColumns = (props: IUsePosition) => {
         ))}
       </colgroup>
     )
-  }, [columns])
+  }, [columns, bordered])
 
   return { ColGroup }
 }

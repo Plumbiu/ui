@@ -18,8 +18,10 @@ export interface TableColumnTypes<T extends DefaultData> {
     colIndex: number,
   ) => React.ReactNode
   hidden?: boolean
-  width?:  number
+  width?: number
   title: string
+  sorter?: ((a: T, b: T) => number)
+  filter?: boolean | ((a: T, b: T) => number)
   [key: string]: any
 }
 
@@ -36,4 +38,9 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
   dataSource: DefaultData[]
   rowKey?: string
   footer?: React.ReactNode
+}
+
+export interface ITableOperaParams {
+  sorter: (a?: any, b?: any) => number
+  filter?: (a: any) => boolean
 }

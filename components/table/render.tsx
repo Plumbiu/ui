@@ -1,6 +1,7 @@
 import React from 'react'
-import { DefaultData, TableProps } from './types'
 import clsx from 'clsx'
+import { fcb } from '../_styles/css'
+import { DefaultData, ITableOperaParams, TableProps } from './types'
 
 export const TableTd: React.FC<{
   column: TableProps['columns'][number]
@@ -8,9 +9,12 @@ export const TableTd: React.FC<{
   colIndex: number
   rowIndex: number
   data?: DefaultData
+  setOperaParams?: React.Dispatch<
+    React.SetStateAction<ITableOperaParams | undefined>
+  >
 }> = React.memo(
   (props) => {
-    const { column, isHead, colIndex, rowIndex, data } = props
+    const { column, isHead, colIndex, rowIndex, data, setOperaParams } = props
 
     const {
       align,
@@ -23,6 +27,8 @@ export const TableTd: React.FC<{
       zIndex = 10,
       colSpan,
       rowSpan,
+      sorter,
+      filter,
     } = column
 
     if (hidden) {
@@ -52,7 +58,36 @@ export const TableTd: React.FC<{
 
     function renderTd() {
       if (isHead) {
-        return title
+        if (!sorter && !filter) {
+          return title
+        }
+        if (sorter) {
+          return (
+            <div className={fcb}>
+              {title}
+              <div>
+                <div
+                  onClick={() =>
+                    setOperaParams?.({
+                      sorter,
+                    })
+                  }
+                >
+                  上
+                </div>
+                <div
+                  onClick={() => {
+                    setOperaParams?.({
+                      sorter: (a, b) => -sorter(a, b),
+                    })
+                  }}
+                >
+                  下
+                </div>
+              </div>
+            </div>
+          )
+        }
       }
       if (render) {
         return render(data, column, rowIndex, colIndex)
@@ -92,12 +127,16 @@ export const TableTr: React.FC<{
   rowKey: string
   isHead?: boolean
   rowIndex: number
-}> = ({ columns, rowKey, rowIndex, isHead = false, data }) => {
+  setOperaParams?: React.Dispatch<
+    React.SetStateAction<ITableOperaParams | undefined>
+  >
+}> = ({ columns, rowKey, rowIndex, isHead = false, data, setOperaParams }) => {
   return (
     <tr>
       {columns.map((column, colIndex) => {
         return (
           <TableTd
+            setOperaParams={setOperaParams}
             data={data}
             key={column[rowKey]}
             column={column}

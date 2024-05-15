@@ -1,5 +1,5 @@
 /**
- * @order 4
+ * @order 5
  * @description 固定列建议指定 width 宽度，默认为 200px
  * @title 固定列
  */
