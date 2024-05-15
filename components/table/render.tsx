@@ -51,7 +51,7 @@ export const TableTd: React.FC<{
         {
           className: !!className,
           _td_fixed: !!fixed,
-          _shadow: column._shadow && fixed !== 'right',
+          _shadow: column._shadow && fixed === 'left',
           _shadow_right: column._shadow && fixed === 'right',
         },
       ]) || undefined
