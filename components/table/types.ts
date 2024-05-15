@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react'
+import { CSSProperties, HTMLAttributes } from 'react'
 import { TBaseColor } from '..'
 
 export type DefaultData = Record<'key' | string, any>
@@ -28,7 +28,9 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
   color?: TBaseColor
   scroll?: { x?: number; y?: number }
   headZIndex?: number
-  fixed?: boolean
+  sticky?: boolean
+  showHeader?: boolean
+  tableLayout?: CSSProperties['tableLayout']
 
   columns: TableColumnTypes<any>[]
   dataSource: DefaultData[]

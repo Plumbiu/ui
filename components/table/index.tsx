@@ -1,16 +1,16 @@
 import { css } from '@pigment-css/react'
 import { colorsVar } from '../_styles/vars'
-import { TableContent } from './render'
+import { TableTr } from './render'
 import { StyledFooter, StyledTable } from './styles'
 import { TableProps } from './types'
 import { overflowAutoCss } from '../_styles/css'
-import { RefObject, useRef } from 'react'
 import React from 'react'
-import usePosition from './hooks/columns'
+import useColumns from './hooks/columns'
 
 const theadCls = css({
   position: 'sticky',
   top: 0,
+  zIndex: 99,
 })
 
 const Table: React.FC<TableProps> = (props) => {
@@ -20,9 +20,11 @@ const Table: React.FC<TableProps> = (props) => {
     dataSource = [],
     rowKey = 'key',
     color: custormColor = 'info',
-    headZIndex = 99,
+    headZIndex,
     footer,
-    fixed = true,
+    showHeader = true,
+    sticky = true,
+    tableLayout,
     ...restProps
   } = props
 
@@ -36,42 +38,33 @@ const Table: React.FC<TableProps> = (props) => {
     color,
     ...restProps,
   }
-  console.log('rerender');
 
-  const tabledRef = useRef<RefObject<HTMLDivElement>['current']>(null)
-  const { ColGroup } = usePosition({
-    ref: tabledRef,
+  const { ColGroup } = useColumns({
     columns,
   })
 
   return (
-    <div
-      ref={tabledRef}
-      className={overflowAutoCss}
-      style={{ maxHeight: props.scroll?.y }}
-    >
+    <div className={overflowAutoCss} style={{ maxHeight: props.scroll?.y }}>
       <StyledTable
         style={{
           minWidth: props.scroll?.x,
-          tableLayout: props.scroll ? 'fixed' : 'auto',
+          tableLayout,
         }}
         {...tableProps}
       >
         {ColGroup}
-        <thead
+        {showHeader && <thead
           className={theadCls}
-          style={{ zIndex: headZIndex, position: fixed ? undefined : 'static' }}
+          style={{
+            zIndex: headZIndex,
+            position: sticky ? undefined : 'static'
+          }}
         >
-          <TableContent
-            rowIndex={0}
-            columns={columns}
-            rowKey={rowKey}
-            isHead
-          />
-        </thead>
+          <TableTr rowIndex={0} columns={columns} rowKey={rowKey} isHead />
+        </thead>}
         <tbody>
           {dataSource.map((data, rowIndex) => (
-            <TableContent
+            <TableTr
               rowIndex={rowIndex + 1}
               data={data}
               key={data?.[rowKey] ?? rowIndex}

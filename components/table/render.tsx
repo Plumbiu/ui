@@ -2,7 +2,7 @@ import React from 'react'
 import { DefaultData, TableProps } from './types'
 import clsx from 'clsx'
 
-export const TdTag: React.FC<{
+export const TableTd: React.FC<{
   column: TableProps['columns'][number]
   isHead: boolean
   colIndex: number
@@ -34,19 +34,19 @@ export const TdTag: React.FC<{
     }
 
     const style: React.CSSProperties = { zIndex }
-    if (column.__left__ !== undefined) {
-      style.left = column.__left__
-    } else if (column.__right__ !== undefined) {
-      style.right = column.__right__
+    if (column._left !== undefined) {
+      style.left = column._left
+    } else if (column._right !== undefined) {
+      style.right = column._right
     }
 
     const cl =
       clsx([
         {
           className: !!className,
-          __td_fixed: !!fixed,
-          __shadow: column.__shadow__ && fixed !== 'right',
-          __shadow_right: column.__shadow__ && fixed === 'right',
+          _td_fixed: !!fixed,
+          _shadow: column._shadow && fixed !== 'right',
+          _shadow_right: column._shadow && fixed === 'right',
         },
       ]) || undefined
 
@@ -86,7 +86,7 @@ export const TdTag: React.FC<{
   },
 )
 
-export const TableContent: React.FC<{
+export const TableTr: React.FC<{
   data?: DefaultData
   columns: TableProps['columns']
   rowKey: string
@@ -97,7 +97,7 @@ export const TableContent: React.FC<{
     <tr>
       {columns.map((column, colIndex) => {
         return (
-          <TdTag
+          <TableTd
             data={data}
             key={column[rowKey]}
             column={column}

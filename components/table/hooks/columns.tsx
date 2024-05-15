@@ -1,12 +1,11 @@
-import { RefObject, useMemo } from 'react'
+import { useMemo } from 'react'
 import { TableProps } from '../types'
 
 interface IUsePosition {
-  ref: RefObject<HTMLDivElement>
   columns: TableProps['columns']
 }
 
-const usePosition = (props: IUsePosition) => {
+const useColumns = (props: IUsePosition) => {
   const { columns } = props
 
   const ColGroup = useMemo(() => {
@@ -20,10 +19,10 @@ const usePosition = (props: IUsePosition) => {
         continue
       }
       lastLeftFixed = column
-      column.__left__ = left
+      column._left = left
       left += width ?? 200
     }
-    lastLeftFixed && (lastLeftFixed.__shadow__ = true)
+    lastLeftFixed && (lastLeftFixed._shadow = true)
 
     // right
     let lastRightFixed
@@ -35,10 +34,10 @@ const usePosition = (props: IUsePosition) => {
         continue
       }
       lastRightFixed = column
-      column.__right__ = right
+      column._right = right
       right += width ?? 200
     }
-    lastRightFixed && (lastRightFixed.__shadow__ = true)
+    lastRightFixed && (lastRightFixed._shadow = true)
 
     return (
       <colgroup>
@@ -52,4 +51,4 @@ const usePosition = (props: IUsePosition) => {
   return { ColGroup }
 }
 
-export default usePosition
+export default useColumns
