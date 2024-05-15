@@ -25,9 +25,6 @@ export const StyledTable = styled('table')<
             {
               props: { bordered: true },
               style: {
-                '& .__shadow': {
-                  borderRight: commonBorder,
-                },
                 '& tr': {
                   '& > td': {
                     borderLeft: commonBorder,
@@ -59,6 +56,9 @@ export const StyledTable = styled('table')<
             {
               props: { bordered: false },
               style: {
+                '& .__td_fixed': {
+                  position: 'sticky',
+                },
                 '& .__shadow': {
                   zIndex: 10,
                   boxShadow: 'inset -10px 0 8px -8px rgba(5, 5, 5, 0.12)',
