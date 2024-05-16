@@ -97,6 +97,6 @@ for (let i = 0; i < 100; i++) {
 
 export default function Demo() {
   return (
-    <Table pagination columns={columns} pageSize={12} dataSource={dataSource} />
+    <Table pagination columns={columns} pageSize={5} dataSource={dataSource} />
   )
 }

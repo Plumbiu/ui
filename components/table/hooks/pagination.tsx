@@ -93,10 +93,10 @@ const usePagination = (props: IUsePagination) => {
     if (current < 5) {
       return { arr: paginationArr.slice(0, 6), show: 'right' }
     }
-    if (current >= pageNum - 5) {
-      return { arr: paginationArr.slice(pageNum - 6), show: 'left' }
+    if (current >= pageNum - 4) {
+      return { arr: paginationArr.slice(pageNum - 7), show: 'left' }
     }
-    return { arr: paginationArr.slice(current, current + 6), show: 'both' }
+    return { arr: paginationArr.slice(current - 4, current + 3), show: 'both' }
   }, [dataSource.length, paginationArr, current])
 
   const Pagintaion = useMemo(() => {
