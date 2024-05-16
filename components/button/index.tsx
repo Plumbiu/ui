@@ -22,7 +22,7 @@ export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   suffixIcon?: React.ReactNode
 }
 
-export function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
+function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

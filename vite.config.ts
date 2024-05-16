@@ -17,7 +17,8 @@ export default defineConfig({
       noForceEmit: true,
       declarationDir: resolve(__dirname, 'dist/types'),
       rootDir: resolve(__dirname, 'components'),
-      exclude: ["**/demos/**"]
+      exclude: ["**/demos/**"],
+      allowSyntheticDefaultImports: true,
     }),
   ],
   build: {
