@@ -9,51 +9,60 @@ import { Table, TableColumnTypes } from '@plumbiu/ui'
 interface DataType {
   key: React.Key
   name: string
-  age: number
-  address: string
+  chinese: number
+  math: number
+  english: number
 }
 
 const columns: TableColumnTypes<DataType>[] = [
   {
     title: 'Name',
     dataIndex: 'name',
-    showSorterTooltip: { target: 'full-header' },
-    sorter: (a, b) => a.name.length - b.name.length,
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    sorter: (a, b) => a.age - b.age,
+    title: 'Chinese Score',
+    dataIndex: 'chinese',
+    sorter:  (a, b) => a.chinese - b.chinese,
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
+    title: 'Math Score',
+    dataIndex: 'math',
+    sorter: (a, b) => a.math - b.math,
+  },
+  {
+    title: 'English Score',
+    dataIndex: 'english',
+    sorter: (a, b) => a.english - b.english,
   },
 ]
 const data: DataType[] = [
   {
     key: '1',
     name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
+    chinese: 98,
+    math: 60,
+    english: 70,
   },
   {
     key: '2',
     name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
+    chinese: 98,
+    math: 66,
+    english: 89,
   },
   {
     key: '3',
     name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
+    chinese: 98,
+    math: 90,
+    english: 70,
   },
   {
     key: '4',
     name: 'Jim Red',
-    age: 32,
-    address: 'London No. 2 Lake Park',
+    chinese: 88,
+    math: 99,
+    english: 89,
   },
 ]
 

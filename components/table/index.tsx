@@ -41,8 +41,10 @@ const Table: React.FC<TableProps> = (props) => {
     columns,
     bordered,
   })
-  const { operaParams, setOperaParams, mergedDataSource } = useOperate({ dataSource })
-  
+  const { operaParams, setOperaParams, mergedDataSource } = useOperate({
+    dataSource,
+  })
+
   return (
     <div className={overflowAutoCss} style={{ maxHeight: props.scroll?.y }}>
       <StyledTable
@@ -62,7 +64,7 @@ const Table: React.FC<TableProps> = (props) => {
             }}
           >
             <TableTr
-              hlColIndexSet={operaParams?.hlColIndexSet}
+              operaParams={operaParams}
               setOperaParams={setOperaParams}
               rowIndex={0}
               columns={columns}
@@ -74,7 +76,7 @@ const Table: React.FC<TableProps> = (props) => {
         <tbody>
           {mergedDataSource.map((data, rowIndex) => (
             <TableTr
-            hlColIndexSet={operaParams?.hlColIndexSet}
+              operaParams={operaParams}
               rowIndex={rowIndex + 1}
               data={data}
               key={data?.[rowKey] ?? rowIndex}

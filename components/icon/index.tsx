@@ -70,12 +70,8 @@ const sizeMap: Record<TSize, number> = {
   lg: 16,
 }
 
-const sizeVar: TSize[] = ['sm', 'md']
+const sizeVar: TSize[] = ['sm', 'lg']
 export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
-  '& svg': {
-    width: '1em',
-    height: '1em',
-  },
   fontSize: 14,
   variants: [
     ...colorsVar.map((color) => ({

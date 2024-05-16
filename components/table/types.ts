@@ -40,8 +40,14 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
   footer?: React.ReactNode
 }
 
+export enum SortStatusEnum {
+  'ascend',
+  'descend',
+  'origin',
+}
+
 export interface ITableOperaParams {
   sorter?: (a?: any, b?: any) => number
   filter?: (a: any) => boolean
-  hlColIndexSet?: Set<number>
+  sortStatusMap: Record<number, SortStatusEnum>
 }

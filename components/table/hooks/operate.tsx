@@ -8,9 +8,9 @@ interface IUseOperate {
 const useOperate = (props: IUseOperate) => {
   const { dataSource } = props
   const [operaParams, setOperaParams] = useState<ITableOperaParams>({
-    hlColIndexSet: new Set(),
     sorter: undefined,
-    filter: undefined
+    filter: undefined,
+    sortStatusMap: {}
   })
 
   const mergedDataSource = useMemo(() => {
@@ -25,7 +25,7 @@ const useOperate = (props: IUseOperate) => {
     if (filter) {
       return clonedDataSouce.filter(filter)
     }
-    return clonedDataSouce
+    return dataSource
   }, [operaParams, dataSource])
 
   return {
