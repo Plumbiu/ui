@@ -93,4 +93,4 @@ const Table: React.FC<TableProps> = (props) => {
 
 export default Table
 
-export type * from './types'
+export type { TableColumnTypes, TableProps } from './types'
