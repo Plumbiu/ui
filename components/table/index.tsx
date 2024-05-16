@@ -6,6 +6,7 @@ import { overflowAutoCss } from '../_styles/css'
 import React from 'react'
 import useColumns from './hooks/columns'
 import useOperate from './hooks/operate'
+import usePagination from './hooks/pagination'
 
 const theadCls = css({
   position: 'sticky',
@@ -25,6 +26,8 @@ const Table: React.FC<TableProps> = (props) => {
     showHeader = true,
     sticky = true,
     tableLayout,
+    pageSize = 15,
+    pagination = false,
     ...restProps
   } = props
 
@@ -41,52 +44,62 @@ const Table: React.FC<TableProps> = (props) => {
     columns,
     bordered,
   })
-  const { operaParams, setOperaParams, mergedDataSource } = useOperate({
+
+  const { splitData, Pagintaion } = usePagination({
+    pageSize,
     dataSource,
+    pagination,
+  })
+
+  const { operaParams, setOperaParams, mergedDataSource } = useOperate({
+    dataSource: splitData,
   })
 
   return (
-    <div className={overflowAutoCss} style={{ maxHeight: props.scroll?.y }}>
-      <StyledTable
-        style={{
-          minWidth: props.scroll?.x,
-          tableLayout,
-        }}
-        {...tableProps}
-      >
-        {ColGroup}
-        {showHeader && (
-          <thead
-            className={theadCls}
-            style={{
-              zIndex: headZIndex,
-              position: sticky ? undefined : 'static',
-            }}
-          >
-            <TableTr
-              operaParams={operaParams}
-              setOperaParams={setOperaParams}
-              rowIndex={0}
-              columns={columns}
-              rowKey={rowKey}
-              isHead
-            />
-          </thead>
-        )}
-        <tbody>
-          {mergedDataSource.map((data, rowIndex) => (
-            <TableTr
-              operaParams={operaParams}
-              rowIndex={rowIndex + 1}
-              data={data}
-              key={data?.[rowKey] ?? rowIndex}
-              columns={columns}
-              rowKey={rowKey}
-            />
-          ))}
-        </tbody>
-      </StyledTable>
-      {!!footer && <StyledFooter color={color}>{footer}</StyledFooter>}
+    <div>
+      <div className={overflowAutoCss} style={{ maxHeight: props.scroll?.y }}>
+        <StyledTable
+          style={{
+            minWidth: props.scroll?.x,
+            tableLayout,
+          }}
+          {...tableProps}
+        >
+          {ColGroup}
+          {showHeader && (
+            <thead
+              className={theadCls}
+              style={{
+                zIndex: headZIndex,
+                position: sticky ? undefined : 'static',
+              }}
+            >
+              <TableTr
+                operaParams={operaParams}
+                setOperaParams={setOperaParams}
+                rowIndex={0}
+                columns={columns}
+                rowKey={rowKey}
+                isHead
+              />
+            </thead>
+          )}
+          <tbody>
+            {mergedDataSource.map((data, rowIndex) => (
+              <TableTr
+                operaParams={operaParams}
+                rowIndex={rowIndex + 1}
+                data={data}
+                key={data?.[rowKey] ?? rowIndex}
+                columns={columns}
+                rowKey={rowKey}
+              />
+            ))}
+          </tbody>
+        </StyledTable>
+        {!!footer && <StyledFooter color={color}>{footer}</StyledFooter>}
+      </div>
+      {Pagintaion}
     </div>
   )
 }

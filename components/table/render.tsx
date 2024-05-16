@@ -44,7 +44,7 @@ export const TableTd: React.FC<{
     dataIndex,
     fixed,
     className,
-    zIndex = 10,
+    zIndex,
     colSpan,
     rowSpan,
     sorter,
