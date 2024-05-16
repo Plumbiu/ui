@@ -1,67 +1,53 @@
 import { styled } from '@pigment-css/react'
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, ReactNode, useEffect, useRef } from 'react'
 import { fcc_inline } from '../_styles/css'
-import { useThrottleFn } from 'ahooks'
+import React from 'react'
+import clsx from 'clsx'
 
 interface InputProps extends HTMLAttributes<HTMLInputElement> {
   placeholder?: string
   disabled?: boolean
-  wait?: number
-  prefixText?: string
-  suffixText?: string
+  prefixNode?: ReactNode
+  suffixNode?: ReactNode
 }
 
-const StyledInputWrapper = styled('span')<
-  Pick<InputProps, 'suffixText' | 'prefixText'>
->({
-  position: 'relative',
-  display: 'inline-flex',
-  alignItems: 'center',
-  minWidth: 160,
-  fontSize: 14,
-  variants: [
-    {
-      props: ({ prefixText }) => typeof prefixText === 'string',
-      style: {
-        '&>input': {
-          paddingLeft: 24,
-        },
-        '& >span:first-child': {
-          position: 'absolute',
-          left: 6,
-        },
-      },
+const StyledInputWrapper = styled('div')(({ theme }) => {
+  return {
+    position: 'relative',
+    display: 'inline-flex',
+    alignItems: 'center',
+    minWidth: 160,
+    fontSize: 14,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: theme.vars['info-4'],
+    transition: 'border-color 0.3s',
+    paddingRight: 12,
+    paddingLeft: 12,
+    borderRadius: 4,
+    '&:hover,&._focus': {
+      borderColor: theme['primary'],
     },
-    {
-      props: ({ suffixText }) => typeof suffixText === 'string',
-      style: {
-        '&>input': {
-          paddingRight: 24,
-        },
-        '& >span:last-child': {
-          position: 'absolute',
-          right: 6,
-        },
-      },
+    '& > span:first-child': {
+      paddingRight: 4,
     },
-  ],
+    '& > span:last-child': {
+      paddingLeft: 4,
+    }
+  }
 })
 
 const StyledInput = styled('input')<InputProps>(({ theme }) => {
   return {
     position: 'relative',
     outline: 'none',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: theme.vars['info-4'],
+    border: 'none',
     width: '100%',
     height: 30,
-    paddingLeft: 12,
-    paddingRight: 12,
     transition: 'border-color .15s',
     backgroundColor: 'transparent',
     color: theme.vars['text-1'],
-    borderRadius: 4,
     '&::placeholder': {
       color: theme.vars['text-4'],
     },
@@ -72,18 +58,6 @@ const StyledInput = styled('input')<InputProps>(({ theme }) => {
           '&::after': {
             boxShadow: `0 0 0 4px ${theme.vars[`primary-3`]}`,
           },
-          '&:focus,&:active,&:hover': {
-            borderColor: theme['primary'],
-          },
-          '&:focus': {
-            boxShadow: `0 0 0 2px ${theme.vars['primary-6']}`,
-          },
-        },
-      },
-      {
-        props: ({ prefixText }) => typeof prefixText === 'string',
-        style: {
-          paddingLeft: 12,
         },
       },
     ],
@@ -91,25 +65,41 @@ const StyledInput = styled('input')<InputProps>(({ theme }) => {
 })
 
 const Input: React.FC<InputProps> = (props) => {
-  const {
-    disabled = false,
-    wait = 0,
-    onChange: customOnChange,
-    prefixText,
-    suffixText,
-    ...restProps
-  } = props
-  const { run } = useThrottleFn((e) => customOnChange?.(e), { wait })
+  const { disabled = false, prefixNode, suffixNode, ...restProps } = props
+  const [isFocus, setIsFoucs] = React.useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  function handleFocus() {
+    setIsFoucs(true)
+  }
+
+  function handleBlur() {
+    setIsFoucs(false)
+  }
+
+  const cls = clsx({
+    _focus: isFocus,
+  })
+
+  useEffect(() => {
+    inputRef.current?.addEventListener('focus', handleFocus)
+    inputRef.current?.addEventListener('blur', handleBlur)
+
+    return () => {
+      inputRef.current?.removeEventListener('focus', handleFocus)
+      inputRef.current?.removeEventListener('blur', handleBlur)
+    }
+  }, [inputRef.current?.focus])
   return (
-    <StyledInputWrapper prefixText={prefixText} suffixText={suffixText}>
-      {!!prefixText && <span>{prefixText}</span>}
+    <StyledInputWrapper className={cls}>
+      {!!prefixNode && <span>{prefixNode}</span>}
       <StyledInput
+        ref={inputRef}
         className={fcc_inline}
         disabled={disabled}
-        onChange={run}
         {...restProps}
       ></StyledInput>
-      {!!suffixText && <span>{suffixText}</span>}
+      {!!suffixNode && <span>{suffixNode}</span>}
     </StyledInputWrapper>
   )
 }
