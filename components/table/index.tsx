@@ -1,10 +1,11 @@
 import { css } from '@pigment-css/react'
 import { TableTr } from './render'
 import { StyledFooter, StyledTable } from './styles'
-import { ITableOperaParams, TableProps } from './types'
+import { TableProps } from './types'
 import { overflowAutoCss } from '../_styles/css'
-import React, { useMemo, useState } from 'react'
+import React from 'react'
 import useColumns from './hooks/columns'
+import useOperate from './hooks/operate'
 
 const theadCls = css({
   position: 'sticky',
@@ -36,27 +37,12 @@ const Table: React.FC<TableProps> = (props) => {
     ...restProps,
   }
 
-  const [operaParams, setOperaParams] = useState<ITableOperaParams>()
   const { ColGroup } = useColumns({
     columns,
     bordered,
   })
-
-  const clonedDataSouce = dataSource.slice(0)
-  const mergedDataSource = useMemo(() => {
-    if (operaParams === undefined) {
-      return clonedDataSouce
-    }
-    const { sorter, filter } = operaParams
-    if (sorter) {
-      clonedDataSouce.sort(sorter)
-    }
-    if (filter) {
-      clonedDataSouce.filter(filter)
-    }
-    return clonedDataSouce
-  }, [operaParams])
-
+  const { operaParams, setOperaParams, mergedDataSource } = useOperate({ dataSource })
+  
   return (
     <div className={overflowAutoCss} style={{ maxHeight: props.scroll?.y }}>
       <StyledTable
@@ -76,6 +62,7 @@ const Table: React.FC<TableProps> = (props) => {
             }}
           >
             <TableTr
+              hlColIndexSet={operaParams?.hlColIndexSet}
               setOperaParams={setOperaParams}
               rowIndex={0}
               columns={columns}
@@ -87,6 +74,7 @@ const Table: React.FC<TableProps> = (props) => {
         <tbody>
           {mergedDataSource.map((data, rowIndex) => (
             <TableTr
+            hlColIndexSet={operaParams?.hlColIndexSet}
               rowIndex={rowIndex + 1}
               data={data}
               key={data?.[rowKey] ?? rowIndex}

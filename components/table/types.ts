@@ -41,6 +41,7 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
 }
 
 export interface ITableOperaParams {
-  sorter: (a?: any, b?: any) => number
+  sorter?: (a?: any, b?: any) => number
   filter?: (a: any) => boolean
+  hlColIndexSet?: Set<number>
 }

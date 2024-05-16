@@ -23,8 +23,10 @@ export const StyledTable = styled('table')<
       },
       variants: [
         ...colorsVar.flatMap((color) => {
-          const commonBorder = `1px solid ${theme.vars[`${color}-5`]}`
-          const commonBgColor = theme.vars[`${color}-6`]
+          const border = `1px solid ${theme.vars[`${color}-5`]}`
+          const hoverHeadBgColor = theme.vars[`${color}-5`]
+          const bgColor = theme.vars[`${color}-6`]
+          const hoverBgColor = theme.vars[`${color}-7`]
           const radius = 6
           return [
             {
@@ -32,10 +34,10 @@ export const StyledTable = styled('table')<
               style: {
                 '& tr': {
                   '& > td': {
-                    borderLeft: commonBorder,
-                    borderTop: commonBorder,
+                    borderLeft: border,
+                    borderTop: border,
                     '&:last-child': {
-                      borderRight: commonBorder,
+                      borderRight: border,
                     },
                   },
                   '&:not(:last-child)': {
@@ -85,10 +87,17 @@ export const StyledTable = styled('table')<
                 '& > thead': {
                   overflow: 'hidden',
                   fontWeight: 600,
+                  '& ._td_hl': {
+                    backgroundColor: hoverHeadBgColor,
+                  },
                   '& > tr': {
                     '& > td': {
                       padding: 14,
-                      backgroundColor: commonBgColor,
+                      backgroundColor: bgColor,
+                      cursor: 'pointer',
+                      '&:hover': {
+                        backgroundColor: hoverHeadBgColor,
+                      }
                     },
                     '&:first-child': {
                       '& >td:last-child': {
@@ -103,17 +112,20 @@ export const StyledTable = styled('table')<
                 '& > tbody': {
                   overflow: 'hidden',
                   backgroundColor: theme.vars['background-1'],
+                  '& ._td_hl': {
+                    backgroundColor: hoverBgColor,
+                  },
                   '& > tr': {
                     '&:hover > td': {
-                      backgroundColor: commonBgColor,
+                      backgroundColor: hoverBgColor,
                     },
                     '& > td': {
                       padding: '10px 14px',
-                      borderBottom: commonBorder,
+                      borderBottom: border,
                       backgroundColor: theme.vars['background-1'],
                     },
                     '&:first-child>td': {
-                      borderTop: commonBorder,
+                      borderTop: border,
                     },
                   },
                 },

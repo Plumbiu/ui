@@ -4,17 +4,18 @@ import { fcb } from '../_styles/css'
 import { DefaultData, ITableOperaParams, TableProps } from './types'
 
 export const TableTd: React.FC<{
+  isHighlight?: boolean
   column: TableProps['columns'][number]
   isHead: boolean
   colIndex: number
   rowIndex: number
   data?: DefaultData
   setOperaParams?: React.Dispatch<
-    React.SetStateAction<ITableOperaParams | undefined>
+    React.SetStateAction<ITableOperaParams>
   >
 }> = React.memo(
   (props) => {
-    const { column, isHead, colIndex, rowIndex, data, setOperaParams } = props
+    const { column, isHead, colIndex, rowIndex, data, setOperaParams, isHighlight } = props
 
     const {
       align,
@@ -51,10 +52,20 @@ export const TableTd: React.FC<{
         {
           className: !!className,
           _td_fixed: !!fixed,
+          _td_hl: !!isHighlight,
           _shadow: column._shadow && fixed === 'left',
           _shadow_right: column._shadow && fixed === 'right',
         },
       ]) || undefined
+
+    const sortFn = (isDesc = false) => {
+      if (sorter) {
+        setOperaParams?.(({ hlColIndexSet: hightlightColIndex }) => ({
+          sorter: isDesc ? (a, b) => -sorter(a, b) : sorter,
+          hlColIndexSet: hightlightColIndex?.add(colIndex),
+        }))
+      }
+    }
 
     function renderTd() {
       if (isHead) {
@@ -66,20 +77,10 @@ export const TableTd: React.FC<{
             <div className={fcb}>
               {title}
               <div>
-                <div
-                  onClick={() =>
-                    setOperaParams?.({
-                      sorter,
-                    })
-                  }
-                >
-                  上
-                </div>
+                <div onClick={() => sortFn()}>上</div>
                 <div
                   onClick={() => {
-                    setOperaParams?.({
-                      sorter: (a, b) => -sorter(a, b),
-                    })
+                    sortFn(true)
                   }}
                 >
                   下
@@ -109,8 +110,11 @@ export const TableTd: React.FC<{
       </td>
     )
   },
-  (prevProps) => {
+  (prevProps, nextProps) => {
     const { column } = prevProps
+    if (prevProps.isHighlight !== nextProps.isHighlight) {
+      return false
+    }
     if (typeof column.render === 'function') {
       return false
     }
@@ -122,20 +126,22 @@ export const TableTd: React.FC<{
 )
 
 export const TableTr: React.FC<{
+  hlColIndexSet?: Set<number>
   data?: DefaultData
   columns: TableProps['columns']
   rowKey: string
   isHead?: boolean
   rowIndex: number
   setOperaParams?: React.Dispatch<
-    React.SetStateAction<ITableOperaParams | undefined>
+    React.SetStateAction<ITableOperaParams>
   >
-}> = ({ columns, rowKey, rowIndex, isHead = false, data, setOperaParams }) => {
+}> = ({ columns, rowKey, rowIndex, isHead = false, data, setOperaParams, hlColIndexSet }) => {
   return (
     <tr>
       {columns.map((column, colIndex) => {
         return (
           <TableTd
+            isHighlight={hlColIndexSet?.has(colIndex)}
             setOperaParams={setOperaParams}
             data={data}
             key={column[rowKey]}
