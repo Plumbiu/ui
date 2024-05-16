@@ -1,14 +1,19 @@
 import { styled } from '@pigment-css/react'
-import { HTMLAttributes, ReactNode, useEffect, useRef } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 import { fcc_inline } from '../_styles/css'
 import React from 'react'
 import clsx from 'clsx'
 
-interface InputProps extends HTMLAttributes<HTMLInputElement> {
+interface InputProps extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    'size' | 'prefix' | 'type'
+  > {
   placeholder?: string
   disabled?: boolean
-  prefixNode?: ReactNode
-  suffixNode?: ReactNode
+  beforeNode?: ReactNode
+  afterNode?: ReactNode
+  prefix?: ReactNode
+  suffix?: ReactNode
 }
 
 const StyledInputWrapper = styled('div')(({ theme }) => {
@@ -18,23 +23,39 @@ const StyledInputWrapper = styled('div')(({ theme }) => {
     alignItems: 'center',
     minWidth: 160,
     fontSize: 14,
+    height: 30,
     overflow: 'hidden',
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: theme.vars['info-4'],
     transition: 'border-color 0.3s',
-    paddingRight: 12,
-    paddingLeft: 12,
     borderRadius: 4,
+    '& > *': {
+      margin: '0 auto',
+      '&:first-child': {
+        paddingLeft: 8,
+      },
+      '&:last-child': {
+        paddingRight: 8,
+      },
+    },
     '&:hover,&._focus': {
       borderColor: theme['primary'],
     },
-    '& > span:first-child': {
-      paddingRight: 4,
+    '& > ._addon': {
+      display: 'flex',
+      alignItems: 'center',
+      height: '100%',
+      paddingRight: 12,
+      paddingLeft: 12,
+      backgroundColor: '#f8f8f8',
+      '&:first-child': {
+        borderRight: `1px solid ${theme.vars['info-4']}`,
+      },
+      '&:last-child': {
+        borderLeft: `1px solid ${theme.vars['info-4']}`,
+      },
     },
-    '& > span:last-child': {
-      paddingLeft: 4,
-    }
   }
 })
 
@@ -44,7 +65,8 @@ const StyledInput = styled('input')<InputProps>(({ theme }) => {
     outline: 'none',
     border: 'none',
     width: '100%',
-    height: 30,
+    paddingRight: 8,
+    paddingLeft: 8,
     transition: 'border-color .15s',
     backgroundColor: 'transparent',
     color: theme.vars['text-1'],
@@ -65,7 +87,14 @@ const StyledInput = styled('input')<InputProps>(({ theme }) => {
 })
 
 const Input: React.FC<InputProps> = (props) => {
-  const { disabled = false, prefixNode, suffixNode, ...restProps } = props
+  const {
+    disabled = false,
+    prefix,
+    suffix,
+    afterNode,
+    beforeNode,
+    ...restProps
+  } = props
   const [isFocus, setIsFoucs] = React.useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -89,17 +118,19 @@ const Input: React.FC<InputProps> = (props) => {
       inputRef.current?.removeEventListener('focus', handleFocus)
       inputRef.current?.removeEventListener('blur', handleBlur)
     }
-  }, [inputRef.current?.focus])
+  }, [])
   return (
     <StyledInputWrapper className={cls}>
-      {!!prefixNode && <span>{prefixNode}</span>}
+      {!!beforeNode && <div className="_addon">{beforeNode}</div>}
+      {!!prefix && <span>{prefix}</span>}
       <StyledInput
         ref={inputRef}
         className={fcc_inline}
         disabled={disabled}
         {...restProps}
       ></StyledInput>
-      {!!suffixNode && <span>{suffixNode}</span>}
+      {!!afterNode && <div className="_addon">{afterNode}</div>}
+      {!!suffix && <span>{suffix}</span>}
     </StyledInputWrapper>
   )
 }
