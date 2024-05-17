@@ -35,6 +35,7 @@ export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> 
   tableLayout?: CSSProperties['tableLayout']
   pageSize?: number
   pagination?: boolean
+  pageCount?: number
 
   columns: TableColumnTypes<any>[]
   dataSource: DefaultData[]

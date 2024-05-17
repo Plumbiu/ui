@@ -27,6 +27,7 @@ const Table: React.FC<TableProps> = (props) => {
     sticky = true,
     tableLayout,
     pageSize = 15,
+    pageCount = 8,
     pagination = false,
     ...restProps
   } = props
@@ -49,6 +50,8 @@ const Table: React.FC<TableProps> = (props) => {
     pageSize,
     dataSource,
     pagination,
+    total: dataSource.length,
+    pageCount,
   })
 
   const { operaParams, setOperaParams, mergedDataSource } = useOperate({

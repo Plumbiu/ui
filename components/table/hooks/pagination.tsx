@@ -2,13 +2,38 @@ import { useMemo, useState } from 'react'
 import { DefaultData } from '../types'
 import { css, styled } from '@pigment-css/react'
 import clsx from 'clsx'
+import {
+  MaterialSymbolsLightChevronLeftRounded,
+  MaterialSymbolsLightChevronRightRounded,
+} from '../icons'
 
-const StyledPagintaion = styled('div')({
+const StyledPagintaion = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'flex-end',
+  alignItems: 'center',
   marginTop: 12,
-  gap: 12,
-})
+  gap: 8,
+  '& > .__pagination_disabled': {
+    color: 'rgba(0, 0, 0, 0.25)',
+    cursor: 'not-allowed',
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+  },
+  '& > ._pagination_hl': {
+    borderColor: theme['primary'],
+    color: theme['primary'],
+  },
+}))
+
+const ellipsisCls = css(({ theme }) => ({
+  cursor: 'pointer',
+  color: 'rgba(0, 0, 0, 0.25)',
+  fontWeight: 700,
+  '&:hover': {
+    color: theme['primary'],
+  },
+}))
 
 const paginationCls = css(({ theme }) => ({
   width: 30,
@@ -24,11 +49,7 @@ const paginationCls = css(({ theme }) => ({
   color: theme.vars['text-1'],
   transition: '0.3s',
   '&:hover': {
-    backgroundColor: theme.vars['info-5'],
-  },
-  '&._pagination_hl': {
-    borderColor: theme['primary'],
-    color: theme['primary'],
+    backgroundColor: theme.vars['info-6'],
   },
 }))
 
@@ -52,15 +73,16 @@ const PaginationItem: React.FC<{
 
 interface IUsePagination {
   pageSize: number
+  total: number
   dataSource: DefaultData[]
   pagination: boolean
+  pageCount: number
 }
 
 const usePagination = (props: IUsePagination) => {
-  const { pageSize, dataSource, pagination } = props
+  const { pageSize, dataSource, pagination, total, pageCount } = props
   const [current, setCurrent] = useState(1)
-
-  const total = dataSource.length
+  const leftOffset = Math.floor(pageCount / 2)
 
   const splitData = useMemo(() => {
     if (!pagination) {
@@ -72,11 +94,11 @@ const usePagination = (props: IUsePagination) => {
       return dataSource.slice(start)
     }
     return dataSource.slice(start, end)
-  }, [current, pageSize, dataSource.length, pagination])
+  }, [current, pageSize, total, pagination, dataSource])
 
   const pageNum = useMemo(() => {
     return Math.ceil(total / pageSize)
-  }, [dataSource.length, pageSize, pagination])
+  }, [total, pageSize, pagination])
 
   const paginationArr = useMemo(() => {
     const tmp: number[] = []
@@ -87,17 +109,23 @@ const usePagination = (props: IUsePagination) => {
   }, [pageNum])
 
   const pageConfig = useMemo(() => {
-    if (pageNum <= 6) {
+    if (pageNum < pageCount) {
       return { arr: paginationArr, show: false }
     }
-    if (current < 5) {
-      return { arr: paginationArr.slice(0, 6), show: 'right' }
+    if (current < pageCount - 2) {
+      return { arr: paginationArr.slice(0, pageCount - 1), show: 'right' }
     }
-    if (current >= pageNum - 4) {
-      return { arr: paginationArr.slice(pageNum - 7), show: 'left' }
+    if (current >= pageNum - pageCount + 3) {
+      return { arr: paginationArr.slice(pageNum - pageCount + 1), show: 'left' }
     }
-    return { arr: paginationArr.slice(current - 4, current + 3), show: 'both' }
-  }, [dataSource.length, paginationArr, current])
+    return {
+      arr: paginationArr.slice(
+        current - leftOffset,
+        current + pageCount - leftOffset - 2,
+      ),
+      show: 'both',
+    }
+  }, [total, paginationArr, current, pageCount])
 
   const Pagintaion = useMemo(() => {
     if (!pagination) {
@@ -105,6 +133,12 @@ const usePagination = (props: IUsePagination) => {
     }
     return (
       <StyledPagintaion>
+        <MaterialSymbolsLightChevronLeftRounded
+          onClick={() => setCurrent(1)}
+          className={clsx(paginationCls, PaginationItem, {
+            __pagination_disabled: current === 1,
+          })}
+        />
         {(pageConfig.show === 'left' || pageConfig.show === 'both') && (
           <>
             <PaginationItem
@@ -112,7 +146,12 @@ const usePagination = (props: IUsePagination) => {
               setCurrent={setCurrent}
               isHighlihgt={false}
             />
-            <div>....</div>
+            <div
+              className={clsx(ellipsisCls, PaginationItem)}
+              onClick={() => setCurrent(current - leftOffset)}
+            >
+              •••
+            </div>
           </>
         )}
         {pageConfig.arr.map((idx) => {
@@ -127,7 +166,12 @@ const usePagination = (props: IUsePagination) => {
         })}
         {(pageConfig.show === 'right' || pageConfig.show === 'both') && (
           <>
-            <div>....</div>
+            <div
+              className={clsx(ellipsisCls, PaginationItem)}
+              onClick={() => setCurrent(current + leftOffset)}
+            >
+              •••
+            </div>
             <PaginationItem
               current={pageNum}
               setCurrent={setCurrent}
@@ -135,6 +179,12 @@ const usePagination = (props: IUsePagination) => {
             />
           </>
         )}
+        <MaterialSymbolsLightChevronRightRounded
+          onClick={() => setCurrent(pageNum)}
+          className={clsx(paginationCls, {
+            __pagination_disabled: current === pageNum,
+          })}
+        />
       </StyledPagintaion>
     )
   }, [pageNum, current])
