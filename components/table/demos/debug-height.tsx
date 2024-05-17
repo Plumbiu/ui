@@ -4,7 +4,7 @@
  * @description 高度 debug
  * @title 高度 debug
  */
-import { Table, TableColumnTypes, Tag } from '@plumbiu/ui'
+import { TableColumnTypes, Tag, VirtualTable } from '@plumbiu/ui'
 
 interface DataSource {
   key: string
@@ -31,14 +31,14 @@ const columns: TableColumnTypes<DataSource>[] = [
 
 const dataSource: DataSource[] = []
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 1000; i++) {
   dataSource.push({
     key: String(i),
     name: 'xiaoming',
-    age: 18,
+    age: i,
     address: 'beijing',
   })
 }
 export default function Demo() {
-  return <Table scroll={{ y: 400 }} columns={columns} dataSource={dataSource} />
+  return <VirtualTable scroll={{ y: 400 }} columns={columns} dataSource={dataSource} />
 }

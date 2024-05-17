@@ -46,8 +46,8 @@ const useColumns = (props: IUsePosition) => {
 
     return (
       <colgroup>
-        {columns.map(({ width }) => (
-          <col style={{ width: width ?? 'auto' }} />
+        {columns.map(({ width, dataIndex }) => (
+          <col key={dataIndex} style={{ width: width ?? 'auto' }} />
         ))}
       </colgroup>
     )

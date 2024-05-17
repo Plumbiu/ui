@@ -40,6 +40,7 @@ export interface TableProps
     onChange: (selectedRowKeys: React.Key[]) => void
     selectedRowKeys: React.Key[]
   }
+  virtual?: boolean
 
   columns: TableColumnTypes<any>[]
   dataSource: DefaultData[]

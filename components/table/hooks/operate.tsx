@@ -7,7 +7,6 @@ import {
 interface IUseOperate {
   dataSource: DefaultData[]
   setCurrent: React.Dispatch<React.SetStateAction<number>>
-  pagination: boolean
 }
 
 const useOperate = (props: IUseOperate) => {

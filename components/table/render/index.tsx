@@ -68,7 +68,6 @@ export const TableTd: React.FC<{
     colSpan,
     rowSpan,
     sorter,
-    filter,
   } = column
 
   if (hidden) {
@@ -99,10 +98,10 @@ export const TableTd: React.FC<{
 
   const renderNode = () => {
     if (isHead) {
-      if (!sorter && !filter) {
+      if (!sorter) {
         return title
       }
-      const sortNode = sorter ? <SortAction sortStatus={sortStatus} /> : null
+      const sortNode = <SortAction sortStatus={sortStatus} />
       return <TableAction sortNode={sortNode} title={title} />
     }
     if (render) {
@@ -133,7 +132,8 @@ export const TableTd: React.FC<{
 }
 
 export const TableTr: React.FC<{
-  operaParams: ITableOperateParams
+  height?: number
+  operaParams?: ITableOperateParams
   data?: DefaultData
   columns: TableProps['columns']
   rowKey: string
@@ -148,9 +148,10 @@ export const TableTr: React.FC<{
   data,
   setOperaParams,
   operaParams,
+  height,
 }) => {
   return (
-    <tr>
+    <tr style={{ height }}>
       {columns.map((column, colIndex) => {
         return (
           <TableTd
