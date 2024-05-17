@@ -6,8 +6,39 @@ import {
   ITableOperateParams,
   SortStatusEnum,
   TableProps,
+  TableSort,
 } from '../types'
 import TableAction, { FilterAction, SortAction } from './Action'
+
+function handleSort(
+  params: ITableOperateParams,
+  sorter: TableSort,
+  colIndex: number,
+) {
+  const { sortStatusMap } = params
+  let sortStatus = sortStatusMap?.[colIndex]
+  if (sortStatus === undefined || sortStatus === SortStatusEnum.origin) {
+    sortStatus = SortStatusEnum.ascend
+  } else if (sortStatus === SortStatusEnum.ascend) {
+    sortStatus = SortStatusEnum.descend
+  } else {
+    sortStatus = SortStatusEnum.origin
+  }
+  if (sortStatusMap) {
+    sortStatusMap[colIndex] = sortStatus
+  }
+
+  return {
+    ...params,
+    sorter:
+      sortStatus === SortStatusEnum.origin
+        ? undefined
+        : sortStatus === SortStatusEnum.descend
+        ? sorter
+        : (a: any, b: any) => -sorter!(a, b),
+    sortStatusMap,
+  }
+}
 
 export const TableTd: React.FC<{
   sortStatus?: SortStatusEnum
@@ -69,37 +100,7 @@ export const TableTd: React.FC<{
       },
     ]) || undefined
 
-  const sortFn = () => {
-    if (sorter) {
-      setOperaParams?.((prevProps) => {
-        const { sortStatusMap } = prevProps
-        let sortStatus = sortStatusMap?.[colIndex]
-        if (sortStatus === undefined || sortStatus === SortStatusEnum.origin) {
-          sortStatus = SortStatusEnum.ascend
-        } else if (sortStatus === SortStatusEnum.ascend) {
-          sortStatus = SortStatusEnum.descend
-        } else {
-          sortStatus = SortStatusEnum.origin
-        }
-        if (sortStatusMap) {
-          sortStatusMap[colIndex] = sortStatus
-        }
-
-        return {
-          ...prevProps,
-          sorter:
-            sortStatus === SortStatusEnum.origin
-              ? undefined
-              : sortStatus === SortStatusEnum.descend
-              ? sorter
-              : (a: any, b: any) => -sorter(a, b),
-          sortStatusMap,
-        }
-      })
-    }
-  }
-
-  function renderTd() {
+  const renderNode = () => {
     if (isHead) {
       if (!sorter && !filter) {
         return title
@@ -130,14 +131,19 @@ export const TableTd: React.FC<{
   }
   return (
     <td
-      onClick={() => sortFn()}
+      onClick={() => {
+        if (!sorter) {
+          return
+        }
+        setOperaParams?.((prevProps) => handleSort(prevProps, sorter, colIndex))
+      }}
       align={align}
       style={style}
       className={cl}
       colSpan={colSpan}
       rowSpan={rowSpan}
     >
-      {renderTd()}
+      {renderNode()}
     </td>
   )
 }
