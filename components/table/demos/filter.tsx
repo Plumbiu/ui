@@ -1,7 +1,7 @@
 /**
- * @order 8
- * @description 当数据量很大时，使用分页可以提高渲染性能
- * @title 分页
+ * @order 9
+ * @description 过滤数组
+ * @title 过滤
  */
 import { Link, Table, TableColumnTypes } from '@plumbiu/ui'
 
@@ -26,8 +26,8 @@ const columns: TableColumnTypes<DataType>[] = [
     dataIndex: 'age',
     key: 'age',
     fixed: 'left',
-    sorter(a, b) {
-      return a.age - b.age
+    filter(a) {
+      return a.age > 18
     },
   },
   {

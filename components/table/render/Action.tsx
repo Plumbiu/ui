@@ -22,7 +22,7 @@ export const SortAction: React.FC<{
   return (
     <div className={tableActionSvgCls}>
       <IconWrap
-        color={sortStatus === SortStatusEnum.ascend ? 'primary' : undefined}
+        color={sortStatus === SortStatusEnum.descend ? 'primary' : undefined}
         size="sm"
       >
         <UpIcon />
