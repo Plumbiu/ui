@@ -57,14 +57,18 @@ export enum FilterStatusEnum {
 
 export type TableSort = ((a?: any, b?: any) => number) | undefined
 export type TableFilter = ((a: any) => boolean) | undefined
+export type FilterOperate = {
+  fn: TableFilter
+  status: FilterStatusEnum
+}
 
-export interface ITableOperaParams {
+
+export interface ITableOperateParams {
   sorter?: TableSort
-  filters: Record<number, TableFilter>
+  filterFns: FilterOperate[]
   sortStatusMap?: Record<number, SortStatusEnum>
-  filterStatusMap: Record<number, FilterStatusEnum>
 }
 
 export type SetOperaParams = React.Dispatch<
-  React.SetStateAction<ITableOperaParams>
+  React.SetStateAction<ITableOperateParams>
 >

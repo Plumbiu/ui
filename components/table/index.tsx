@@ -41,7 +41,7 @@ const Table: React.FC<TableProps> = (props) => {
     ...restProps,
   }
 
-  const { ColGroup } = useColumns({
+  const { ColGroup, filterFns } = useColumns({
     columns,
     bordered,
   })
@@ -50,7 +50,8 @@ const Table: React.FC<TableProps> = (props) => {
   const { operaParams, setOperaParams, mergedDataSource } = useOperate({
     dataSource,
     setCurrent,
-    pagination
+    pagination,
+    filterFns,
   })
 
   const { splitData, Pagintaion } = usePagination({
@@ -60,9 +61,8 @@ const Table: React.FC<TableProps> = (props) => {
     total: mergedDataSource.length,
     pageCount,
     current,
-    setCurrent
+    setCurrent,
   })
-
 
   return (
     <div>

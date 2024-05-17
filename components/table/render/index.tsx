@@ -3,11 +3,11 @@ import clsx from 'clsx'
 import {
   DefaultData,
   FilterStatusEnum,
-  ITableOperaParams,
+  ITableOperateParams,
   SortStatusEnum,
   TableProps,
 } from '../types'
-import TableAction from './Action'
+import TableAction, { FilterAction, SortAction } from './Action'
 
 export const TableTd: React.FC<{
   sortStatus?: SortStatusEnum
@@ -17,19 +17,17 @@ export const TableTd: React.FC<{
   colIndex: number
   rowIndex: number
   data?: DefaultData
-  setOperaParams?: React.Dispatch<React.SetStateAction<ITableOperaParams>>
-}> = (props) => {
-  const {
-    column,
-    isHead,
-    colIndex,
-    rowIndex,
-    data,
-    setOperaParams,
-    sortStatus,
-    filterStatus
-  } = props
-
+  setOperaParams?: React.Dispatch<React.SetStateAction<ITableOperateParams>>
+}> = ({
+  column,
+  isHead,
+  colIndex,
+  rowIndex,
+  data,
+  setOperaParams,
+  sortStatus,
+  filterStatus,
+}) => {
   const {
     align,
     title,
@@ -106,15 +104,19 @@ export const TableTd: React.FC<{
       if (!sorter && !filter) {
         return title
       }
+      const sortNode = sorter ? <SortAction sortStatus={sortStatus} /> : null
+      const filterNode = filter ? (
+        <FilterAction
+          filterStatus={filterStatus}
+          colIndex={colIndex}
+          setOperaParams={setOperaParams}
+        />
+      ) : null
       return (
         <TableAction
-          sortStatus={sortStatus}
-          filterStatus={filterStatus}
-          setOperaParams={setOperaParams}
+          sortNode={sortNode}
+          filterNode={filterNode}
           title={title}
-          sorter={sorter}
-          filter={filter}
-          colIndex={colIndex}
         />
       )
     }
@@ -141,13 +143,13 @@ export const TableTd: React.FC<{
 }
 
 export const TableTr: React.FC<{
-  operaParams: ITableOperaParams
+  operaParams: ITableOperateParams
   data?: DefaultData
   columns: TableProps['columns']
   rowKey: string
   isHead?: boolean
   rowIndex: number
-  setOperaParams?: React.Dispatch<React.SetStateAction<ITableOperaParams>>
+  setOperaParams?: React.Dispatch<React.SetStateAction<ITableOperateParams>>
 }> = ({
   columns,
   rowKey,
@@ -163,7 +165,7 @@ export const TableTr: React.FC<{
         return (
           <TableTd
             sortStatus={operaParams?.sortStatusMap?.[colIndex]}
-            filterStatus={operaParams.filterStatusMap?.[colIndex]}
+            filterStatus={operaParams.filterFns?.[colIndex]?.status}
             setOperaParams={setOperaParams}
             data={data}
             key={column[rowKey]}

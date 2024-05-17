@@ -1,18 +1,23 @@
 import { useMemo, useState } from 'react'
-import { DefaultData, ITableOperaParams } from '../types'
+import {
+  DefaultData,
+  FilterOperate,
+  FilterStatusEnum,
+  ITableOperateParams,
+} from '../types'
 
 interface IUseOperate {
   dataSource: DefaultData[]
   setCurrent: React.Dispatch<React.SetStateAction<number>>
   pagination: boolean
+  filterFns: FilterOperate[]
 }
 
 const useOperate = (props: IUseOperate) => {
-  const { dataSource, setCurrent, pagination } = props
-  const [operaParams, setOperaParams] = useState<ITableOperaParams>({
+  const { dataSource, setCurrent, pagination, filterFns } = props
+  const [operaParams, setOperaParams] = useState<ITableOperateParams>({
     sorter: undefined,
-    filters: [],
-    filterStatusMap: {},
+    filterFns,
     sortStatusMap: {},
   })
 
@@ -21,11 +26,15 @@ const useOperate = (props: IUseOperate) => {
     if (operaParams === undefined) {
       return clonedDataSouce.slice(0)
     }
-    const { sorter, filters } = operaParams
-    if (filters) {
-      for (const filter of Object.values(filters)) {
-        if (filter) {
-          clonedDataSouce = clonedDataSouce.filter(filter)
+    const { sorter, filterFns } = operaParams
+    if (filterFns) {
+      for (const filterFn of filterFns) {
+        if (!filterFn) {
+          continue
+        }
+        const { status, fn } = filterFn
+        if (status === FilterStatusEnum.sorted && fn) {
+          clonedDataSouce = clonedDataSouce.filter(fn)
         }
       }
       if (pagination) {

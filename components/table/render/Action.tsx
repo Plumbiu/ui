@@ -4,21 +4,11 @@ import { IconWrap } from '../../icon'
 import { UpIcon, DownIcon, MaterialSymbolsFilterListRounded } from '../icons'
 import {
   FilterStatusEnum,
+  ITableOperateParams,
   SetOperaParams,
   SortStatusEnum,
-  TableFilter,
-  TableSort,
 } from '../types'
-
-interface ITableActionsProps {
-  sortStatus?: SortStatusEnum
-  filterStatus?: FilterStatusEnum
-  setOperaParams?: SetOperaParams
-  title: string
-  sorter: TableSort
-  filter: TableFilter
-  colIndex: number
-}
+import { ReactNode } from 'react'
 
 const tableActionSvgCls = css({
   '& > span': {
@@ -26,16 +16,10 @@ const tableActionSvgCls = css({
   },
 })
 
-const TableAction: React.FC<ITableActionsProps> = ({
-  sortStatus,
-  setOperaParams,
-  title,
-  sorter,
-  filter,
-  colIndex,
-  filterStatus,
-}) => {
-  const sortNode = sorter ? (
+export const SortAction: React.FC<{
+  sortStatus?: SortStatusEnum
+}> = ({ sortStatus }) => {
+  return (
     <div className={tableActionSvgCls}>
       <IconWrap
         color={sortStatus === SortStatusEnum.ascend ? 'primary' : undefined}
@@ -50,38 +34,56 @@ const TableAction: React.FC<ITableActionsProps> = ({
         <DownIcon />
       </IconWrap>
     </div>
-  ) : null
-  const filterNoe = filter ? (
+  )
+}
+
+function handleFilter(params: ITableOperateParams, colIndex: number) {
+  const { filterFns } = params
+
+  const item = filterFns[colIndex]
+  if (item.status === FilterStatusEnum.unsorted) {
+    item.status = FilterStatusEnum.sorted
+  } else {
+    filterFns[colIndex].status = FilterStatusEnum.unsorted
+  }
+
+  return {
+    ...params,
+    filterFns,
+  }
+}
+
+export const FilterAction: React.FC<{
+  filterStatus?: FilterStatusEnum
+  setOperaParams?: SetOperaParams
+  colIndex: number
+}> = ({ filterStatus, setOperaParams, colIndex }) => {
+  return (
     <IconWrap
       size="lg"
       hoverBg
       color={filterStatus === FilterStatusEnum.sorted ? 'primary' : undefined}
       onClick={(e) => {
         e.stopPropagation()
-        setOperaParams?.((preProps) => {
-          const { filterStatusMap } = preProps
-          filterStatusMap[colIndex] = filterStatusMap[colIndex]
-            ? FilterStatusEnum.unsorted
-            : FilterStatusEnum.sorted
-          return {
-            ...preProps,
-            filters: {
-              ...preProps.filters,
-              filterStatusMap: { ...filterStatusMap },
-            },
-          }
-        })
+        setOperaParams?.((preProps) => handleFilter(preProps, colIndex))
       }}
     >
       <MaterialSymbolsFilterListRounded fontSize={20} />
     </IconWrap>
-  ) : null
+  )
+}
+
+const TableAction: React.FC<{
+  sortNode: ReactNode
+  filterNode: ReactNode
+  title: string
+}> = ({ sortNode, filterNode, title }) => {
   return (
     <div className={fcb}>
       {title}
       <div className={`${fcb} ${gap4}`}>
         {sortNode}
-        {filterNoe}
+        {filterNode}
       </div>
     </div>
   )
