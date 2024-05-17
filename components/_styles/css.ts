@@ -19,6 +19,10 @@ export const fcb = css({
   justifyContent: 'space-between',
 })
 
+export const gap4 = css({
+  gap: 4,
+})
+
 export const transparent_border = css({
   borderWidth: 1,
   borderStyle: 'solid',

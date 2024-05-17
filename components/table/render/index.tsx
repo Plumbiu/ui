@@ -1,24 +1,17 @@
 import React from 'react'
 import clsx from 'clsx'
-import { fcb } from '../_styles/css'
 import {
   DefaultData,
+  FilterStatusEnum,
   ITableOperaParams,
   SortStatusEnum,
   TableProps,
-} from './types'
-import { IconWrap } from '../icon'
-import { UpIcon, DownIcon } from './icons'
-import { css } from '@pigment-css/react'
-
-const tableActionCls = css({
-  '& > span': {
-    display: 'flex',
-  },
-})
+} from '../types'
+import TableAction from './Action'
 
 export const TableTd: React.FC<{
   sortStatus?: SortStatusEnum
+  filterStatus?: FilterStatusEnum
   column: TableProps['columns'][number]
   isHead: boolean
   colIndex: number
@@ -34,6 +27,7 @@ export const TableTd: React.FC<{
     data,
     setOperaParams,
     sortStatus,
+    filterStatus
   } = props
 
   const {
@@ -79,7 +73,8 @@ export const TableTd: React.FC<{
 
   const sortFn = () => {
     if (sorter) {
-      setOperaParams?.(({ sortStatusMap }) => {
+      setOperaParams?.((prevProps) => {
+        const { sortStatusMap } = prevProps
         let sortStatus = sortStatusMap?.[colIndex]
         if (sortStatus === undefined || sortStatus === SortStatusEnum.origin) {
           sortStatus = SortStatusEnum.ascend
@@ -88,9 +83,12 @@ export const TableTd: React.FC<{
         } else {
           sortStatus = SortStatusEnum.origin
         }
-        sortStatusMap[colIndex] = sortStatus
+        if (sortStatusMap) {
+          sortStatusMap[colIndex] = sortStatus
+        }
 
         return {
+          ...prevProps,
           sorter:
             sortStatus === SortStatusEnum.origin
               ? undefined
@@ -108,31 +106,17 @@ export const TableTd: React.FC<{
       if (!sorter && !filter) {
         return title
       }
-      if (sorter) {
-        return (
-          <div className={fcb}>
-            {title}
-            <div className={tableActionCls}>
-              <IconWrap
-                color={
-                  sortStatus === SortStatusEnum.ascend ? 'primary' : undefined
-                }
-                size="sm"
-              >
-                <UpIcon />
-              </IconWrap>
-              <IconWrap
-                color={
-                  sortStatus === SortStatusEnum.descend ? 'primary' : undefined
-                }
-                size="sm"
-              >
-                <DownIcon />
-              </IconWrap>
-            </div>
-          </div>
-        )
-      }
+      return (
+        <TableAction
+          sortStatus={sortStatus}
+          filterStatus={filterStatus}
+          setOperaParams={setOperaParams}
+          title={title}
+          sorter={sorter}
+          filter={filter}
+          colIndex={colIndex}
+        />
+      )
     }
     if (render) {
       return render(data, column, rowIndex, colIndex)
@@ -179,6 +163,7 @@ export const TableTr: React.FC<{
         return (
           <TableTd
             sortStatus={operaParams?.sortStatusMap?.[colIndex]}
+            filterStatus={operaParams.filterStatusMap?.[colIndex]}
             setOperaParams={setOperaParams}
             data={data}
             key={column[rowKey]}

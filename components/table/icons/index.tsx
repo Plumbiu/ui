@@ -91,7 +91,7 @@ export function MaterialSymbolsLightChevronRightRounded(
   )
 }
 
-export function MaterialSymbolsLightKeyboardDoubleArrowLeftRounded(
+export function MaterialSymbolsFilterListRounded(
   props: SVGProps<SVGSVGElement>,
 ) {
   return (
@@ -104,26 +104,7 @@ export function MaterialSymbolsLightKeyboardDoubleArrowLeftRounded(
     >
       <path
         fill="currentColor"
-        d="m7.363 12l4.24 4.246q.141.14.154.342t-.153.366q-.16.16-.354.16t-.354-.16l-4.388-4.389q-.131-.13-.184-.267T6.271 12t.053-.298t.184-.267l4.388-4.389q.14-.14.341-.153t.367.153q.16.16.16.354t-.16.354zm6.1 0l4.24 4.246q.141.14.154.342t-.153.366q-.16.16-.354.16t-.354-.16l-4.388-4.389q-.131-.13-.184-.267q-.053-.136-.053-.298t.053-.298t.184-.267l4.388-4.389q.14-.14.342-.153t.366.153q.16.16.16.354t-.16.354z"
-      ></path>
-    </svg>
-  )
-}
-
-export function MaterialSymbolsLightKeyboardDoubleArrowRightRounded(
-  props: SVGProps<SVGSVGElement>,
-) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="1em"
-      height="1em"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        d="m10.537 12l-4.24-4.246q-.141-.14-.154-.341t.153-.367q.16-.16.354-.16t.354.16l4.388 4.389q.131.13.184.267q.053.136.053.298t-.053.298t-.184.267l-4.388 4.389q-.14.14-.341.153t-.367-.153q-.16-.16-.16-.354t.16-.354zm6.1 0l-4.24-4.246q-.141-.14-.154-.341t.153-.367q.16-.16.354-.16t.354.16l4.388 4.389q.131.13.184.267t.053.298t-.053.298t-.184.267l-4.388 4.389q-.14.14-.341.153t-.367-.153q-.16-.16-.16-.354t.16-.354z"
+        d="M11 18q-.425 0-.712-.288T10 17t.288-.712T11 16h2q.425 0 .713.288T14 17t-.288.713T13 18zm-4-5q-.425 0-.712-.288T6 12t.288-.712T7 11h10q.425 0 .713.288T18 12t-.288.713T17 13zM4 8q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"
       ></path>
     </svg>
   )

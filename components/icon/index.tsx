@@ -62,6 +62,7 @@ interface IconProps extends HTMLAttributes<HTMLSpanElement> {
   size?: TSize
   color?: TColor
   hover?: boolean
+  hoverBg?: boolean
 }
 
 const sizeMap: Record<TSize, number> = {
@@ -96,16 +97,27 @@ export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
         },
       },
     },
+    {
+      props: { hoverBg: true },
+      style: {
+        cursor: 'pointer',
+        transition: 'background-color 0.1s',
+        borderRadius: '50%',
+        padding: 4,
+        '&:hover': {
+          backgroundColor: theme.vars['info-3'],
+        },
+      },
+    },
   ],
 }))
 
 export const IconWrap: React.FC<IconProps> = (props) => {
-  const { color, size = 'md', hover = false, ...restProps } = props
+  const { color, size = 'md', ...restProps } = props
   return (
     <StyledIcon
       className={fcc_inline}
       {...restProps}
-      hover={hover}
       color={color}
       size={size}
     >

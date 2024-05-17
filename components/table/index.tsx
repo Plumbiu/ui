@@ -3,7 +3,7 @@ import { TableTr } from './render'
 import { StyledFooter, StyledTable } from './styles'
 import { TableProps } from './types'
 import { overflowAutoCss } from '../_styles/css'
-import React from 'react'
+import React, { useState } from 'react'
 import useColumns from './hooks/columns'
 import useOperate from './hooks/operate'
 import usePagination from './hooks/pagination'
@@ -45,18 +45,24 @@ const Table: React.FC<TableProps> = (props) => {
     columns,
     bordered,
   })
+  const [current, setCurrent] = useState(1)
+
+  const { operaParams, setOperaParams, mergedDataSource } = useOperate({
+    dataSource,
+    setCurrent,
+    pagination
+  })
 
   const { splitData, Pagintaion } = usePagination({
     pageSize,
-    dataSource,
+    dataSource: mergedDataSource,
     pagination,
-    total: dataSource.length,
+    total: mergedDataSource.length,
     pageCount,
+    current,
+    setCurrent
   })
 
-  const { operaParams, setOperaParams, mergedDataSource } = useOperate({
-    dataSource: splitData,
-  })
 
   return (
     <div>
@@ -88,7 +94,7 @@ const Table: React.FC<TableProps> = (props) => {
             </thead>
           )}
           <tbody>
-            {mergedDataSource.map((data, rowIndex) => (
+            {splitData.map((data, rowIndex) => (
               <TableTr
                 operaParams={operaParams}
                 rowIndex={rowIndex + 1}

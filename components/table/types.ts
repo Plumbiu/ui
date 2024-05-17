@@ -20,12 +20,13 @@ export interface TableColumnTypes<T extends DefaultData> {
   hidden?: boolean
   width?: number
   title: string
-  sorter?: ((a: T, b: T) => number)
-  filter?: boolean | ((a: T, b: T) => number)
+  sorter?: (a: T, b: T) => number
+  filter?: (a: T) => boolean
   [key: string]: any
 }
 
-export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> {
+export interface TableProps
+  extends React.TableHTMLAttributes<HTMLTableElement> {
   bordered?: boolean
   color?: TBaseColor
   scroll?: { x?: number; y?: number }
@@ -49,8 +50,21 @@ export enum SortStatusEnum {
   'origin',
 }
 
-export interface ITableOperaParams {
-  sorter?: (a?: any, b?: any) => number
-  filter?: (a: any) => boolean
-  sortStatusMap: Record<number, SortStatusEnum>
+export enum FilterStatusEnum {
+  'unsorted',
+  'sorted',
 }
+
+export type TableSort = ((a?: any, b?: any) => number) | undefined
+export type TableFilter = ((a: any) => boolean) | undefined
+
+export interface ITableOperaParams {
+  sorter?: TableSort
+  filters: Record<number, TableFilter>
+  sortStatusMap?: Record<number, SortStatusEnum>
+  filterStatusMap: Record<number, FilterStatusEnum>
+}
+
+export type SetOperaParams = React.Dispatch<
+  React.SetStateAction<ITableOperaParams>
+>

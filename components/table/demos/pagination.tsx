@@ -3,13 +3,7 @@
  * @description 当数据量很大时，使用分页可以提高渲染性能
  * @title 分页
  */
-import { Table, TableColumnTypes } from '@plumbiu/ui'
-
-interface DataSource {
-  key: string
-  index: number
-  age: number
-}
+import { Link, Table, TableColumnTypes } from '@plumbiu/ui'
 
 interface DataType {
   key: React.Key
@@ -18,7 +12,7 @@ interface DataType {
   address: string
 }
 
-const columns: TableColumnTypes<DataSource>[] = [
+const columns: TableColumnTypes<DataType>[] = [
   {
     title: 'Full Name',
     width: 100,
@@ -28,10 +22,16 @@ const columns: TableColumnTypes<DataSource>[] = [
   },
   {
     title: 'Age',
-    width: 100,
+    width: 200,
     dataIndex: 'age',
     key: 'age',
     fixed: 'left',
+    filter(a) {
+      return a.age > 18
+    },
+    sorter(a, b) {
+      return a.age - b.age
+    },
   },
   {
     title: 'Column 1',
@@ -81,7 +81,7 @@ const columns: TableColumnTypes<DataSource>[] = [
     key: 'operation',
     fixed: 'right',
     width: 100,
-    render: () => <a>action</a>,
+    render: () => <Link>action</Link>,
   },
 ]
 
@@ -90,7 +90,7 @@ for (let i = 0; i < 100; i++) {
   dataSource.push({
     key: i,
     name: `Edward ${i}`,
-    age: 32,
+    age: i,
     address: `London Park no. ${i}`,
   })
 }

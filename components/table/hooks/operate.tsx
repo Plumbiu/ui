@@ -1,31 +1,42 @@
-import { useMemo, useState } from "react";
-import { DefaultData, ITableOperaParams } from "../types";
+import { useMemo, useState } from 'react'
+import { DefaultData, ITableOperaParams } from '../types'
 
 interface IUseOperate {
   dataSource: DefaultData[]
+  setCurrent: React.Dispatch<React.SetStateAction<number>>
+  pagination: boolean
 }
 
 const useOperate = (props: IUseOperate) => {
-  const { dataSource } = props
+  const { dataSource, setCurrent, pagination } = props
   const [operaParams, setOperaParams] = useState<ITableOperaParams>({
     sorter: undefined,
-    filter: undefined,
-    sortStatusMap: {}
+    filters: [],
+    filterStatusMap: {},
+    sortStatusMap: {},
   })
 
   const mergedDataSource = useMemo(() => {
-    const clonedDataSouce = dataSource.slice(0)
+    let clonedDataSouce = dataSource.slice(0)
     if (operaParams === undefined) {
-      return clonedDataSouce
+      return clonedDataSouce.slice(0)
     }
-    const { sorter, filter } = operaParams
+    const { sorter, filters } = operaParams
+    if (filters) {
+      for (const filter of Object.values(filters)) {
+        if (filter) {
+          clonedDataSouce = clonedDataSouce.filter(filter)
+        }
+      }
+      if (pagination) {
+        setCurrent(1)
+      }
+    }
     if (sorter) {
-      return clonedDataSouce.sort(sorter)
+      clonedDataSouce.sort(sorter)
     }
-    if (filter) {
-      return clonedDataSouce.filter(filter)
-    }
-    return dataSource
+
+    return clonedDataSouce
   }, [operaParams, dataSource])
 
   return {
@@ -33,7 +44,6 @@ const useOperate = (props: IUseOperate) => {
     mergedDataSource,
     operaParams,
   }
-
-};
+}
 
 export default useOperate

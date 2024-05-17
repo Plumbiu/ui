@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { DefaultData } from '../types'
 import { css, styled } from '@pigment-css/react'
 import clsx from 'clsx'
@@ -78,11 +78,20 @@ interface IUsePagination {
   dataSource: DefaultData[]
   pagination: boolean
   pageCount: number
+  current: number
+  setCurrent: React.Dispatch<React.SetStateAction<number>>
 }
 
 const usePagination = (props: IUsePagination) => {
-  const { pageSize, dataSource, pagination, total, pageCount } = props
-  const [current, setCurrent] = useState(1)
+  const {
+    pageSize,
+    dataSource,
+    pagination,
+    total,
+    pageCount,
+    current,
+    setCurrent,
+  } = props
   const leftOffset = Math.floor(pageCount / 2)
 
   const splitData = useMemo(() => {
@@ -99,7 +108,7 @@ const usePagination = (props: IUsePagination) => {
 
   const pageNum = useMemo(() => {
     return Math.ceil(total / pageSize)
-  }, [total, pageSize, pagination])
+  }, [total, pageSize, pagination, dataSource])
 
   const paginationArr = useMemo(() => {
     const tmp: number[] = []
@@ -214,7 +223,7 @@ const usePagination = (props: IUsePagination) => {
     )
   }, [pageNum, current])
 
-  return { splitData, Pagintaion }
+  return { splitData, Pagintaion, current, setCurrent }
 }
 
 export default usePagination
