@@ -7,7 +7,7 @@
     "dev": "vite serve docs",
     "build-docs": "vite build docs",
     "preview-docs": "vite preview docs",
-    "bundle-size": "export-size ./ --external ['react', 'react-dom']"
+    "bundle-size": "vite build && export-size ./ --external ['react', 'react-dom']"
   },
   "files": [
     "dist"
