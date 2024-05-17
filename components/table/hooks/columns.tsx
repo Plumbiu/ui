@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { FilterOperate, FilterStatusEnum, TableProps } from '../types'
+import { TableProps } from '../types'
 
 interface IUsePosition {
   columns: TableProps['columns']
@@ -8,19 +8,7 @@ interface IUsePosition {
 
 const useColumns = (props: IUsePosition) => {
   const { columns, bordered } = props
-  const filterFns = useMemo(() => {
-    const tmp: FilterOperate[] = []
-    for (let i = 0; i < columns.length; i++) {
-      const column = columns[i]
-      if (column.filter) {
-        tmp[i] = {
-          fn: column.filter,
-          status: FilterStatusEnum.unsorted,
-        }
-      }
-    }
-    return tmp
-  }, [columns])
+
   const ColGroup = useMemo(() => {
     let left = 0
     let lastLeftFixed
@@ -65,7 +53,7 @@ const useColumns = (props: IUsePosition) => {
     )
   }, [columns, bordered])
 
-  return { ColGroup, filterFns }
+  return { ColGroup }
 }
 
 export default useColumns

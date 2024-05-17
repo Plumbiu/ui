@@ -21,7 +21,6 @@ export interface TableColumnTypes<T extends DefaultData> {
   width?: number
   title: string
   sorter?: (a: T, b: T) => number
-  filter?: (a: T) => boolean
   [key: string]: any
 }
 
@@ -37,6 +36,10 @@ export interface TableProps
   pageSize?: number
   pagination?: boolean
   pageCount?: number
+  rowSelection?: {
+    onChange: (selectedRowKeys: React.Key[]) => void
+    selectedRowKeys: React.Key[]
+  }
 
   columns: TableColumnTypes<any>[]
   dataSource: DefaultData[]
@@ -50,22 +53,11 @@ export enum SortStatusEnum {
   'origin',
 }
 
-export enum FilterStatusEnum {
-  'unsorted',
-  'sorted',
-}
 
 export type TableSort = ((a?: any, b?: any) => number) | undefined
-export type TableFilter = ((a: any) => boolean) | undefined
-export type FilterOperate = {
-  fn: TableFilter
-  status: FilterStatusEnum
-}
-
 
 export interface ITableOperateParams {
   sorter?: TableSort
-  filterFns: FilterOperate[]
   sortStatusMap?: Record<number, SortStatusEnum>
 }
 

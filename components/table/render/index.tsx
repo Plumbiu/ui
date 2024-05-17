@@ -2,13 +2,12 @@ import React from 'react'
 import clsx from 'clsx'
 import {
   DefaultData,
-  FilterStatusEnum,
   ITableOperateParams,
   SortStatusEnum,
   TableProps,
   TableSort,
 } from '../types'
-import TableAction, { FilterAction, SortAction } from './Action'
+import TableAction, { SortAction } from './Action'
 
 function handleSort(
   params: ITableOperateParams,
@@ -42,7 +41,6 @@ function handleSort(
 
 export const TableTd: React.FC<{
   sortStatus?: SortStatusEnum
-  filterStatus?: FilterStatusEnum
   column: TableProps['columns'][number]
   isHead: boolean
   colIndex: number
@@ -57,7 +55,6 @@ export const TableTd: React.FC<{
   data,
   setOperaParams,
   sortStatus,
-  filterStatus,
 }) => {
   const {
     align,
@@ -106,20 +103,7 @@ export const TableTd: React.FC<{
         return title
       }
       const sortNode = sorter ? <SortAction sortStatus={sortStatus} /> : null
-      const filterNode = filter ? (
-        <FilterAction
-          filterStatus={filterStatus}
-          colIndex={colIndex}
-          setOperaParams={setOperaParams}
-        />
-      ) : null
-      return (
-        <TableAction
-          sortNode={sortNode}
-          filterNode={filterNode}
-          title={title}
-        />
-      )
+      return <TableAction sortNode={sortNode} title={title} />
     }
     if (render) {
       return render(data, column, rowIndex, colIndex)
@@ -171,7 +155,6 @@ export const TableTr: React.FC<{
         return (
           <TableTd
             sortStatus={operaParams?.sortStatusMap?.[colIndex]}
-            filterStatus={operaParams.filterFns?.[colIndex]?.status}
             setOperaParams={setOperaParams}
             data={data}
             key={column[rowKey]}

@@ -41,7 +41,7 @@ const Table: React.FC<TableProps> = (props) => {
     ...restProps,
   }
 
-  const { ColGroup, filterFns } = useColumns({
+  const { ColGroup } = useColumns({
     columns,
     bordered,
   })
@@ -51,7 +51,6 @@ const Table: React.FC<TableProps> = (props) => {
     dataSource,
     setCurrent,
     pagination,
-    filterFns,
   })
 
   const { splitData, Pagintaion } = usePagination({
