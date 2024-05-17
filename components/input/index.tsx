@@ -21,7 +21,6 @@ const StyledInputWrapper = styled('div')(({ theme }) => {
     position: 'relative',
     display: 'inline-flex',
     alignItems: 'center',
-    minWidth: 160,
     fontSize: 14,
     height: 30,
     overflow: 'hidden',
@@ -32,6 +31,7 @@ const StyledInputWrapper = styled('div')(({ theme }) => {
     borderRadius: 4,
     '& > *': {
       margin: '0 auto',
+      whiteSpace: 'nowrap',
       '&:first-child': {
         paddingLeft: 8,
       },

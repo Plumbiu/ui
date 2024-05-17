@@ -6,10 +6,12 @@ import {
   MaterialSymbolsLightChevronLeftRounded,
   MaterialSymbolsLightChevronRightRounded,
 } from '../icons'
+import Input from '../../input'
 
 const StyledPagintaion = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'flex-end',
+  fontSize: 14,
   alignItems: 'center',
   marginTop: 12,
   gap: 8,
@@ -42,7 +44,6 @@ const paginationCls = css(({ theme }) => ({
   textAlign: 'center',
   cursor: 'pointer',
   borderRadius: 4,
-  fontSize: 14,
   borderWidth: 1,
   borderStyle: 'solid',
   borderColor: 'transparent',
@@ -185,6 +186,30 @@ const usePagination = (props: IUsePagination) => {
             __pagination_disabled: current === pageNum,
           })}
         />
+        <>
+          <span>跳至</span>
+          <Input
+            style={{ width: 50 }}
+            onBlur={(e) => {
+              if (e.target.value === '') {
+                return
+              }
+              const value = Number(e.target.value)
+              if (Number.isNaN(value)) {
+                e.target.value = ''
+                return
+              } else if (value > pageNum) {
+                setCurrent(pageNum)
+              } else if (value < 1) {
+                setCurrent(1)
+              } else {
+                setCurrent(value)
+              }
+              e.target.value = ''
+            }}
+          />
+          <span>页</span>
+        </>
       </StyledPagintaion>
     )
   }, [pageNum, current])
