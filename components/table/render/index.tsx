@@ -165,13 +165,11 @@ export const TableTr: React.FC<{
   operaParams?: ITableOperateParams
   data?: DefaultData
   columns: TableProps['columns']
-  rowKey: string
   isHead?: boolean
   rowIndex: number
   setOperaParams?: React.Dispatch<React.SetStateAction<ITableOperateParams>>
 }> = ({
   columns,
-  rowKey,
   rowIndex,
   isHead = false,
   data,
@@ -192,7 +190,7 @@ export const TableTr: React.FC<{
             sortStatus={operaParams?.sortStatusMap?.[colIndex]}
             setOperaParams={setOperaParams}
             data={data}
-            key={column[rowKey]}
+            key={column['key'] ?? column['dataIndex']}
             column={column}
             colIndex={colIndex}
             isHead={isHead}

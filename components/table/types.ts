@@ -8,7 +8,7 @@ export interface TableColumnTypes<T extends DefaultData> {
   colSpan?: number
   rowSpan?: number
   dataIndex?: string
-  key?: string
+  key?: React.Key
   fixed?: boolean | 'right' | 'left'
   zIndex?: number
   render?: (

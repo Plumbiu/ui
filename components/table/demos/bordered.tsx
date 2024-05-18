@@ -16,15 +16,18 @@ const columns: TableColumnTypes<DataSource>[] = [
   {
     title: 'Name',
     dataIndex: 'name',
+    key: '1',
   },
   {
     title: 'Age',
     dataIndex: 'age',
+    key: '2',
   },
   {
     title: 'Address',
     dataIndex: 'address',
     render: (row) => <Tag>{row.address}</Tag>,
+    key: '3',
   },
 ]
 

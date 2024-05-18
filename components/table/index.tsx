@@ -8,6 +8,7 @@ import useColumns from './hooks/columns'
 import useOperate from './hooks/operate'
 import usePagination from './hooks/pagination'
 import { useEventListener, useThrottleFn } from 'ahooks'
+import '@pigment-css/react/styles.css'
 
 const theadCls = css({
   position: 'sticky',
@@ -87,7 +88,6 @@ const Table: React.FC<TableProps> = (props) => {
                 setOperaParams={setOperaParams}
                 rowIndex={0}
                 columns={columns}
-                rowKey={rowKey}
                 isHead
               />
             </thead>
@@ -100,7 +100,6 @@ const Table: React.FC<TableProps> = (props) => {
                 data={data}
                 key={data?.[rowKey] ?? rowIndex}
                 columns={columns}
-                rowKey={rowKey}
               />
             ))}
           </tbody>
@@ -199,7 +198,6 @@ export const VirtualTable: React.FC<VirtualTableProps> = (props) => {
               height={itemHeight}
               rowIndex={0}
               columns={columns}
-              rowKey={rowKey}
               isHead
             />
           </thead>
@@ -222,7 +220,6 @@ export const VirtualTable: React.FC<VirtualTableProps> = (props) => {
               data={data}
               key={data?.[rowKey] ?? rowIndex}
               columns={columns}
-              rowKey={rowKey}
             />
           ))}
         </tbody>
