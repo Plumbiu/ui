@@ -40,7 +40,6 @@ export interface TableProps
     onChange: (selectedRowKeys: React.Key[]) => void
     selectedRowKeys: React.Key[]
   }
-  virtual?: boolean
 
   columns: TableColumnTypes<any>[]
   dataSource: DefaultData[]
@@ -48,12 +47,20 @@ export interface TableProps
   footer?: React.ReactNode
 }
 
+export type VirtualTableProps = Omit<
+  TableProps,
+  'pageSize' | 'pagination' | 'pageCount' | 'footer'
+> & {
+  scroll: { x?: number; y: number }
+  itemHeight: number
+  wait?: number
+}
+
 export enum SortStatusEnum {
   'ascend',
   'descend',
   'origin',
 }
-
 
 export type TableSort = ((a?: any, b?: any) => number) | undefined
 

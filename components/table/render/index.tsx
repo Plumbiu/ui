@@ -8,6 +8,12 @@ import {
   TableSort,
 } from '../types'
 import TableAction, { SortAction } from './Action'
+import { css } from '@pigment-css/react'
+
+const virtualTdCls = css({
+  display: 'flex',
+  alignItems: 'center'
+})
 
 function handleSort(
   params: ITableOperateParams,
@@ -40,6 +46,8 @@ function handleSort(
 }
 
 export const TableTd: React.FC<{
+  height?: number
+  virtual?: boolean
   sortStatus?: SortStatusEnum
   column: TableProps['columns'][number]
   isHead: boolean
@@ -55,6 +63,8 @@ export const TableTd: React.FC<{
   data,
   setOperaParams,
   sortStatus,
+  virtual,
+  height,
 }) => {
   const {
     align,
@@ -68,6 +78,7 @@ export const TableTd: React.FC<{
     colSpan,
     rowSpan,
     sorter,
+    width,
   } = column
 
   if (hidden) {
@@ -77,11 +88,19 @@ export const TableTd: React.FC<{
   if (!dataIndex && !render) {
     return null
   }
-  const style: React.CSSProperties = { zIndex }
+  const style: React.CSSProperties = { zIndex, width, height }
   if (column._left !== undefined) {
     style.left = column._left
   } else if (column._right !== undefined) {
     style.right = column._right
+  }
+
+  if (virtual) {
+    if (width) {
+      style.flex = `0 0 ${width}px`
+    } else {
+      style.flex = 1
+    }
   }
 
   const cl =
@@ -93,6 +112,7 @@ export const TableTd: React.FC<{
           sortStatus !== undefined && sortStatus !== SortStatusEnum.origin,
         _shadow: column._shadow && fixed === 'left',
         _shadow_right: column._shadow && fixed === 'right',
+        [virtualTdCls]: virtual
       },
     ]) || undefined
 
@@ -131,8 +151,17 @@ export const TableTd: React.FC<{
   )
 }
 
+const virtualCls = css({
+  display: 'flex',
+  position: 'absolute',
+  width: '100%',
+  alignItems: 'center',
+})
+
 export const TableTr: React.FC<{
   height?: number
+  virtual?: boolean
+  style?: React.CSSProperties
   operaParams?: ITableOperateParams
   data?: DefaultData
   columns: TableProps['columns']
@@ -148,13 +177,18 @@ export const TableTr: React.FC<{
   data,
   setOperaParams,
   operaParams,
+  style,
+  virtual,
   height,
 }) => {
+  const cl = virtual ? virtualCls : undefined
   return (
-    <tr style={{ height }}>
+    <tr className={cl} style={style}>
       {columns.map((column, colIndex) => {
         return (
           <TableTd
+            height={height}
+            virtual={virtual}
             sortStatus={operaParams?.sortStatusMap?.[colIndex]}
             setOperaParams={setOperaParams}
             data={data}

@@ -1,13 +1,13 @@
 import { css } from '@pigment-css/react'
 import { TableTr } from './render'
 import { StyledFooter, StyledTable } from './styles'
-import { TableProps } from './types'
+import { TableProps, VirtualTableProps } from './types'
 import { overflowAutoCss } from '../_styles/css'
 import React, { useMemo, useRef, useState } from 'react'
 import useColumns from './hooks/columns'
 import useOperate from './hooks/operate'
 import usePagination from './hooks/pagination'
-import { useEventListener } from 'ahooks'
+import { useEventListener, useThrottleFn } from 'ahooks'
 
 const theadCls = css({
   position: 'sticky',
@@ -112,15 +112,7 @@ const Table: React.FC<TableProps> = (props) => {
   )
 }
 
-export const VirtualTable: React.FC<
-  TableProps & {
-    itemHeight?: number
-    scroll: {
-      x?: number
-      y: number
-    }
-  }
-> = (props) => {
+export const VirtualTable: React.FC<VirtualTableProps> = (props) => {
   const {
     bordered = false,
     columns = [],
@@ -131,15 +123,11 @@ export const VirtualTable: React.FC<
     showHeader = true,
     sticky = true,
     tableLayout,
-    pageSize = 15,
-    pageCount = 8,
-    pagination = false,
-    itemHeight = 50,
+    itemHeight,
     scroll,
+    wait = 150,
     ...restProps
   } = props
-
-  const totalHeight = dataSource.length * itemHeight
 
   const tableProps = {
     bordered,
@@ -149,32 +137,46 @@ export const VirtualTable: React.FC<
     color,
     ...restProps,
   }
+  // virtual data
+  const total = dataSource.length
+  const showNum = scroll.y / itemHeight
+
+  const [start, setStart] = useState(0)
   const { ColGroup } = useColumns({
     columns,
     bordered,
   })
 
-  const showListNum = useMemo(() => Math.ceil(scroll.y / itemHeight), [])
-  const wrapperRef = useRef(null)
-  const [list, setList] = useState(dataSource.slice(0, showListNum))
+  const scrollRef = useRef<HTMLDivElement>(null)
 
-  useEventListener(
-    'scroll',
+  const list = useMemo(() => {
+    const endIndex = start + showNum + 2
+    if (start < 3) {
+      return dataSource.slice(start, endIndex)
+    }
+    return dataSource.slice(start - 3, endIndex)
+  }, [start, showNum])
+
+  const { run: handleScroll } = useThrottleFn(
     (e) => {
       const top = e.target.scrollTop
-      const start = Math.ceil(top / scroll.y)
-      setList(dataSource.slice(start, start + showListNum))
-      console.log(e.target.scrollTop)
+      console.log(top)
+      setStart(Math.floor(top / itemHeight))
     },
     {
-      target: wrapperRef,
+      wait,
     },
   )
+
+  useEventListener('scroll', handleScroll, {
+    target: scrollRef,
+  })
+
   return (
     <div
-      style={{
-        position: 'relative',
-      }}
+      ref={scrollRef}
+      className={overflowAutoCss}
+      style={{ maxHeight: props.scroll?.y }}
     >
       <StyledTable
         style={{
@@ -185,45 +187,46 @@ export const VirtualTable: React.FC<
       >
         {ColGroup}
         {showHeader && (
-          <thead>
-            <TableTr rowIndex={0} columns={columns} rowKey={rowKey} isHead />
+          <thead
+            className={theadCls}
+            style={{
+              zIndex: headZIndex,
+              position: sticky ? undefined : 'static',
+            }}
+          >
+            <TableTr
+              virtual
+              height={itemHeight}
+              rowIndex={0}
+              columns={columns}
+              rowKey={rowKey}
+              isHead
+            />
           </thead>
         )}
+        <tbody
+          style={{
+            height: total * itemHeight,
+          }}
+        >
+          {list.map((data, rowIndex) => (
+            <TableTr
+              height={itemHeight}
+              virtual
+              style={{
+                transform: `translateY(${
+                  (start + rowIndex + 1) * itemHeight
+                }px)`,
+              }}
+              rowIndex={rowIndex + 1}
+              data={data}
+              key={data?.[rowKey] ?? rowIndex}
+              columns={columns}
+              rowKey={rowKey}
+            />
+          ))}
+        </tbody>
       </StyledTable>
-      <div style={{ height: props.scroll?.y }} className={overflowAutoCss}>
-        <div>
-          <StyledTable
-            ref={wrapperRef}
-            style={{
-              width: props.scroll?.x,
-              zIndex: 998,
-              position: 'absolute',
-              overflow: 'auto',
-            }}
-            {...tableProps}
-          >
-            {ColGroup}
-            <tbody>
-              {list.map((item, rowIndex) => (
-                <TableTr
-                  height={itemHeight}
-                  rowIndex={rowIndex + 1}
-                  data={item}
-                  key={item[rowKey]}
-                  columns={columns}
-                  rowKey={rowKey}
-                />
-              ))}
-            </tbody>
-          </StyledTable>
-          <div
-            style={{
-              height: totalHeight,
-            }}
-            className={overflowAutoCss}
-          />
-        </div>
-      </div>
     </div>
   )
 }
