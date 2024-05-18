@@ -1,7 +1,7 @@
 import { css, keyframes, styled } from '@pigment-css/react'
 import { IconWrap, MaterialSymbolsCloseRounded } from '../icon'
 import { fcb } from '../_styles/css'
-import Button from '../button'
+import { Button } from '../button'
 import React, { useEffect } from 'react'
 import { useClickAway } from 'ahooks'
 import Portal from '../_common/portal'

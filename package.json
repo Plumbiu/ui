@@ -2,12 +2,14 @@
   "name": "@plumbiu/ui",
   "version": "0.0.1",
   "description": "ui for plumbiu's blog",
-  "main": "dist/index.js.mjs",
+  "main": "dist/index.mjs",
+  "types": "dist/types/components/index.d.ts",
   "scripts": {
     "dev": "vite serve docs",
     "build-docs": "vite build docs",
     "preview-docs": "vite preview docs",
-    "bundle-size": "vite build && export-size ./ --external ['react', 'react-dom']"
+    "bundle-size": "pnpm build && export-size ./ --external ['react', 'react-dom', 'react/jsx-runtime']",
+    "build": "vite build && esno scripts/build.ts"
   },
   "files": [
     "dist"

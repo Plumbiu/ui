@@ -1,16 +1,14 @@
-/* eslint-disable @stylistic/max-len */
 import React, { HTMLAttributes, useState } from 'react'
 import { css, styled } from '@pigment-css/react'
 import { TColor } from '../types'
-import {
-  IconWrap,
-  MaterialSymbolsCancel,
-  MaterialSymbolsCheckCircleRounded,
-  MaterialSymbolsCloseRounded,
-  MaterialSymbolsInfoRounded,
-} from '../icon'
+import { IconWrap, MaterialSymbolsCloseRounded } from '../icon'
 import { colorsVar } from '../_styles/vars'
 import { selfStart } from '../_styles/css'
+import {
+  MaterialSymbolsInfoRounded,
+  MaterialSymbolsCheckCircleRounded,
+  MaterialSymbolsCancel,
+} from './icons'
 
 export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
   color?: TColor

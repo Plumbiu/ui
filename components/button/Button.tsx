@@ -1,26 +1,12 @@
 /* eslint-disable @stylistic/max-len */
-import React, { HTMLAttributes, SVGProps } from 'react'
+import React, { SVGProps } from 'react'
 import { styled } from '@pigment-css/react'
-import { TBaseColor, TSize } from '../types'
 import { fcc_inline } from '../_styles/css'
 import { borderRadiusVariants, colorsVar, wave } from '../_styles/vars'
 import { IconWrap } from '../icon'
 import { sizeVariants } from './constants'
 import ButtonGroup from './group'
-
-export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
-  size?: TSize
-  circle?: boolean
-  color?: TBaseColor
-  outlined?: boolean
-  borderless?: boolean
-  disabled?: boolean
-  plain?: boolean
-  loading?: boolean
-
-  icon?: React.ReactNode
-  suffixIcon?: React.ReactNode
-}
+import { ButtonProps } from './types'
 
 function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
   return (

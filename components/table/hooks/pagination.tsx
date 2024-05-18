@@ -6,7 +6,7 @@ import {
   MaterialSymbolsLightChevronLeftRounded,
   MaterialSymbolsLightChevronRightRounded,
 } from '../icons'
-import Input from '../../input'
+import { Input } from '../../input'
 
 const StyledPagintaion = styled('div')(({ theme }) => ({
   display: 'flex',

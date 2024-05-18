@@ -2,7 +2,7 @@ import { styled } from '@pigment-css/react'
 import { HTMLAttributes } from 'react'
 import { TSize } from '../types'
 import { borderRadiusVariants } from '../_styles/vars'
-import { ButtonProps } from '.'
+import { ButtonProps } from './types'
 
 export interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
   size?: TSize

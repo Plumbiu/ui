@@ -229,5 +229,3 @@ export const VirtualTable: React.FC<VirtualTableProps> = (props) => {
 }
 
 export default Table
-
-export type { TableColumnTypes, TableProps } from './types'

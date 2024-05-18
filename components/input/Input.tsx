@@ -4,7 +4,7 @@ import { fcc_inline } from '../_styles/css'
 import React from 'react'
 import clsx from 'clsx'
 
-interface InputProps extends Omit<
+export interface InputProps extends Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
     'size' | 'prefix' | 'type'
   > {
