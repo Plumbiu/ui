@@ -1,3 +1,5 @@
+import { extendTheme } from '@pigment-css/vite-plugin'
+
 const themeVars = {
   info: [
     ['#73767a', '#a6a9ad'],
@@ -89,3 +91,13 @@ for (const [key, value] of Object.entries(tokens)) {
 }
 
 export { colorSchemes, tokens }
+
+const theme = extendTheme({
+  colorSchemes,
+  ...tokens,
+  getSelector: function getSelector(colorScheme, css) {
+    return colorScheme === 'light' ? ':root' : '.theme-dark'
+  },
+})
+
+export default theme
