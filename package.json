@@ -8,7 +8,6 @@
     "dev": "vite serve docs",
     "build-docs": "vite build docs",
     "preview-docs": "vite preview docs",
-    "bundle-size": "pnpm build && export-size ./ --external ['react', 'react-dom', 'react/jsx-runtime']",
     "build": "vite build && esno scripts/build.ts"
   },
   "files": [
@@ -35,7 +34,6 @@
     "clsx": "^2.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-intersection-observer": "^9.10.2",
     "react-router-dom": "^6.23.0"
   },
   "devDependencies": {
@@ -48,7 +46,6 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "eslint": "8.57.0",
-    "export-size": "^0.7.0",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vite-pages-theme-doc": "^5.0.0",
