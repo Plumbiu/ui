@@ -1,10 +1,10 @@
 import { styled } from '@pigment-css/react'
-import { ReactNode, useEffect, useRef } from 'react'
-import { fcc_inline } from '../_styles/css'
-import React from 'react'
-import clsx from 'clsx'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
+import { clsx } from 'clsx'
+import { fcc_inline } from '@/_styles'
 
-export interface InputProps extends Omit<
+export interface InputProps
+  extends Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
     'size' | 'prefix' | 'type'
   > {
@@ -78,7 +78,7 @@ const StyledInput = styled('input')<InputProps>(({ theme }) => {
         props: { disabled: false },
         style: {
           '&::after': {
-            boxShadow: `0 0 0 4px ${theme.vars[`primary-3`]}`,
+            boxShadow: `0 0 0 4px ${theme.vars['primary-3']}`,
           },
         },
       },
@@ -95,7 +95,7 @@ const Input: React.FC<InputProps> = (props) => {
     beforeNode,
     ...restProps
   } = props
-  const [isFocus, setIsFoucs] = React.useState(false)
+  const [isFocus, setIsFoucs] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   function handleFocus() {
@@ -128,7 +128,7 @@ const Input: React.FC<InputProps> = (props) => {
         className={fcc_inline}
         disabled={disabled}
         {...restProps}
-      ></StyledInput>
+      />
       {!!afterNode && <div className="_addon">{afterNode}</div>}
       {!!suffix && <span>{suffix}</span>}
     </StyledInputWrapper>

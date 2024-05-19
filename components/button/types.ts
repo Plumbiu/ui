@@ -1,5 +1,5 @@
 import { HTMLAttributes } from "react"
-import { TSize, TBaseColor } from "../types"
+import { TSize, TBaseColor } from "@/types"
 
 export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   size?: TSize

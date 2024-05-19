@@ -1,14 +1,13 @@
 import React, { HTMLAttributes, useState } from 'react'
 import { css, styled } from '@pigment-css/react'
-import { TColor } from '../types'
-import { IconWrap, MaterialSymbolsCloseRounded } from '../icon'
-import { colorsVar } from '../_styles/vars'
-import { selfStart } from '../_styles/css'
 import {
   MaterialSymbolsInfoRounded,
   MaterialSymbolsCheckCircleRounded,
   MaterialSymbolsCancel,
 } from './icons'
+import { TColor } from '@/types'
+import { IconWrap, MaterialSymbolsCloseRounded } from '@/icon'
+import { colorsVar, selfStart } from '@/_styles'
 
 export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
   color?: TColor

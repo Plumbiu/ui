@@ -3,25 +3,20 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { colorSchemes } from '../theme/index'
 
-// vite build has some unused file
-async function removeUnusedFile() {
+async function autoImportCss() {
   const dirs = await fsp.readdir('dist', { withFileTypes: true })
   await Promise.all(
     dirs.map(async (dir) => {
       if (dir.isFile()) {
-        const name = dir.name
-        const jsPath = path.join('dist', name)
-        if (name.endsWith('.mjs') && name !== 'index.mjs') {
-          await fsp.rm(jsPath)
-        }
-        if (name.endsWith('.js')) {
-          const basename = path.basename(name, '.js')
-          const cssPath = path.join('dist', `${basename}.css`)
-          if (fs.existsSync(cssPath)) {
-            const jsContent =
-              `import './${basename}.css'\n` +
-              (await fsp.readFile(jsPath, 'utf-8'))
-            await fsp.writeFile(jsPath, jsContent)
+        if (dir.name.endsWith('.css')) {
+          const basename = path.basename(dir.name, '.css')
+          const jsFilePath = path.join('dist', `${basename}.mjs`)
+          if (fs.existsSync(jsFilePath)) {
+            const jsContent = await fsp.readFile(jsFilePath, 'utf-8')
+            await fsp.writeFile(
+              jsFilePath,
+              `import './${dir.name}'\n` + jsContent,
+            )
           }
         }
       }
@@ -30,12 +25,13 @@ async function removeUnusedFile() {
 }
 
 async function generateTheme() {
+  const indexCss = await fsp.readFile('dist/index.css')
   let cssVars = ':root{'
   for (const [key, value] of Object.entries(colorSchemes.light)) {
     cssVars += `--${key}:${value};`
   }
-  cssVars += '}'
-  await fsp.writeFile('dist/vars.css', cssVars)
+  cssVars += `}${indexCss}`
+  await fsp.writeFile('dist/index.css', cssVars)
 
   let darkCssVars = '.theme-dark{'
   for (const [key, value] of Object.entries(colorSchemes.dark)) {
@@ -46,8 +42,8 @@ async function generateTheme() {
 }
 
 async function run() {
-  await removeUnusedFile()
   await generateTheme()
+  await autoImportCss()
 }
 
 run()

@@ -1,11 +1,10 @@
-import { defineConfig } from 'vite'
 import path from 'node:path'
 import fs from 'node:fs'
+import { defineConfig, InlineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import typescript from '@rollup/plugin-typescript'
 import { pigment } from '@pigment-css/vite-plugin'
 import theme from './theme'
-import { InlineConfig } from 'vite'
 
 const dirs = fs.readdirSync('components')
 const inputoptions = dirs.filter((dir) => !dir.includes('.') && dir[0] !== '_')
@@ -13,7 +12,7 @@ const inputoptions = dirs.filter((dir) => !dir.includes('.') && dir[0] !== '_')
 const entry = {
   index: 'components/index.ts',
   ...Object.fromEntries(
-    inputoptions.map((dir) => [dir, path.join('components', dir, 'index.ts')]),
+    inputoptions.map((dir) => [dir, path.join('components', dir, 'index.tsx')]),
   ),
 }
 
@@ -40,10 +39,11 @@ export const viteOptions: InlineConfig = {
       external: ['react', 'react-dom', 'react-router-dom', 'react/jsx-runtime'],
       output: {
         assetFileNames: '[name].css',
-        chunkFileNames: '[name].js',
+        chunkFileNames: '[name].mjs',
+        entryFileNames: '[name].mjs',
         manualChunks: {
-          ahooks: ['ahooks'],
-          'pigment-css': ['@pigment-css/react'],
+          _bundle: ['ahooks', '@pigment-css/react'],
+          _base: ['@/_styles', '@/_common'],
         },
         globals: {
           react: 'React',
@@ -57,6 +57,7 @@ export const viteOptions: InlineConfig = {
   resolve: {
     alias: {
       '@plumbiu/ui': path.join(__dirname, 'components/index.ts'),
+      '@': path.join(__dirname, 'components/'),
     },
   },
 }

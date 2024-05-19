@@ -1,8 +1,5 @@
 import { useMemo, useState } from 'react'
-import {
-  DefaultData,
-  ITableOperateParams,
-} from '../types'
+import { DefaultData, ITableOperateParams } from '../types'
 
 interface IUseOperate {
   dataSource: DefaultData[]

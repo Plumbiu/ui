@@ -3,8 +3,8 @@
  * @description 表格具备 @plumbiu/ui 提供的 5 种基本颜色
  * @title 颜色
  */
-import { Button, TBaseColor, Table, TableColumnTypes, Tag } from '@plumbiu/ui'
 import { useState } from 'react'
+import { Button, TBaseColor, Table, TableColumnTypes, Tag } from '@plumbiu/ui'
 
 interface DataSource {
   key: string
@@ -82,7 +82,6 @@ export default function Demo() {
           </Button>
         ))}
       </div>
-
       <Table color={color} bordered columns={columns} dataSource={dataSource} />
     </div>
   )

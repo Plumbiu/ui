@@ -22,7 +22,7 @@ const columns: TableColumnTypes<DataType>[] = [
   {
     title: 'Chinese Score',
     dataIndex: 'chinese',
-    sorter:  (a, b) => a.chinese - b.chinese,
+    sorter: (a, b) => a.chinese - b.chinese,
   },
   {
     title: 'Math Score',

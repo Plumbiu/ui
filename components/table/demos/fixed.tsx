@@ -27,7 +27,12 @@ const columns = [
   { title: 'Column 5', dataIndex: 'address', key: '5' },
   { title: 'Column 6', dataIndex: 'address', key: '6' },
   { title: 'Column 7', dataIndex: 'address', key: '7' },
-  { title: 'Column 8', dataIndex: 'address', key: '8', fixed: 'right' as const },
+  {
+    title: 'Column 8',
+    dataIndex: 'address',
+    key: '8',
+    fixed: 'right' as const,
+  },
   {
     title: 'Action',
     key: 'operation',
@@ -49,9 +54,10 @@ const data = [
     age: 40,
     address: 'London Park',
   },
-];
-
+]
 
 export default function Demo() {
-  return <Table scroll={{ y: 400, x: 1300 }} columns={columns} dataSource={data} />
+  return (
+    <Table scroll={{ y: 400, x: 1300 }} columns={columns} dataSource={data} />
+  )
 }

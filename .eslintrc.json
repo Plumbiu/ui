@@ -1,6 +1,6 @@
 {
   "extends": "@plumbiu",
   "rules": {
-    "@stylistic/linebreak-style": "lf"
+    "@stylistic/linebreak-style": "off"
   }
 }

@@ -1,9 +1,9 @@
 import { css } from '@pigment-css/react'
-import { fcb, gap4 } from '../../_styles/css'
-import { IconWrap } from '../../icon'
+import { ReactNode } from 'react'
 import { UpIcon, DownIcon } from '../icons'
 import { SortStatusEnum } from '../types'
-import { ReactNode } from 'react'
+import { fcb, gap4 } from '@/_styles'
+import { IconWrap } from '@/icon'
 
 const tableActionSvgCls = css({
   '& > span': {

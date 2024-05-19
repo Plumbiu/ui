@@ -1,5 +1,7 @@
+/* eslint-disable @stylistic/indent */
 import React from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
+import { css } from '@pigment-css/react'
 import {
   DefaultData,
   ITableOperateParams,
@@ -8,11 +10,10 @@ import {
   TableSort,
 } from '../types'
 import TableAction, { SortAction } from './Action'
-import { css } from '@pigment-css/react'
 
 const virtualTdCls = css({
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
 })
 
 function handleSort(
@@ -112,7 +113,7 @@ export const TableTd: React.FC<{
           sortStatus !== undefined && sortStatus !== SortStatusEnum.origin,
         _shadow: column._shadow && fixed === 'left',
         _shadow_right: column._shadow && fixed === 'right',
-        [virtualTdCls]: virtual
+        [virtualTdCls]: virtual,
       },
     ]) || undefined
 

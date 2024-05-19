@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react'
-import { TBaseColor } from '..'
+import { TBaseColor } from '@/types'
 
 export type DefaultData = Record<'key' | string, any>
 export interface TableColumnTypes<T extends DefaultData> {
@@ -57,9 +57,9 @@ export type VirtualTableProps = Omit<
 }
 
 export enum SortStatusEnum {
-  'ascend',
-  'descend',
-  'origin',
+  ascend,
+  descend,
+  origin,
 }
 
 export type TableSort = ((a?: any, b?: any) => number) | undefined

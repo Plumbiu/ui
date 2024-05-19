@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/max-len */
 import { SVGProps } from 'react'
 
 export function MaterialSymbolsCheckCircleRounded(

@@ -1,12 +1,12 @@
 import { useMemo } from 'react'
-import { DefaultData } from '../types'
 import { css, styled } from '@pigment-css/react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
+import { DefaultData } from '../types'
 import {
   MaterialSymbolsLightChevronLeftRounded,
   MaterialSymbolsLightChevronRightRounded,
 } from '../icons'
-import { Input } from '../../input'
+import Input from '@/input'
 
 const StyledPagintaion = styled('div')(({ theme }) => ({
   display: 'flex',

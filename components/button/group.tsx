@@ -1,8 +1,8 @@
 import { styled } from '@pigment-css/react'
 import { HTMLAttributes } from 'react'
-import { TSize } from '../types'
-import { borderRadiusVariants } from '../_styles/vars'
 import { ButtonProps } from './types'
+import { TSize } from '@/types'
+import { borderRadiusVariants } from '@/_styles'
 
 export interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
   size?: TSize
@@ -21,7 +21,7 @@ const StyledButtonGroup = styled('div')<ButtonGroupProps>(({ theme }) => {
     borderRadius: 4,
     '& > button': {
       '&:not(:first-child):not(:last-child)': {
-        borderRadius: 0
+        borderRadius: 0,
       },
       '&:first-child': {
         borderTopRightRadius: 0,

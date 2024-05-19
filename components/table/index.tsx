@@ -1,13 +1,13 @@
 import { css } from '@pigment-css/react'
+import React, { useMemo, useRef, useState } from 'react'
+import { useEventListener, useThrottleFn } from 'ahooks'
 import { TableTr } from './render'
 import { StyledFooter, StyledTable } from './styles'
 import { TableProps, VirtualTableProps } from './types'
-import { overflowAutoCss } from '../_styles/css'
-import React, { useMemo, useRef, useState } from 'react'
 import useColumns from './hooks/columns'
 import useOperate from './hooks/operate'
 import usePagination from './hooks/pagination'
-import { useEventListener, useThrottleFn } from 'ahooks'
+import { overflowAutoCss } from '@/_styles'
 import '@pigment-css/react/styles.css'
 
 const theadCls = css({
@@ -227,5 +227,7 @@ export const VirtualTable: React.FC<VirtualTableProps> = (props) => {
     </div>
   )
 }
+
+export type { TableColumnTypes, TableProps } from './types'
 
 export default Table

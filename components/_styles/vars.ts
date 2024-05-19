@@ -1,4 +1,4 @@
-import { TBaseColor, TSize } from '../types'
+import { TBaseColor, TSize } from '@/types'
 
 export const fontSizeVariants = [
   {

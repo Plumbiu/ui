@@ -23,6 +23,7 @@
     "rootDir": ".",
     "paths": {
       "@plumbiu/ui": ["./components/index.ts"],
+      "@/*": ["./components/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts", "./theme.d.ts"],

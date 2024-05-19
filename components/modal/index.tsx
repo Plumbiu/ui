@@ -1,12 +1,12 @@
 import { css, keyframes, styled } from '@pigment-css/react'
-import { IconWrap, MaterialSymbolsCloseRounded } from '../icon'
-import { fcb } from '../_styles/css'
-import { Button } from '../button'
-import React, { useEffect } from 'react'
-import { useClickAway } from 'ahooks'
-import Portal from '../_common/portal'
-import { useEventListener } from 'ahooks'
+import React, { useEffect, useRef } from 'react'
+import { useClickAway, useEventListener } from 'ahooks'
+import { IconWrap, MaterialSymbolsCloseRounded } from '@/icon'
+import { fcb } from '@/_styles'
+import Button from '@/button'
+import { Portal } from '@/_common'
 
+// eslint-disable-next-line @stylistic/template-tag-spacing
 const modalAnimation = keyframes`
   from {
     opacity: 0.4;
@@ -155,7 +155,7 @@ const Modal: React.FC<ModalProps> = (props) => {
     top,
   } = props
 
-  const modalRef = React.useRef<HTMLDivElement>(null)
+  const modalRef = useRef<HTMLDivElement>(null)
   let modalStyles: React.CSSProperties = {
     ...style,
     width,
@@ -182,6 +182,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   }, modalRef)
 
   function handleESC(e: KeyboardEvent) {
+    e.preventDefault()
     if (visible && keyboard && e.key === 'Escape') {
       onClose?.()
     }

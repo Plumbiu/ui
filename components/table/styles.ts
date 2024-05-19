@@ -1,7 +1,7 @@
 import { styled } from '@pigment-css/react'
 import { TableProps } from './types'
-import { colorsVar } from '../_styles/vars'
-import { TBaseColor } from '../types'
+import { colorsVar } from '@/_styles'
+import { TBaseColor } from '@/types'
 
 export const StyledTable = styled('table')<
   Pick<TableProps, 'bordered' | 'color'>
@@ -97,7 +97,7 @@ export const StyledTable = styled('table')<
                       cursor: 'pointer',
                       '&:hover': {
                         backgroundColor: hoverHeadBgColor,
-                      }
+                      },
                     },
                     '&:first-child': {
                       '& >td:last-child': {

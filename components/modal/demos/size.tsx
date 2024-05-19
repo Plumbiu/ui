@@ -4,8 +4,8 @@
  * @title 宽度
  */
 
-import { Button, Modal } from '@plumbiu/ui'
 import { useState } from 'react'
+import { Button, Modal } from '@plumbiu/ui'
 
 export default function Demo() {
   const [visible, setVisible] = useState(false)

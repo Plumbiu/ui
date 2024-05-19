@@ -4,8 +4,8 @@
  * @title 键盘控制
  */
 
-import { Button, Modal } from '@plumbiu/ui'
 import { useState } from 'react'
+import { Button, Modal } from '@plumbiu/ui'
 
 export default function Demo() {
   const [v1, setV1] = useState(false)

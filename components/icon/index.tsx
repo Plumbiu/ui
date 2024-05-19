@@ -1,9 +1,8 @@
 /* eslint-disable @stylistic/max-len */
 import { styled } from '@pigment-css/react'
 import { HTMLAttributes, SVGProps } from 'react'
-import { colorsVar } from '../_styles/vars'
-import { TColor, TSize } from '..'
-import { fcc_inline } from '../_styles/css'
+import { colorsVar, fcc_inline } from '@/_styles'
+import { TColor, TSize } from '@/types'
 
 export interface IconProps extends HTMLAttributes<HTMLSpanElement> {
   size?: TSize

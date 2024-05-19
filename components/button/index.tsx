@@ -1,12 +1,11 @@
 /* eslint-disable @stylistic/max-len */
 import React, { SVGProps } from 'react'
 import { styled } from '@pigment-css/react'
-import { fcc_inline } from '../_styles/css'
-import { borderRadiusVariants, colorsVar, wave } from '../_styles/vars'
-import { IconWrap } from '../icon'
 import { sizeVariants } from './constants'
 import ButtonGroup from './group'
 import { ButtonProps } from './types'
+import { IconWrap } from '@/icon'
+import { fcc_inline, borderRadiusVariants, colorsVar, wave } from '@/_styles'
 
 function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
   return (
@@ -34,7 +33,7 @@ function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
             attributeName="stroke-dashoffset"
             dur="1.3s"
             values="60;0"
-          ></animate>
+          />
         </path>
         <path
           strokeDasharray="15"
@@ -46,14 +45,14 @@ function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
             attributeName="stroke-dashoffset"
             dur="0.3s"
             values="15;0"
-          ></animate>
+          />
           <animateTransform
             attributeName="transform"
             dur="1.5s"
             repeatCount="indefinite"
             type="rotate"
             values="0 12 12;360 12 12"
-          ></animateTransform>
+          />
         </path>
       </g>
     </svg>
@@ -221,5 +220,8 @@ const Button: React.FC<ButtonProps> & {
 }
 
 Button.ButtonGroup = ButtonGroup
+
+export type { ButtonProps } from './types'
+export type { ButtonGroupProps } from './group'
 
 export default Button
