@@ -1,5 +1,4 @@
 import { CSSProperties } from 'react'
-import { TBaseColor } from '@/types'
 
 export type DefaultData = Record<'key' | string, any>
 export interface TableColumnTypes<T extends DefaultData> {
@@ -27,7 +26,6 @@ export interface TableColumnTypes<T extends DefaultData> {
 export interface TableProps
   extends React.TableHTMLAttributes<HTMLTableElement> {
   bordered?: boolean
-  color?: TBaseColor
   scroll?: { x?: number; y?: number }
   headZIndex?: number
   sticky?: boolean

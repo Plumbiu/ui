@@ -8,7 +8,6 @@ import useColumns from './hooks/columns'
 import useOperate from './hooks/operate'
 import usePagination from './hooks/pagination'
 import { overflowAutoCss } from '@/_styles'
-import '@pigment-css/react/styles.css'
 
 const theadCls = css({
   position: 'sticky',
@@ -22,7 +21,6 @@ const Table: React.FC<TableProps> = (props) => {
     columns = [],
     dataSource = [],
     rowKey = 'key',
-    color = 'info',
     headZIndex,
     footer,
     showHeader = true,
@@ -39,7 +37,6 @@ const Table: React.FC<TableProps> = (props) => {
     columns,
     dataSource,
     rowKey,
-    color,
     ...restProps,
   }
 
@@ -104,7 +101,7 @@ const Table: React.FC<TableProps> = (props) => {
             ))}
           </tbody>
         </StyledTable>
-        {!!footer && <StyledFooter color={color}>{footer}</StyledFooter>}
+        {!!footer && <StyledFooter>{footer}</StyledFooter>}
       </div>
       {Pagintaion}
     </div>

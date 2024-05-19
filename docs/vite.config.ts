@@ -77,7 +77,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@plumbiu/ui': path.join(__dirname, '../components/index.ts'),
-      // eslint-disable-next-line @stylistic/max-len
+      '@': path.join(__dirname, '../components/'),
     },
   },
 })

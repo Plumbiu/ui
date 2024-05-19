@@ -16,6 +16,18 @@ const virtualTdCls = css({
   alignItems: 'center',
 })
 
+const shadowLeftCls = css({
+  zIndex: 10,
+  boxShadow: 'inset -10px 0 8px -8px rgba(5, 5, 5, 0.12)',
+  transition: '0.3s',
+})
+
+const shadowRightCls = css({
+  zIndex: 10,
+  boxShadow: 'inset 10px 0 8px -8px rgba(5, 5, 5, 0.12)',
+  transition: '0.3s',
+})
+
 function handleSort(
   params: ITableOperateParams,
   sorter: TableSort,
@@ -111,8 +123,8 @@ export const TableTd: React.FC<{
         _td_fixed: !!fixed,
         _td_hl:
           sortStatus !== undefined && sortStatus !== SortStatusEnum.origin,
-        _shadow: column._shadow && fixed === 'left',
-        _shadow_right: column._shadow && fixed === 'right',
+        [shadowLeftCls]: column._shadow && fixed === 'left',
+        [shadowRightCls]: column._shadow && fixed === 'right',
         [virtualTdCls]: virtual,
       },
     ]) || undefined
