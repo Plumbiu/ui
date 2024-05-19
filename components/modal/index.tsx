@@ -1,6 +1,6 @@
 import { css, keyframes, styled } from '@pigment-css/react'
-import React, { useEffect, useRef } from 'react'
-import { useClickAway, useEventListener } from 'ahooks'
+import React, { useRef } from 'react'
+import { useEventListener, useUpdateEffect } from 'ahooks'
 import { IconWrap, MaterialSymbolsCloseRounded } from '@/icon'
 import { fcb } from '@/_styles'
 import Button from '@/button'
@@ -22,6 +22,7 @@ export interface ModalProps {
   onClose?: () => void
   onOk?: () => void
   okText?: string
+  destoryOnClose?: boolean
   onCancel?: () => void
   cancelText?: string
   portal?: HTMLElement
@@ -132,11 +133,18 @@ const modalHeadCls = css(({ theme }) => ({
   },
 }))
 
-const Modal: React.FC<ModalProps> = (props) => {
+const closesFn = new Set<(() => void) | undefined>()
+
+let visibleCount = 0
+
+const Modal: React.FC<ModalProps> & {
+  distoryAll: () => void
+} = (props) => {
   const {
     visible,
     mask = true,
-    zIndex,
+    zIndex = 9999,
+    destoryOnClose = false,
     maskStyle = {},
     portal,
     title,
@@ -150,10 +158,15 @@ const Modal: React.FC<ModalProps> = (props) => {
     centered,
     width,
     cancelText = '取消',
-    onClose,
+    onClose: customOnClose,
     keyboard = true,
     top,
   } = props
+
+  const onClose = () => {
+    closesFn.delete(customOnClose)
+    customOnClose?.()
+  }
 
   const modalRef = useRef<HTMLDivElement>(null)
   let modalStyles: React.CSSProperties = {
@@ -163,7 +176,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   }
   const maskStyles: React.CSSProperties = {
     ...maskStyle,
-    zIndex,
+    zIndex: zIndex + closesFn.size,
     backgroundColor: mask ? 'rgba(0, 0, 0, 0.45)' : 'transparent',
   }
 
@@ -175,11 +188,20 @@ const Modal: React.FC<ModalProps> = (props) => {
     }
   }
 
-  useClickAway(() => {
-    if (maskClosable) {
-      onClose?.()
-    }
-  }, modalRef)
+  useEventListener(
+    'click',
+    (e) => {
+      if (!maskClosable) {
+        return
+      }
+      if (e.target === modalRef.current) {
+        onClose()
+      }
+    },
+    {
+      target: modalRef,
+    },
+  )
 
   function handleESC(e: KeyboardEvent) {
     e.preventDefault()
@@ -190,56 +212,76 @@ const Modal: React.FC<ModalProps> = (props) => {
 
   useEventListener('keyup', handleESC)
 
-  useEffect(() => {
-    document.body.style.overflow = visible ? 'hidden' : ''
+  useUpdateEffect(() => {
+    closesFn.add(onClose)
+    if (visible) {
+      visibleCount++
+      document.body.style.overflow = 'hidden'
+    } else {
+      visibleCount--
+      if (visibleCount <= 0) {
+        document.body.style.overflow = ''
+      }
+    }
   }, [visible])
+
+  let children: React.ReactNode = (
+    <StyledModal style={modalStyles}>
+      <div className={`${fcb} ${modalHeadCls}`}>
+        <div className={titleCls}>{title}</div>
+        {closable ? (
+          <IconWrap size="lg" hover onClick={() => onClose?.()}>
+            <MaterialSymbolsCloseRounded />
+          </IconWrap>
+        ) : null}
+      </div>
+      <div className={contentCls}>{props.children}</div>
+      {footer === undefined ? (
+        <div className={footerCls}>
+          <Button
+            onClick={() => {
+              onClose?.()
+              onOk?.()
+            }}
+          >
+            {okText}
+          </Button>
+          <Button
+            onClick={() => {
+              onClose?.()
+              onCancel?.()
+            }}
+            outlined
+          >
+            {cancelText}
+          </Button>
+        </div>
+      ) : (
+        footer
+      )}
+    </StyledModal>
+  )
+  if (!visible) {
+    if (destoryOnClose) {
+      children = null
+    }
+    maskStyles.display = 'none'
+  }
 
   const node = (
     <Portal target={portal}>
-      <StyledMask style={maskStyles}>
-        <StyledModal style={modalStyles} ref={modalRef}>
-          <div className={`${fcb} ${modalHeadCls}`}>
-            <div className={titleCls}>{title}</div>
-            {closable ? (
-              <IconWrap size="lg" hover onClick={() => onClose?.()}>
-                <MaterialSymbolsCloseRounded />
-              </IconWrap>
-            ) : null}
-          </div>
-          <div className={contentCls}>{props.children}</div>
-          {footer === undefined ? (
-            <div className={footerCls}>
-              <Button
-                onClick={() => {
-                  onClose?.()
-                  onOk?.()
-                }}
-              >
-                {okText}
-              </Button>
-              <Button
-                onClick={() => {
-                  onClose?.()
-                  onCancel?.()
-                }}
-                outlined
-              >
-                {cancelText}
-              </Button>
-            </div>
-          ) : (
-            footer
-          )}
-        </StyledModal>
+      <StyledMask ref={modalRef} style={maskStyles} key={closesFn.size}>
+        {children}
       </StyledMask>
     </Portal>
   )
 
-  if (!visible) {
-    return null
-  }
-
   return node
+}
+
+Modal.distoryAll = () => {
+  closesFn.forEach((fn) => fn && fn())
+  closesFn.clear()
 }
 
 export default Modal
