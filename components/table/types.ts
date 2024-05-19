@@ -67,6 +67,12 @@ export interface ITableOperateParams {
   sortStatusMap?: Record<number, SortStatusEnum>
 }
 
+export const sortHoverTitle = {
+  [SortStatusEnum.ascend]: '点击升序',
+  [SortStatusEnum.descend]: '取消排序',
+  [SortStatusEnum.origin]: '点击降序',
+}
+
 export type SetOperaParams = React.Dispatch<
   React.SetStateAction<ITableOperateParams>
 >

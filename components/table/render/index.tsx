@@ -9,6 +9,7 @@ import {
   SortStatusEnum,
   TableProps,
   TableSort,
+  sortHoverTitle,
 } from '../types'
 import TableAction, { SortAction } from './Action'
 
@@ -130,7 +131,7 @@ export const TableTd: React.FC<{
       },
     ]) || undefined
 
-  const commonProps = {
+  const commonProps: any = {
     align,
     style,
     className: cl,
@@ -138,6 +139,9 @@ export const TableTd: React.FC<{
     rowSpan,
   }
   if (isHead) {
+    if (sorter) {
+      commonProps.title = sortHoverTitle[sortStatus ?? SortStatusEnum.origin]
+    }
     return (
       <th
         onClick={() => {
