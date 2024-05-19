@@ -1,6 +1,13 @@
 import { CSSProperties } from 'react'
 
 export type DefaultData = Record<'key' | string, any>
+
+export type Render<T extends DefaultData> = (
+  row: T,
+  column: TableColumnTypes<T>,
+  rowIndex: number,
+  colIndex: number,
+) => React.ReactNode
 export interface TableColumnTypes<T extends DefaultData> {
   align?: 'left' | 'center' | 'right'
   className?: string
@@ -10,17 +17,17 @@ export interface TableColumnTypes<T extends DefaultData> {
   key?: React.Key
   fixed?: boolean | 'right' | 'left'
   zIndex?: number
-  render?: (
-    row: T,
-    column: TableColumnTypes<T>,
-    rowIndex: number,
-    colIndex: number,
-  ) => React.ReactNode
+  render?: Render<T>
   hidden?: boolean
   width?: number
   title: string
   sorter?: (a: T, b: T) => number
   [key: string]: any
+}
+
+export type TableRowSelection = {
+  onChange: (data: any[]) => void
+  selectedRowKeys?: React.Key[]
 }
 
 export interface TableProps
@@ -34,10 +41,7 @@ export interface TableProps
   pageSize?: number
   pagination?: boolean
   pageCount?: number
-  rowSelection?: {
-    onChange: (selectedRowKeys: React.Key[]) => void
-    selectedRowKeys: React.Key[]
-  }
+  rowSelection?: TableRowSelection
 
   columns: TableColumnTypes<any>[]
   dataSource: DefaultData[]
@@ -76,3 +80,8 @@ export const sortHoverTitle = {
 export type SetOperaParams = React.Dispatch<
   React.SetStateAction<ITableOperateParams>
 >
+
+export enum CheckEnum {
+  off = '1',
+  on = '2',
+}

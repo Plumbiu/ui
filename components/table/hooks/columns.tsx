@@ -1,13 +1,14 @@
 import { useMemo } from 'react'
-import { TableProps } from '../types'
+import { TableProps, TableRowSelection } from '../types'
 
 interface IUsePosition {
   columns: TableProps['columns']
   bordered?: boolean
+  rowSelection?: TableRowSelection
 }
 
 const useColumns = (props: IUsePosition) => {
-  const { columns, bordered } = props
+  const { columns, bordered, rowSelection } = props
 
   const ColGroup = useMemo(() => {
     let left = 0
@@ -46,6 +47,9 @@ const useColumns = (props: IUsePosition) => {
 
     return (
       <colgroup>
+        {rowSelection !== undefined && (
+          <col key="_radio" style={{ width: 50 }} />
+        )}
         {columns.map(({ width, key, dataIndex }) => (
           <col key={key ?? dataIndex} style={{ width: width ?? 'auto' }} />
         ))}

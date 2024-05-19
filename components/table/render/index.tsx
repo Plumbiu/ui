@@ -4,6 +4,7 @@ import React from 'react'
 import { clsx } from 'clsx'
 import { css } from '@pigment-css/react'
 import {
+  CheckEnum,
   DefaultData,
   ITableOperateParams,
   SortStatusEnum,
@@ -12,6 +13,7 @@ import {
   sortHoverTitle,
 } from '../types'
 import TableAction, { SortAction } from './Action'
+import TdItem from './Td'
 
 const virtualTdCls = css({
   display: 'flex',
@@ -60,7 +62,7 @@ function handleSort(
   }
 }
 
-export const TableTd: React.FC<{
+export const TableChildren: React.FC<{
   height?: number
   virtual?: boolean
   sortStatus?: SortStatusEnum
@@ -166,13 +168,15 @@ export const TableTd: React.FC<{
     )
   }
   return (
-    <td {...commonProps}>
-      {render
-        ? render(data, column, rowIndex, colIndex)
-        : dataIndex
-        ? data?.[dataIndex]
-        : null}
-    </td>
+    <TdItem
+      {...commonProps}
+      render={render}
+      column={column}
+      data={data}
+      colIndex={colIndex}
+      rowIndex={rowIndex}
+      dataIndex={dataIndex}
+    />
   )
 }
 
@@ -183,7 +187,18 @@ const virtualCls = css({
   alignItems: 'center',
 })
 
+const checkedCls = css(({ theme }) => ({
+  '&:hover > td': {
+    backgroundColor: `${theme.vars['primary-5']}!important`,
+  },
+  '& > td': {
+    backgroundColor: `${theme.vars['primary-6']}!important`,
+  },
+}))
+
 export const TableTr: React.FC<{
+  cb?: (checkedStatus: CheckEnum) => void
+  checkStatus?: CheckEnum
   height?: number
   virtual?: boolean
   style?: React.CSSProperties
@@ -203,13 +218,38 @@ export const TableTr: React.FC<{
   style,
   virtual,
   height,
+  checkStatus,
+  cb,
 }) => {
-  const cl = virtual ? virtualCls : undefined
+  const cl = clsx({
+    [virtualCls]: virtual,
+    [checkedCls]: checkStatus === CheckEnum.on,
+  })
+  const commonProps: any = {
+    type: 'checkbox',
+    value: checkStatus,
+    checked: checkStatus === CheckEnum.on,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (cb) {
+        const value = e.target.value
+        cb(value === CheckEnum.on ? CheckEnum.off : CheckEnum.on)
+      }
+    },
+  }
+  const SelectInput = <input {...commonProps} />
+
+  function renderSelect() {
+    if (virtual || !cb) {
+      return null
+    }
+    return isHead ? <th>{SelectInput}</th> : <td>{SelectInput}</td>
+  }
   return (
     <tr className={cl} style={style}>
+      {renderSelect()}
       {columns.map((column, colIndex) => {
         return (
-          <TableTd
+          <TableChildren
             height={height}
             virtual={virtual}
             sortStatus={operaParams?.sortStatusMap?.[colIndex]}
