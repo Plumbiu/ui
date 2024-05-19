@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/function-paren-newline */
 /* eslint-disable @stylistic/indent */
 import React from 'react'
 import { clsx } from 'clsx'
@@ -129,37 +130,44 @@ export const TableTd: React.FC<{
       },
     ]) || undefined
 
-  const renderNode = () => {
-    if (isHead) {
-      if (!sorter) {
-        return title
-      }
-      const sortNode = <SortAction sortStatus={sortStatus} />
-      return <TableAction sortNode={sortNode} title={title} />
-    }
-    if (render) {
-      return render(data, column, rowIndex, colIndex)
-    }
-    if (!dataIndex) {
-      return null
-    }
-    return data?.[dataIndex]
+  const commonProps = {
+    align,
+    style,
+    className: cl,
+    colSpan,
+    rowSpan,
+  }
+  if (isHead) {
+    return (
+      <th
+        onClick={() => {
+          if (!sorter) {
+            return
+          }
+          setOperaParams?.((prevProps) =>
+            handleSort(prevProps, sorter, colIndex),
+          )
+        }}
+        {...commonProps}
+      >
+        {sorter ? (
+          <TableAction
+            sortNode={<SortAction sortStatus={sortStatus} />}
+            title={title}
+          />
+        ) : (
+          title
+        )}
+      </th>
+    )
   }
   return (
-    <td
-      onClick={() => {
-        if (!sorter) {
-          return
-        }
-        setOperaParams?.((prevProps) => handleSort(prevProps, sorter, colIndex))
-      }}
-      align={align}
-      style={style}
-      className={cl}
-      colSpan={colSpan}
-      rowSpan={rowSpan}
-    >
-      {renderNode()}
+    <td {...commonProps}>
+      {render
+        ? render(data, column, rowIndex, colIndex)
+        : dataIndex
+        ? data?.[dataIndex]
+        : null}
     </td>
   )
 }

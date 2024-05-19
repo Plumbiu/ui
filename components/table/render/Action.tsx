@@ -5,11 +5,12 @@ import { SortStatusEnum } from '../types'
 import { fcb, gap4 } from '@/_styles'
 import { IconWrap } from '@/icon'
 
-const tableActionSvgCls = css({
+const tableActionSvgCls = css(({ theme }) => ({
+  color: theme.vars['info-3'],
   '& > span': {
     display: 'flex',
   },
-})
+}))
 
 export const SortAction: React.FC<{
   sortStatus?: SortStatusEnum
@@ -23,7 +24,7 @@ export const SortAction: React.FC<{
         <UpIcon />
       </IconWrap>
       <IconWrap
-        color={sortStatus === SortStatusEnum.descend ? 'primary' : undefined}
+        color={sortStatus === SortStatusEnum.ascend ? 'primary' : undefined}
         size="sm"
       >
         <DownIcon />

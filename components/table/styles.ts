@@ -2,12 +2,10 @@ import { styled } from '@pigment-css/react'
 import { TableProps } from './types'
 
 export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
-  // @ts-ignore
   ({ theme }) => {
-    const hoverHeadBgColor = theme.vars['info-5']
+    const hoverHeadBgColor = theme.vars['info-6']
     const border = `1px solid ${hoverHeadBgColor}`
-    const bgColor = theme.vars['info-6']
-    const hoverBgColor = theme.vars['info-7']
+    const bgColor = theme.vars['info-7']
     const radius = 6
     return {
       width: '100%',
@@ -23,20 +21,22 @@ export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
         zIndex: 10,
       },
       '& tr': {
-        '& > td': {
+        '& > td, & > th': {
+          padding: 14,
           transition: 'background-color 0.1s',
           overflow: 'hidden',
+          whiteSpace: 'nowrap',
         },
       },
       '& > thead': {
         overflow: 'hidden',
         fontWeight: 600,
+        textAlign: 'left',
         '& ._td_hl': {
           backgroundColor: hoverHeadBgColor,
         },
         '& > tr': {
-          '& > td': {
-            padding: 14,
+          '& > th': {
             backgroundColor: bgColor,
             cursor: 'pointer',
             '&:hover': {
@@ -44,10 +44,10 @@ export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
             },
           },
           '&:first-child': {
-            '& >td:last-child': {
+            '& >th:last-child': {
               borderStartEndRadius: radius,
             },
-            '& >td:first-child': {
+            '& >th:first-child': {
               borderStartStartRadius: radius,
             },
           },
@@ -57,14 +57,13 @@ export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
         overflow: 'hidden',
         backgroundColor: theme.vars['background-1'],
         '& ._td_hl': {
-          backgroundColor: hoverBgColor,
+          backgroundColor: bgColor,
         },
         '& > tr': {
           '&:hover > td': {
-            backgroundColor: hoverBgColor,
+            backgroundColor: bgColor,
           },
           '& > td': {
-            padding: '10px 14px',
             borderBottom: border,
             backgroundColor: theme.vars['background-1'],
           },
