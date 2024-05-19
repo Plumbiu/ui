@@ -1,7 +1,7 @@
 /**
  * @order 9
- * @description 基本表格-只展示数据
- * @title 基本
+ * @description 展示 table 选中项按钮
+ * @title 选中项
  */
 import { useState } from 'react'
 import { Table, TableColumnTypes, Tag } from '@plumbiu/ui'

@@ -1,12 +1,13 @@
 import { css } from '@pigment-css/react'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { useEventListener, useThrottleFn } from 'ahooks'
 import { TableTr } from './render'
 import { StyledFooter, StyledTable } from './styles'
-import { CheckEnum, DefaultData, TableProps, VirtualTableProps } from './types'
+import { TableProps, VirtualTableProps } from './types'
 import useColumns from './hooks/columns'
 import useOperate from './hooks/operate'
 import usePagination from './hooks/pagination'
+import useCheck from './hooks/check'
 import { overflowAutoCss } from '@/_styles'
 
 const theadCls = css({
@@ -62,66 +63,11 @@ const Table: React.FC<TableProps> = (props) => {
     current,
     setCurrent,
   })
-  const [checkArr, setCheckArr] = useState<CheckEnum[]>(
-    new Array(splitData.length + 1).fill(CheckEnum.off),
-  )
 
-  const updateChecked = (checkedStatus: CheckEnum, rowIndex: number) => {
-    setCheckArr((prevProps) => {
-      if (prevProps[rowIndex] === checkedStatus) {
-        return prevProps
-      }
-      const newStatus = [...prevProps]
-
-      if (checkedStatus === CheckEnum.off) {
-        newStatus[0] = CheckEnum.off
-      }
-      newStatus[rowIndex] = checkedStatus
-
-      if (rowIndex !== 0) {
-        const tmp: DefaultData[] = []
-        for (let i = 1; i < newStatus.length; i++) {
-          if (newStatus[i] === CheckEnum.on) {
-            tmp.push(splitData[i - 1])
-          }
-        }
-        rowSelection?.onChange(tmp)
-      }
-      return newStatus
-    })
-  }
-
-  const checkAll = (checkedStatus: CheckEnum) => {
-    const tmp: typeof checkArr = []
-    for (let i = 0; i <= splitData.length; i++) {
-      tmp[i] = checkedStatus
-    }
-    setCheckArr(tmp)
-  }
-
-  useEffect(() => {
-    for (let i = 1; i <= splitData.length + 1; i++) {
-      const item = checkArr[i]
-      if (item === CheckEnum.off) {
-        return
-      }
-    }
-    updateChecked(CheckEnum.on, 0)
-  }, [checkArr, splitData])
-
-  const cb = (checkedStatus: CheckEnum, rowIndex: number) => {
-    if (rowIndex === 0) {
-      checkAll(checkedStatus)
-      rowSelection?.onChange(checkedStatus === CheckEnum.on ? splitData : [])
-    } else {
-      if (checkedStatus === CheckEnum.off) {
-        updateChecked(CheckEnum.off, 0)
-      }
-
-      updateChecked(checkedStatus, rowIndex)
-    }
-  }
-
+  const { checkArr, checkCallback } = useCheck({
+    splitData,
+    rowSelection,
+  })
   return (
     <div>
       <div className={overflowAutoCss} style={{ maxHeight: props.scroll?.y }}>
@@ -142,7 +88,7 @@ const Table: React.FC<TableProps> = (props) => {
               }}
             >
               <TableTr
-                cb={rowSelection ? (status) => cb(status, 0) : undefined}
+                checkCallback={checkCallback}
                 checkStatus={checkArr[0]}
                 operaParams={operaParams}
                 setOperaParams={setOperaParams}
@@ -155,11 +101,7 @@ const Table: React.FC<TableProps> = (props) => {
           <tbody>
             {splitData.map((data, rowIndex) => (
               <TableTr
-                cb={
-                  rowSelection
-                    ? (status) => cb(status, rowIndex + 1)
-                    : undefined
-                }
+                checkCallback={checkCallback}
                 checkStatus={checkArr[rowIndex + 1]}
                 operaParams={operaParams}
                 rowIndex={rowIndex + 1}

@@ -197,7 +197,7 @@ const checkedCls = css(({ theme }) => ({
 }))
 
 export const TableTr: React.FC<{
-  cb?: (checkedStatus: CheckEnum) => void
+  checkCallback?: (checkedStatus: CheckEnum, rowIndex: number) => void
   checkStatus?: CheckEnum
   height?: number
   virtual?: boolean
@@ -219,7 +219,7 @@ export const TableTr: React.FC<{
   virtual,
   height,
   checkStatus,
-  cb,
+  checkCallback,
 }) => {
   const cl = clsx({
     [virtualCls]: virtual,
@@ -230,16 +230,19 @@ export const TableTr: React.FC<{
     value: checkStatus,
     checked: checkStatus === CheckEnum.on,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (cb) {
+      if (checkCallback) {
         const value = e.target.value
-        cb(value === CheckEnum.on ? CheckEnum.off : CheckEnum.on)
+        checkCallback(
+          value === CheckEnum.on ? CheckEnum.off : CheckEnum.on,
+          rowIndex,
+        )
       }
     },
   }
   const SelectInput = <input {...commonProps} />
 
   function renderSelect() {
-    if (virtual || !cb) {
+    if (virtual || !checkCallback) {
       return null
     }
     return isHead ? <th>{SelectInput}</th> : <td>{SelectInput}</td>
