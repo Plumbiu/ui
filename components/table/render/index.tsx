@@ -9,11 +9,9 @@ import {
   ITableOperateParams,
   SortStatusEnum,
   TableProps,
-  TableSort,
-  sortHoverTitle,
 } from '../types'
-import TableAction, { SortAction } from './Action'
 import TdItem from './Td'
+import ThItem from './Th'
 
 const virtualTdCls = css({
   display: 'flex',
@@ -31,36 +29,6 @@ const shadowRightCls = css({
   boxShadow: 'inset 10px 0 8px -8px rgba(5, 5, 5, 0.12)',
   transition: '0.3s',
 })
-
-function handleSort(
-  params: ITableOperateParams,
-  sorter: TableSort,
-  colIndex: number,
-) {
-  const { sortStatusMap } = params
-  let sortStatus = sortStatusMap?.[colIndex]
-  if (sortStatus === undefined || sortStatus === SortStatusEnum.origin) {
-    sortStatus = SortStatusEnum.ascend
-  } else if (sortStatus === SortStatusEnum.ascend) {
-    sortStatus = SortStatusEnum.descend
-  } else {
-    sortStatus = SortStatusEnum.origin
-  }
-  if (sortStatusMap) {
-    sortStatusMap[colIndex] = sortStatus
-  }
-
-  return {
-    ...params,
-    sorter:
-      sortStatus === SortStatusEnum.origin
-        ? undefined
-        : sortStatus === SortStatusEnum.descend
-        ? sorter
-        : (a: any, b: any) => -sorter!(a, b),
-    sortStatusMap,
-  }
-}
 
 export const TableChildren: React.FC<{
   height?: number
@@ -98,26 +66,19 @@ export const TableChildren: React.FC<{
     width,
   } = column
 
-  if (hidden) {
+  if (hidden || !(dataIndex || render)) {
     return null
   }
 
-  if (!dataIndex && !render) {
-    return null
+  const style: React.CSSProperties = {
+    zIndex,
+    width,
+    height,
+    left: column._left,
+    right: column._right,
   }
-  const style: React.CSSProperties = { zIndex, width, height }
-  if (column._left !== undefined) {
-    style.left = column._left
-  } else if (column._right !== undefined) {
-    style.right = column._right
-  }
-
   if (virtual) {
-    if (width) {
-      style.flex = `0 0 ${width}px`
-    } else {
-      style.flex = 1
-    }
+    style.flex = width ? `0 0 ${width}px` : 1
   }
 
   const cl =
@@ -141,30 +102,15 @@ export const TableChildren: React.FC<{
     rowSpan,
   }
   if (isHead) {
-    if (sorter) {
-      commonProps.title = sortHoverTitle[sortStatus ?? SortStatusEnum.origin]
-    }
     return (
-      <th
-        onClick={() => {
-          if (!sorter) {
-            return
-          }
-          setOperaParams?.((prevProps) =>
-            handleSort(prevProps, sorter, colIndex),
-          )
-        }}
+      <ThItem
         {...commonProps}
-      >
-        {sorter ? (
-          <TableAction
-            sortNode={<SortAction sortStatus={sortStatus} />}
-            title={title}
-          />
-        ) : (
-          title
-        )}
-      </th>
+        sorter={sorter}
+        title={title}
+        sortStatus={sortStatus}
+        setOperaParams={setOperaParams}
+        colIndex={colIndex}
+      />
     )
   }
   return (

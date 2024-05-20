@@ -69,7 +69,7 @@ export type TableSort = ((a?: any, b?: any) => number) | undefined
 
 export interface ITableOperateParams {
   sorter?: TableSort
-  sortStatusMap?: Record<number, SortStatusEnum>
+  sortStatusMap: Record<number, SortStatusEnum>
 }
 
 export const sortHoverTitle = {
