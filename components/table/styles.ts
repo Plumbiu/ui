@@ -1,4 +1,4 @@
-import { styled } from '@pigment-css/react'
+import { css, styled } from '@pigment-css/react'
 import { TableProps } from './types'
 
 export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
@@ -115,3 +115,9 @@ export const StyledFooter = styled('div')(({ theme }) => ({
   borderBottomRightRadius: 10,
   backgroundColor: theme.vars['info-6'],
 }))
+
+export const theadCls = css({
+  position: 'sticky',
+  top: 0,
+  zIndex: 99,
+})
