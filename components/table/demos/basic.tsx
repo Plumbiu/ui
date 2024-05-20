@@ -3,7 +3,7 @@
  * @description 基本表格-只展示数据
  * @title 基本
  */
-import { Table, TableColumnTypes, Tag } from '@plumbiu/ui'
+import { BaseTable, TableColumnTypes, Tag } from '@plumbiu/ui'
 
 interface DataSource {
   key: string
@@ -58,5 +58,5 @@ const dataSource: DataSource[] = [
   },
 ]
 export default function Demo() {
-  return <Table columns={columns} dataSource={dataSource} />
+  return <BaseTable columns={columns} dataSource={dataSource} />
 }

@@ -56,7 +56,7 @@ const Table: React.FC<TableProps> = (props) => {
     setCurrent,
   })
 
-  const { checkArr, checkCallback } = useCheck({
+  const { checkArr, checkCallback, isAllChecked, isNoneChecked } = useCheck({
     splitData,
     rowSelection,
   })
@@ -80,6 +80,7 @@ const Table: React.FC<TableProps> = (props) => {
               }}
             >
               <TableTr
+                isHalfChck={!isAllChecked && !isNoneChecked}
                 checkCallback={checkCallback}
                 checkStatus={checkArr[0]}
                 operaParams={operaParams}

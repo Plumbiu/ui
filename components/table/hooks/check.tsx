@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { CheckEnum, DefaultData, TableRowSelection } from '../types'
 
 interface UseCheck {
@@ -44,15 +44,27 @@ const useCheck = ({ splitData, rowSelection }: UseCheck) => {
     setCheckArr(tmp)
   }
 
-  useEffect(() => {
+  const [isAllChecked, isNoneChecked] = useMemo(() => {
+    let isNoneChecked = true
+    let isAllChecked = true
     for (let i = 1; i <= splitData.length + 1; i++) {
       const item = checkArr[i]
       if (item === CheckEnum.off) {
-        return
+        isAllChecked = false
+      } else if (item === CheckEnum.on) {
+        isNoneChecked = false
       }
     }
-    updateChecked(CheckEnum.on, 0)
+    console.log([isAllChecked, isNoneChecked])
+
+    return [isAllChecked, isNoneChecked]
   }, [checkArr, splitData])
+
+  useEffect(() => {
+    if (isAllChecked) {
+      updateChecked(CheckEnum.on, 0)
+    }
+  }, [isAllChecked])
 
   const checkCallback = (checkedStatus: CheckEnum, rowIndex: number) => {
     if (rowIndex === 0) {
@@ -70,6 +82,8 @@ const useCheck = ({ splitData, rowSelection }: UseCheck) => {
   return {
     checkCallback: rowSelection ? checkCallback : undefined,
     checkArr,
+    isAllChecked,
+    isNoneChecked,
   }
 }
 

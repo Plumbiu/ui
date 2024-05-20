@@ -196,7 +196,23 @@ const checkedCls = css(({ theme }) => ({
   },
 }))
 
+const halfCheckedCls = css(({ theme }) => ({
+  position: 'relative',
+  display: 'block',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    width: '8px',
+    height: '8px',
+    backgroundColor: '#326bfb',
+    border: '0',
+    transform: 'translate(6.5px, -14px)',
+    borderRadius: 1.5,
+  },
+}))
+
 export const TableTr: React.FC<{
+  isHalfChck?: boolean
   checkCallback?: (checkedStatus: CheckEnum, rowIndex: number) => void
   checkStatus?: CheckEnum
   height?: number
@@ -220,6 +236,7 @@ export const TableTr: React.FC<{
   height,
   checkStatus,
   checkCallback,
+  isHalfChck,
 }) => {
   const cl = clsx({
     [virtualCls]: virtual,
@@ -240,12 +257,18 @@ export const TableTr: React.FC<{
     },
   }
   const SelectInput = <input {...commonProps} />
-
   function renderSelect() {
     if (virtual || !checkCallback) {
       return null
     }
-    return isHead ? <th>{SelectInput}</th> : <td>{SelectInput}</td>
+    return isHead ? (
+      <th>
+        {SelectInput}
+        {isHalfChck === true && <span className={halfCheckedCls} />}
+      </th>
+    ) : (
+      <td>{SelectInput}</td>
+    )
   }
   return (
     <tr className={cl} style={style}>
