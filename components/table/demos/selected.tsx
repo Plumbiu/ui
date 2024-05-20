@@ -68,6 +68,9 @@ export default function Demo() {
           onChange(data: DataSource[]) {
             setSelectedData(data)
           },
+          getDisabledProps(data: DataSource) {
+            return data.age > 20
+          },
         }}
         columns={columns}
         dataSource={dataSource}

@@ -59,6 +59,7 @@ const Table: React.FC<TableProps> = (props) => {
   const { checkArr, checkCallback, isAllChecked, isNoneChecked } = useCheck({
     splitData,
     rowSelection,
+    rowKey,
   })
   return (
     <div>
@@ -82,7 +83,7 @@ const Table: React.FC<TableProps> = (props) => {
               <TableTr
                 isHalfChck={!isAllChecked && !isNoneChecked}
                 checkCallback={checkCallback}
-                checkStatus={checkArr[0]}
+                checkStatus={checkArr[0]?.checkStatus}
                 operaParams={operaParams}
                 setOperaParams={setOperaParams}
                 rowIndex={0}
@@ -94,8 +95,9 @@ const Table: React.FC<TableProps> = (props) => {
           <tbody>
             {splitData.map((data, rowIndex) => (
               <TableTr
+                disabled={rowSelection?.getDisabledProps?.(data)}
                 checkCallback={checkCallback}
-                checkStatus={checkArr[rowIndex + 1]}
+                checkStatus={checkArr[rowIndex + 1]?.checkStatus}
                 operaParams={operaParams}
                 rowIndex={rowIndex + 1}
                 data={data}

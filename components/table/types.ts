@@ -28,7 +28,7 @@ export interface TableColumnTypes<T extends DefaultData> {
 export type TableRowSelection = {
   onChange: (data: any[]) => void
   selectedRowKeys?: React.Key[]
-  getDisabledProps?: (data: unknown) => boolean
+  getDisabledProps?: (data: any) => boolean
 }
 
 export interface TableProps

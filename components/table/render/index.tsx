@@ -211,9 +211,17 @@ const halfCheckedCls = css(({ theme }) => ({
   },
 }))
 
+const disabledCls = css(({ theme }) => ({
+  '& > td': {
+    backgroundColor: `${theme.vars['info-6']}!important`,
+    cursor: 'not-allowed',
+  },
+}))
+
 export const TableTr: React.FC<{
   isHalfChck?: boolean
   checkCallback?: (checkedStatus: CheckEnum, rowIndex: number) => void
+  disabled?: boolean
   checkStatus?: CheckEnum
   height?: number
   virtual?: boolean
@@ -237,10 +245,12 @@ export const TableTr: React.FC<{
   checkStatus,
   checkCallback,
   isHalfChck,
+  disabled,
 }) => {
   const cl = clsx({
     [virtualCls]: virtual,
     [checkedCls]: checkStatus === CheckEnum.on,
+    [disabledCls]: disabled === true,
   })
   const commonProps: any = {
     type: 'checkbox',
@@ -255,6 +265,7 @@ export const TableTr: React.FC<{
         )
       }
     },
+    disabled: disabled || undefined,
   }
   const SelectInput = <input {...commonProps} />
   function renderSelect() {

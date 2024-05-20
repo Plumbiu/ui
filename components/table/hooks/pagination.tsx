@@ -14,7 +14,7 @@ const StyledPagintaion = styled('div')(({ theme }) => ({
   fontSize: 14,
   alignItems: 'center',
   marginTop: 12,
-  gap: 8,
+  gap: 6,
   '& > .__pagination_disabled': {
     color: 'rgba(0, 0, 0, 0.25)',
     cursor: 'not-allowed',
@@ -198,7 +198,7 @@ const usePagination = (props: IUsePagination) => {
         <>
           <span>跳至</span>
           <Input
-            style={{ width: 50 }}
+            style={{ width: 40 }}
             onBlur={(e) => {
               if (e.target.value === '') {
                 return
