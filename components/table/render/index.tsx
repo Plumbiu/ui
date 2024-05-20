@@ -78,7 +78,7 @@ export const TableChildren: React.FC<{
     right: column._right,
   }
   if (virtual) {
-    style.flex = width ? `0 0 ${width}px` : 1
+    style.flex = width ? `1 0 ${width}px` : 1
   }
 
   const cl =

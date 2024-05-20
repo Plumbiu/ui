@@ -19,7 +19,7 @@ const VirtualTable: React.FC<VirtualTableProps> = (props) => {
     tableLayout,
     itemHeight,
     scroll,
-    wait = 150,
+    wait = 100,
     ...restProps
   } = props
 
