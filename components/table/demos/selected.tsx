@@ -81,7 +81,7 @@ export default function Demo() {
   const SelectButton = (
     <div>
       <Button onClick={selectAll}>
-        全部{status === TableCheckEnum.off ? '选中' : '取消选中'}
+        全部{status === TableCheckEnum.on ? '选中' : '取消选中'}
       </Button>
       {'  '}
       <Button
