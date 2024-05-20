@@ -41,19 +41,18 @@ const Table: React.FC<TableProps> = (props) => {
   })
   const [current, setCurrent] = useState(1)
 
-  const { operaParams, setOperaParams, mergedDataSource } = useOperate({
-    dataSource,
-    setCurrent,
-  })
-
   const { splitData, Pagintaion } = usePagination({
     pageSize,
-    dataSource: mergedDataSource,
+    dataSource,
     pagination,
-    total: mergedDataSource.length,
+    total: dataSource.length,
     pageCount,
     current,
     setCurrent,
+  })
+
+  const { operaParams, setOperaParams, mergedDataSource } = useOperate({
+    dataSource: splitData,
   })
 
   const { checkArr, checkCallback, isAllChecked, isNoneChecked } = useCheck({
@@ -61,6 +60,12 @@ const Table: React.FC<TableProps> = (props) => {
     rowSelection,
     rowKey,
   })
+
+  const commonProps = {
+    checkCallback,
+    columns,
+    operaParams,
+  }
   return (
     <div>
       <div className={overflowAutoCss} style={{ maxHeight: props.scroll?.y }}>
@@ -82,27 +87,23 @@ const Table: React.FC<TableProps> = (props) => {
             >
               <TableTr
                 isHalfChck={!isAllChecked && !isNoneChecked}
-                checkCallback={checkCallback}
                 checkStatus={checkArr[0]?.checkStatus}
-                operaParams={operaParams}
                 setOperaParams={setOperaParams}
                 rowIndex={0}
-                columns={columns}
-                isHead
+                head
+                {...commonProps}
               />
             </thead>
           )}
           <tbody>
-            {splitData.map((data, rowIndex) => (
+            {mergedDataSource.map((data, rowIndex) => (
               <TableTr
                 disabled={rowSelection?.getDisabledProps?.(data)}
-                checkCallback={checkCallback}
                 checkStatus={checkArr[rowIndex + 1]?.checkStatus}
-                operaParams={operaParams}
                 rowIndex={rowIndex + 1}
                 data={data}
                 key={data?.[rowKey] ?? rowIndex}
-                columns={columns}
+                {...commonProps}
               />
             ))}
           </tbody>

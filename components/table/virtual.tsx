@@ -92,7 +92,7 @@ const VirtualTable: React.FC<VirtualTableProps> = (props) => {
               height={itemHeight}
               rowIndex={0}
               columns={columns}
-              isHead
+              head
             />
           </thead>
         )}

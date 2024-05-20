@@ -35,14 +35,14 @@ export const TableChildren: React.FC<{
   virtual?: boolean
   sortStatus?: SortStatusEnum
   column: TableProps['columns'][number]
-  isHead: boolean
+  head: boolean
   colIndex: number
   rowIndex: number
   data?: DefaultData
   setOperaParams?: React.Dispatch<React.SetStateAction<ITableOperateParams>>
 }> = ({
   column,
-  isHead,
+  head,
   colIndex,
   rowIndex,
   data,
@@ -101,7 +101,7 @@ export const TableChildren: React.FC<{
     colSpan,
     rowSpan,
   }
-  if (isHead) {
+  if (head) {
     return (
       <ThItem
         {...commonProps}
@@ -175,13 +175,13 @@ export const TableTr: React.FC<{
   operaParams?: ITableOperateParams
   data?: DefaultData
   columns: TableProps['columns']
-  isHead?: boolean
+  head?: boolean
   rowIndex: number
   setOperaParams?: React.Dispatch<React.SetStateAction<ITableOperateParams>>
 }> = ({
   columns,
   rowIndex,
-  isHead = false,
+  head = false,
   data,
   setOperaParams,
   operaParams,
@@ -218,7 +218,7 @@ export const TableTr: React.FC<{
     if (virtual || !checkCallback) {
       return null
     }
-    return isHead ? (
+    return head ? (
       <th>
         {SelectInput}
         {isHalfChck === true && <span className={halfCheckedCls} />}
@@ -241,7 +241,7 @@ export const TableTr: React.FC<{
             key={column['key'] ?? column['dataIndex']}
             column={column}
             colIndex={colIndex}
-            isHead={isHead}
+            head={head}
             rowIndex={rowIndex}
           />
         )

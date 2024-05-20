@@ -52,19 +52,14 @@ const ThItem: React.FC<ThItemProps> = ({
   colIndex,
   ...restProps
 }) => {
+  const commonProps: any = {}
+  if (sorter) {
+    commonProps.onClick = () =>
+      setOperaParams?.((prevProps) => handleSort(prevProps, sorter, colIndex))
+    commonProps.title = sortHoverTitle[sortStatus ?? SortStatusEnum.origin]
+  }
   return (
-    <th
-      onClick={() => {
-        if (!sorter) {
-          return
-        }
-        setOperaParams?.((prevProps) => handleSort(prevProps, sorter, colIndex))
-      }}
-      title={
-        sorter ? sortHoverTitle[sortStatus ?? SortStatusEnum.origin] : undefined
-      }
-      {...restProps}
-    >
+    <th {...commonProps} {...restProps}>
       {sorter ? (
         <TableAction
           sortNode={<SortAction sortStatus={sortStatus} />}

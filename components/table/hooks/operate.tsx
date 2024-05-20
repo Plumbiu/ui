@@ -3,7 +3,6 @@ import { DefaultData, ITableOperateParams } from '../types'
 
 interface IUseOperate {
   dataSource: DefaultData[]
-  setCurrent: React.Dispatch<React.SetStateAction<number>>
 }
 
 const useOperate = (props: IUseOperate) => {
@@ -16,7 +15,7 @@ const useOperate = (props: IUseOperate) => {
   const mergedDataSource = useMemo(() => {
     let clonedDataSouce = dataSource.slice(0)
     if (operaParams === undefined) {
-      return clonedDataSouce.slice(0)
+      return clonedDataSouce
     }
     const { sorter } = operaParams
     if (sorter) {

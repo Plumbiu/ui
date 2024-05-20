@@ -51,7 +51,7 @@ const BaseTable: React.FC<TableProps> = (props) => {
               position: sticky ? undefined : 'static',
             }}
           >
-            <TableTr rowIndex={0} columns={columns} isHead />
+            <TableTr rowIndex={0} columns={columns} head />
           </thead>
         )}
         <tbody>
