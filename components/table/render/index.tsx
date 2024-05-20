@@ -1,5 +1,3 @@
-/* eslint-disable @stylistic/function-paren-newline */
-/* eslint-disable @stylistic/indent */
 import React from 'react'
 import { clsx } from 'clsx'
 import { css } from '@pigment-css/react'
@@ -7,9 +5,11 @@ import {
   CheckEnum,
   DefaultData,
   ITableOperateParams,
+  SetOperaParams,
   SortStatusEnum,
   TableProps,
 } from '../types'
+import { UpdateCheckeboxByRowIndex } from '../hooks/check'
 import TdItem from './Td'
 import ThItem from './Th'
 
@@ -30,17 +30,22 @@ const shadowRightCls = css({
   transition: '0.3s',
 })
 
-export const TableChildren: React.FC<{
+interface RenderCommonTypes {
   height?: number
   virtual?: boolean
-  sortStatus?: SortStatusEnum
-  column: TableProps['columns'][number]
-  head: boolean
-  colIndex: number
-  rowIndex: number
   data?: DefaultData
-  setOperaParams?: React.Dispatch<React.SetStateAction<ITableOperateParams>>
-}> = ({
+  rowIndex: number
+  setOperaParams?: SetOperaParams
+  head?: boolean
+}
+
+export const TableChildren: React.FC<
+  {
+    sortStatus?: SortStatusEnum
+    column: TableProps['columns'][number]
+    colIndex: number
+  } & RenderCommonTypes
+> = ({
   column,
   head,
   colIndex,
@@ -144,16 +149,18 @@ const checkedCls = css(({ theme }) => ({
 
 const halfCheckedCls = css(({ theme }) => ({
   position: 'relative',
-  display: 'block',
   '&::after': {
     content: '""',
+    display: 'block',
     position: 'absolute',
+    top: '50%',
+    left: '50%',
     width: '8px',
     height: '8px',
     backgroundColor: '#326bfb',
     border: '0',
     zIndex: 1,
-    transform: 'translate(6.5px, -14px)',
+    transform: 'translate(-13.5px, -5.5px)',
     borderRadius: 1.5,
   },
 }))
@@ -165,25 +172,18 @@ const disabledCls = css(({ theme }) => ({
   },
 }))
 
-export const TableTr: React.FC<{
-  isNoneChecked?: boolean
-  isAllChecked?: boolean
-  updateCheckeboxByRowIndex?: (
-    checkedStatus: CheckEnum,
-    rowIndex: number,
-  ) => void
-  disabled?: boolean
-  checkStatus?: CheckEnum
-  height?: number
-  virtual?: boolean
-  style?: React.CSSProperties
-  operaParams?: ITableOperateParams
-  data?: DefaultData
-  columns: TableProps['columns']
-  head?: boolean
-  rowIndex: number
-  setOperaParams?: React.Dispatch<React.SetStateAction<ITableOperateParams>>
-}> = ({
+export const TableTr: React.FC<
+  {
+    isNoneChecked?: boolean
+    isAllChecked?: boolean
+    updateCheckeboxByRowIndex?: UpdateCheckeboxByRowIndex
+    disabled?: boolean
+    checkStatus?: CheckEnum
+    style?: React.CSSProperties
+    operaParams?: ITableOperateParams
+    columns: TableProps['columns']
+  } & RenderCommonTypes
+> = ({
   columns,
   rowIndex,
   head = false,

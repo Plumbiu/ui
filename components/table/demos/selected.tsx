@@ -67,9 +67,9 @@ const dataSource: DataSource[] = [
 ]
 
 export default function Demo() {
+  const ref = useRef<TableRefProps>(null)
   const [selectedData, setSelectedData] = useState<React.Key[]>([])
   const [status, setStaus] = useState(TableCheckEnum.on)
-  const ref = useRef<TableRefProps>(null)
 
   function selectAll() {
     ref.current?.updateCheckeboxByRowIndex?.(status, 0)
@@ -81,7 +81,7 @@ export default function Demo() {
   const SelectButton = (
     <div>
       <Button onClick={selectAll}>
-        全部{status === TableCheckEnum.on ? '选中' : '取消选中'}
+        全部{ref.current?.isAllChecked ? '取消选中' : '选中'}
       </Button>
       {'  '}
       <Button

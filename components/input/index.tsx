@@ -1,6 +1,5 @@
 import { styled } from '@pigment-css/react'
-import React, { ReactNode, useEffect, useRef, useState } from 'react'
-import { clsx } from 'clsx'
+import React, { ReactNode } from 'react'
 import { fcc_inline } from '@/_styles'
 
 export interface InputProps
@@ -39,7 +38,7 @@ const StyledInputWrapper = styled('div')(({ theme }) => {
         paddingRight: 8,
       },
     },
-    '&:hover,&._focus': {
+    '&:hover,&:focus-within': {
       borderColor: theme['primary'],
     },
     '& > ._addon': {
@@ -95,40 +94,12 @@ const Input: React.FC<InputProps> = (props) => {
     beforeNode,
     ...restProps
   } = props
-  const [isFocus, setIsFoucs] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
 
-  function handleFocus() {
-    setIsFoucs(true)
-  }
-
-  function handleBlur() {
-    setIsFoucs(false)
-  }
-
-  const cls = clsx({
-    _focus: isFocus,
-  })
-
-  useEffect(() => {
-    inputRef.current?.addEventListener('focus', handleFocus)
-    inputRef.current?.addEventListener('blur', handleBlur)
-
-    return () => {
-      inputRef.current?.removeEventListener('focus', handleFocus)
-      inputRef.current?.removeEventListener('blur', handleBlur)
-    }
-  }, [])
   return (
-    <StyledInputWrapper className={cls}>
+    <StyledInputWrapper>
       {!!beforeNode && <div className="_addon">{beforeNode}</div>}
       {!!prefix && <span>{prefix}</span>}
-      <StyledInput
-        ref={inputRef}
-        className={fcc_inline}
-        disabled={disabled}
-        {...restProps}
-      />
+      <StyledInput className={fcc_inline} disabled={disabled} {...restProps} />
       {!!afterNode && <div className="_addon">{afterNode}</div>}
       {!!suffix && <span>{suffix}</span>}
     </StyledInputWrapper>
