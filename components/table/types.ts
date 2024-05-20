@@ -86,6 +86,6 @@ export type SetOperaParams = React.Dispatch<
 >
 
 export enum CheckEnum {
-  off = '1',
-  on = '2',
+  on = '1',
+  off = '2',
 }

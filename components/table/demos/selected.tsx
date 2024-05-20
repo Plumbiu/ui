@@ -3,8 +3,15 @@
  * @description 展示 table 选中项按钮
  * @title 选中项
  */
-import { useState } from 'react'
-import { Table, TableColumnTypes, Tag } from '@plumbiu/ui'
+import { useRef, useState } from 'react'
+import {
+  Button,
+  Table,
+  TableColumnTypes,
+  TableRefProps,
+  Tag,
+  TableCheckEnum,
+} from '@plumbiu/ui'
 
 interface DataSource {
   key: string
@@ -58,12 +65,55 @@ const dataSource: DataSource[] = [
     address: 'shenzhen',
   },
 ]
+
 export default function Demo() {
   const [selectedData, setSelectedData] = useState<React.Key[]>([])
+  const [status, setStaus] = useState(TableCheckEnum.on)
+  const ref = useRef<TableRefProps>(null)
+
+  function selectAll() {
+    ref.current?.updateCheckeboxByRowIndex?.(status, 0)
+    setStaus(
+      status === TableCheckEnum.off ? TableCheckEnum.on : TableCheckEnum.off,
+    )
+  }
+
+  const SelectButton = (
+    <div>
+      <Button onClick={selectAll}>
+        全部{status === TableCheckEnum.off ? '选中' : '取消选中'}
+      </Button>
+      {'  '}
+      <Button
+        onClick={() => {
+          ref.current?.updateCheckboxByKey?.(TableCheckEnum.on, '1')
+        }}
+      >
+        选中第一项
+      </Button>
+      {'  '}
+      <Button
+        onClick={() => {
+          ref.current?.updateCheckeboxByRowIndex?.(TableCheckEnum.off, 1)
+        }}
+      >
+        取消选中第一项
+      </Button>
+    </div>
+  )
+
+  const SelectKeys = (
+    <div>
+      选中项 key 值：
+      {JSON.stringify(selectedData)}
+    </div>
+  )
+
   return (
     <>
-      <div>选中项 {JSON.stringify(selectedData)}</div>
+      {SelectButton}
       <Table
+        ref={ref}
         rowSelection={{
           onChange(data) {
             setSelectedData(data)
@@ -75,6 +125,7 @@ export default function Demo() {
         columns={columns}
         dataSource={dataSource}
       />
+      {SelectKeys}
     </>
   )
 }

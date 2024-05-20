@@ -5,18 +5,20 @@ import { TableProps } from './types'
 import useColumns from './hooks/columns'
 import useOperate from './hooks/operate'
 import usePagination from './hooks/pagination'
-import useCheck, { UpdateCheckeboxByRowIndex } from './hooks/check'
+import useCheck, {
+  UpdateCheckeboxByRowIndex,
+  UpdateCheckboxByKey,
+} from './hooks/check'
 import { overflowAutoCss } from '@/_styles'
 
-const Table = forwardRef<
-  {
-    updateCheckeboxByRowIndex: UpdateCheckeboxByRowIndex | undefined
-    updateCheckboxByKey: UpdateCheckeboxByRowIndex | undefined
-    isNoneChecked: boolean
-    isAllChecked: boolean
-  },
-  TableProps
->((props, ref) => {
+export type TableRefProps = Partial<{
+  updateCheckeboxByRowIndex: UpdateCheckeboxByRowIndex
+  updateCheckboxByKey: UpdateCheckboxByKey
+  isNoneChecked: boolean
+  isAllChecked: boolean
+}>
+
+const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
   const {
     bordered = false,
     columns = [],
@@ -110,7 +112,7 @@ const Table = forwardRef<
               <TableTr
                 isAllChecked={isAllChecked}
                 isNoneChecked={isNoneChecked}
-                checkStatus={checkArr[0]?.checkStatus}
+                checkStatus={checkArr?.[0]?.checkStatus}
                 setOperaParams={setOperaParams}
                 rowIndex={0}
                 head
@@ -122,7 +124,7 @@ const Table = forwardRef<
             {mergedDataSource.map((data, rowIndex) => (
               <TableTr
                 disabled={rowSelection?.getDisabledProps?.(data)}
-                checkStatus={checkArr[rowIndex + 1]?.checkStatus}
+                checkStatus={checkArr?.[rowIndex + 1]?.checkStatus}
                 rowIndex={rowIndex + 1}
                 data={data}
                 key={data?.[rowKey] ?? rowIndex}
@@ -139,6 +141,7 @@ const Table = forwardRef<
 })
 
 export type { TableColumnTypes, TableProps } from './types'
+export { CheckEnum as TableCheckEnum } from './types'
 export { default as VirtualTable } from './virtual'
 export { default as BaseTable } from './base'
 

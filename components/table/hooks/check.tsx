@@ -19,7 +19,7 @@ export type UpdateCheckeboxByRowIndex = (
   rowIndex: number,
 ) => void
 
-export type updateCheckboxByKey = (
+export type UpdateCheckboxByKey = (
   checkedStatus: CheckEnum,
   key: React.Key,
 ) => void
@@ -42,10 +42,6 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
   )
 
   const [isAllChecked, isNoneChecked] = useMemo(() => {
-    if (!rowSelection) {
-      return [false, true]
-    }
-
     let isNoneChecked = true
     let isAllChecked = true
     for (let i = 1; i < checkArr.length; i++) {
@@ -65,9 +61,6 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
     status,
     rowIndex,
   ) => {
-    if (!rowSelection) {
-      return
-    }
     setCheckArr((prevProps) => {
       if (prevProps[rowIndex].checkStatus === status) {
         return prevProps
@@ -107,7 +100,7 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
     }
   }, [checkArr])
 
-  const updateCheckboxByKey = (status: CheckEnum, key: React.Key) => {
+  const updateCheckboxByKey: UpdateCheckboxByKey = (status, key) => {
     setCheckArr((prevProps) => {
       for (let i = 1; i < prevProps.length; i++) {
         const { key: itemKey, checkStatus, disabled } = prevProps[i]
@@ -125,15 +118,15 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
     })
   }
 
-  return {
-    checkArr,
-    isAllChecked,
-    isNoneChecked,
-    updateCheckeboxByRowIndex: rowSelection
-      ? updateCheckeboxByRowIndex
-      : undefined,
-    updateCheckboxByKey: rowSelection ? updateCheckboxByKey : undefined,
-  }
+  return rowSelection
+    ? {
+        checkArr,
+        isAllChecked,
+        isNoneChecked,
+        updateCheckeboxByRowIndex,
+        updateCheckboxByKey,
+      }
+    : {}
 }
 
 export default useCheck
