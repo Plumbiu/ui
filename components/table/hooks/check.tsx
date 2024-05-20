@@ -1,5 +1,5 @@
 /* eslint-disable @stylistic/indent */
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { CheckEnum, DefaultData, TableRowSelection } from '../types'
 
 interface UseCheck {
@@ -13,6 +13,16 @@ interface CheckArr {
   disabled: boolean
   key?: string
 }
+
+export type UpdateCheckeboxByRowIndex = (
+  checkedStatus: CheckEnum,
+  rowIndex: number,
+) => void
+
+export type updateCheckboxByKey = (
+  checkedStatus: CheckEnum,
+  key: React.Key,
+) => void
 
 const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
   const [checkArr, setCheckArr] = useState<CheckArr[]>(
@@ -31,41 +41,11 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
       : [],
   )
 
-  const updateChecked = (checkedStatus: CheckEnum, rowIndex: number) => {
-    setCheckArr((prevProps) => {
-      if (prevProps[rowIndex].checkStatus === checkedStatus) {
-        return prevProps
-      }
-      prevProps[rowIndex].checkStatus = checkedStatus
-
-      if (rowIndex !== 0) {
-        const tmp: React.Key[] = []
-        for (const { key, checkStatus, disabled } of prevProps) {
-          if (checkStatus === CheckEnum.on && disabled === false && key) {
-            tmp.push(key)
-          }
-        }
-        rowSelection?.onChange(tmp)
-      }
-      return [...prevProps]
-    })
-  }
-
-  const checkAll = (checkedStatus: CheckEnum) => {
-    const tmp: typeof checkArr = []
-    for (let i = 0; i < checkArr.length; i++) {
-      tmp[i] = checkArr[i]
-      if (checkArr[i].disabled === false) {
-        tmp[i].checkStatus = checkedStatus
-      }
-    }
-    setCheckArr(tmp)
-  }
-
   const [isAllChecked, isNoneChecked] = useMemo(() => {
     if (!rowSelection) {
       return [false, true]
     }
+
     let isNoneChecked = true
     let isAllChecked = true
     for (let i = 1; i < checkArr.length; i++) {
@@ -81,41 +61,78 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
     return [isAllChecked, isNoneChecked]
   }, [checkArr, rowSelection])
 
-  useEffect(() => {
+  const updateCheckeboxByRowIndex: UpdateCheckeboxByRowIndex = (
+    status,
+    rowIndex,
+  ) => {
     if (!rowSelection) {
       return
     }
-    if (isAllChecked) {
-      updateChecked(CheckEnum.on, 0)
-    }
-  }, [isAllChecked, rowSelection])
+    setCheckArr((prevProps) => {
+      if (prevProps[rowIndex].checkStatus === status) {
+        return prevProps
+      }
+      const clonedProps = [...prevProps]
+      clonedProps[rowIndex].checkStatus = status
+      if (rowIndex === 0) {
+        const formatStatus = isAllChecked ? CheckEnum.off : CheckEnum.on
+        for (let i = 0; i < checkArr.length; i++) {
+          if (checkArr[i].disabled === true) {
+            continue
+          }
+          clonedProps[i].checkStatus = formatStatus
+        }
+      }
+      return clonedProps
+    })
+  }
 
-  const checkCallback = (checkedStatus: CheckEnum, rowIndex: number) => {
-    if (!rowSelection) {
-      return
-    }
-    if (rowIndex === 0) {
-      checkAll(checkedStatus)
+  useEffect(() => {
+    if (isNoneChecked) {
+      rowSelection?.onChange([])
+    } else if (isAllChecked) {
+      rowSelection?.onChange(
+        checkArr
+          .filter(({ disabled, key }) => disabled === false && key)
+          .map(({ key }) => key!),
+      )
+    } else {
       const tmp: React.Key[] = []
-      for (const { key, disabled } of checkArr) {
-        if (disabled === false && key) {
+      for (const { key, checkStatus, disabled } of checkArr) {
+        if (checkStatus === CheckEnum.on && disabled === false && key) {
           tmp.push(key)
         }
       }
-      rowSelection?.onChange(checkedStatus === CheckEnum.on ? tmp : [])
-    } else {
-      if (checkedStatus === CheckEnum.off) {
-        updateChecked(CheckEnum.off, 0)
-      }
-      updateChecked(checkedStatus, rowIndex)
+      rowSelection?.onChange(tmp)
     }
+  }, [checkArr])
+
+  const updateCheckboxByKey = (status: CheckEnum, key: React.Key) => {
+    setCheckArr((prevProps) => {
+      for (let i = 1; i < prevProps.length; i++) {
+        const { key: itemKey, checkStatus, disabled } = prevProps[i]
+        if (disabled) {
+          continue
+        }
+        if (itemKey === key) {
+          if (checkStatus === status) {
+            return prevProps
+          }
+          prevProps[i].checkStatus = status
+        }
+      }
+      return [...prevProps]
+    })
   }
 
   return {
-    checkCallback: rowSelection ? checkCallback : undefined,
     checkArr,
     isAllChecked,
     isNoneChecked,
+    updateCheckeboxByRowIndex: rowSelection
+      ? updateCheckeboxByRowIndex
+      : undefined,
+    updateCheckboxByKey: rowSelection ? updateCheckboxByKey : undefined,
   }
 }
 

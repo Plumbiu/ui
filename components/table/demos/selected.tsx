@@ -59,13 +59,13 @@ const dataSource: DataSource[] = [
   },
 ]
 export default function Demo() {
-  const [selectedData, setSelectedData] = useState<DataSource[]>([])
+  const [selectedData, setSelectedData] = useState<React.Key[]>([])
   return (
     <>
       <div>选中项 {JSON.stringify(selectedData)}</div>
       <Table
         rowSelection={{
-          onChange(data: DataSource[]) {
+          onChange(data) {
             setSelectedData(data)
           },
           getDisabledProps(data: DataSource) {

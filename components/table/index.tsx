@@ -1,14 +1,22 @@
-import React, { useState } from 'react'
+import { forwardRef, useImperativeHandle, useState } from 'react'
 import { TableTr } from './render'
 import { StyledFooter, StyledTable, theadCls } from './styles'
 import { TableProps } from './types'
 import useColumns from './hooks/columns'
 import useOperate from './hooks/operate'
 import usePagination from './hooks/pagination'
-import useCheck from './hooks/check'
+import useCheck, { UpdateCheckeboxByRowIndex } from './hooks/check'
 import { overflowAutoCss } from '@/_styles'
 
-const Table: React.FC<TableProps> = (props) => {
+const Table = forwardRef<
+  {
+    updateCheckeboxByRowIndex: UpdateCheckeboxByRowIndex | undefined
+    updateCheckboxByKey: UpdateCheckeboxByRowIndex | undefined
+    isNoneChecked: boolean
+    isAllChecked: boolean
+  },
+  TableProps
+>((props, ref) => {
   const {
     bordered = false,
     columns = [],
@@ -55,17 +63,31 @@ const Table: React.FC<TableProps> = (props) => {
     dataSource: splitData,
   })
 
-  const { checkArr, checkCallback, isAllChecked, isNoneChecked } = useCheck({
+  const {
+    checkArr,
+    updateCheckeboxByRowIndex,
+    isNoneChecked,
+    isAllChecked,
+    updateCheckboxByKey,
+  } = useCheck({
     splitData,
     rowSelection,
     rowKey,
   })
 
   const commonProps = {
-    checkCallback,
+    updateCheckeboxByRowIndex,
     columns,
     operaParams,
   }
+
+  useImperativeHandle(ref, () => ({
+    updateCheckeboxByRowIndex,
+    updateCheckboxByKey,
+    isNoneChecked,
+    isAllChecked,
+  }))
+
   return (
     <div>
       <div className={overflowAutoCss} style={{ maxHeight: props.scroll?.y }}>
@@ -86,7 +108,8 @@ const Table: React.FC<TableProps> = (props) => {
               }}
             >
               <TableTr
-                isHalfChck={!isAllChecked && !isNoneChecked}
+                isAllChecked={isAllChecked}
+                isNoneChecked={isNoneChecked}
                 checkStatus={checkArr[0]?.checkStatus}
                 setOperaParams={setOperaParams}
                 rowIndex={0}
@@ -113,7 +136,7 @@ const Table: React.FC<TableProps> = (props) => {
       {Pagintaion}
     </div>
   )
-}
+})
 
 export type { TableColumnTypes, TableProps } from './types'
 export { default as VirtualTable } from './virtual'

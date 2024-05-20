@@ -152,6 +152,7 @@ const halfCheckedCls = css(({ theme }) => ({
     height: '8px',
     backgroundColor: '#326bfb',
     border: '0',
+    zIndex: 1,
     transform: 'translate(6.5px, -14px)',
     borderRadius: 1.5,
   },
@@ -165,8 +166,12 @@ const disabledCls = css(({ theme }) => ({
 }))
 
 export const TableTr: React.FC<{
-  isHalfChck?: boolean
-  checkCallback?: (checkedStatus: CheckEnum, rowIndex: number) => void
+  isNoneChecked?: boolean
+  isAllChecked?: boolean
+  updateCheckeboxByRowIndex?: (
+    checkedStatus: CheckEnum,
+    rowIndex: number,
+  ) => void
   disabled?: boolean
   checkStatus?: CheckEnum
   height?: number
@@ -189,8 +194,9 @@ export const TableTr: React.FC<{
   virtual,
   height,
   checkStatus,
-  checkCallback,
-  isHalfChck,
+  updateCheckeboxByRowIndex,
+  isNoneChecked,
+  isAllChecked,
   disabled,
 }) => {
   const cl = clsx({
@@ -201,11 +207,11 @@ export const TableTr: React.FC<{
   const commonProps: any = {
     type: 'checkbox',
     value: checkStatus,
-    checked: checkStatus === CheckEnum.on,
+    checked: head ? isAllChecked : checkStatus === CheckEnum.on,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (checkCallback) {
+      if (updateCheckeboxByRowIndex) {
         const value = e.target.value
-        checkCallback(
+        updateCheckeboxByRowIndex(
           value === CheckEnum.on ? CheckEnum.off : CheckEnum.on,
           rowIndex,
         )
@@ -215,13 +221,15 @@ export const TableTr: React.FC<{
   }
   const SelectInput = <input {...commonProps} />
   function renderSelect() {
-    if (virtual || !checkCallback) {
+    if (virtual || !updateCheckeboxByRowIndex) {
       return null
     }
     return head ? (
       <th>
         {SelectInput}
-        {isHalfChck === true && <span className={halfCheckedCls} />}
+        {!(isNoneChecked || isAllChecked) && (
+          <span className={halfCheckedCls} />
+        )}
       </th>
     ) : (
       <td>{SelectInput}</td>

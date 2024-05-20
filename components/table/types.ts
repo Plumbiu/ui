@@ -26,12 +26,12 @@ export interface TableColumnTypes<T extends DefaultData> {
 }
 
 export type TableRowSelection = {
-  onChange: (data: any[]) => void
-  selectedRowKeys?: React.Key[]
+  onChange: (data: React.Key[]) => void
+  setRowSelection?: () => React.Key
   getDisabledProps?: (data: any) => boolean
 }
 
-export interface TableProps
+export interface BaseTableProps
   extends React.TableHTMLAttributes<HTMLTableElement> {
   bordered?: boolean
   scroll?: { x?: number; y?: number }
@@ -39,15 +39,18 @@ export interface TableProps
   sticky?: boolean
   showHeader?: boolean
   tableLayout?: CSSProperties['tableLayout']
-  pageSize?: number
-  pagination?: boolean
-  pageCount?: number
-  rowSelection?: TableRowSelection
 
   columns: TableColumnTypes<any>[]
   dataSource: DefaultData[]
   rowKey?: string
   footer?: React.ReactNode
+}
+
+export interface TableProps extends BaseTableProps {
+  pageSize?: number
+  pagination?: boolean
+  pageCount?: number
+  rowSelection?: TableRowSelection
 }
 
 export type VirtualTableProps = Omit<
