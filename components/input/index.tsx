@@ -1,4 +1,4 @@
-import { styled } from '@pigment-css/react'
+import { css, styled } from '@pigment-css/react'
 import React, { ReactNode } from 'react'
 import { fcc_inline } from '@/_styles'
 
@@ -41,22 +41,23 @@ const StyledInputWrapper = styled('div')(({ theme }) => {
     '&:hover,&:focus-within': {
       borderColor: theme['primary'],
     },
-    '& > ._addon': {
-      display: 'flex',
-      alignItems: 'center',
-      height: '100%',
-      paddingRight: 12,
-      paddingLeft: 12,
-      backgroundColor: '#f8f8f8',
-      '&:first-child': {
-        borderRight: `1px solid ${theme.vars['info-4']}`,
-      },
-      '&:last-child': {
-        borderLeft: `1px solid ${theme.vars['info-4']}`,
-      },
-    },
   }
 })
+
+const addonCls = css(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  height: '100%',
+  paddingRight: 12,
+  paddingLeft: 12,
+  backgroundColor: '#f8f8f8',
+  '&:first-child': {
+    borderRight: `1px solid ${theme.vars['info-4']}`,
+  },
+  '&:last-child': {
+    borderLeft: `1px solid ${theme.vars['info-4']}`,
+  },
+}))
 
 const StyledInput = styled('input')<InputProps>(({ theme }) => {
   return {
@@ -97,10 +98,10 @@ const Input: React.FC<InputProps> = (props) => {
 
   return (
     <StyledInputWrapper>
-      {!!beforeNode && <div className="_addon">{beforeNode}</div>}
+      {!!beforeNode && <div className={addonCls}>{beforeNode}</div>}
       {!!prefix && <span>{prefix}</span>}
       <StyledInput className={fcc_inline} disabled={disabled} {...restProps} />
-      {!!afterNode && <div className="_addon">{afterNode}</div>}
+      {!!afterNode && <div className={addonCls}>{afterNode}</div>}
       {!!suffix && <span>{suffix}</span>}
     </StyledInputWrapper>
   )

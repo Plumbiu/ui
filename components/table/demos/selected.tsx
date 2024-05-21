@@ -69,13 +69,12 @@ const dataSource: DataSource[] = [
 export default function Demo() {
   const ref = useRef<TableRefProps>(null)
   const [selectedData, setSelectedData] = useState<React.Key[]>([])
-  const [status, setStaus] = useState(TableCheckEnum.on)
 
   function selectAll() {
+    const status = ref.current?.isAllChecked
+      ? TableCheckEnum.off
+      : TableCheckEnum.on
     ref.current?.updateCheckeboxByRowIndex?.(status, 0)
-    setStaus(
-      status === TableCheckEnum.off ? TableCheckEnum.on : TableCheckEnum.off,
-    )
   }
 
   const SelectButton = (

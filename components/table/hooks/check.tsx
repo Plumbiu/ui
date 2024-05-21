@@ -68,13 +68,14 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
       const clonedProps = [...prevProps]
       clonedProps[rowIndex].checkStatus = status
       if (rowIndex === 0) {
-        const formatStatus = isAllChecked ? CheckEnum.off : CheckEnum.on
         for (let i = 0; i < checkArr.length; i++) {
           if (checkArr[i].disabled === true) {
             continue
           }
-          clonedProps[i].checkStatus = formatStatus
+          clonedProps[i].checkStatus = status
         }
+      } else if (status === CheckEnum.off) {
+        clonedProps[0].checkStatus = CheckEnum.off
       }
       return clonedProps
     })
@@ -98,7 +99,7 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
       }
       rowSelection?.onChange(tmp)
     }
-  }, [checkArr])
+  }, [checkArr, isNoneChecked, isAllChecked])
 
   const updateCheckboxByKey: UpdateCheckboxByKey = (status, key) => {
     setCheckArr((prevProps) => {
@@ -112,6 +113,7 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
             return prevProps
           }
           prevProps[i].checkStatus = status
+          break
         }
       }
       return [...prevProps]
