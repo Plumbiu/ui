@@ -74,7 +74,7 @@ export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
               '& > td, & > th': {
                 borderLeft: border,
                 borderTop: border,
-                '&:last-child[^colgroup]': {
+                '&:last-child:not(th[$="span"])': {
                   borderRight: border,
                 },
               },
@@ -84,10 +84,10 @@ export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
                 },
               },
               '&:last-child': {
-                '& > *:first-child': {
+                '& > td:first-child': {
                   borderBottomLeftRadius: radius,
                 },
-                '& > *:last-child': {
+                '& > td:last-child': {
                   borderBottomRightRadius: radius,
                 },
               },

@@ -77,6 +77,7 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
       } else if (status === CheckEnum.off) {
         clonedProps[0].checkStatus = CheckEnum.off
       }
+
       return clonedProps
     })
   }

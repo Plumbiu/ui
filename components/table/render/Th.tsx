@@ -59,7 +59,10 @@ const ThItem: React.FC<ThItemProps> = ({
     commonProps.title = sortHoverTitle[sortStatus ?? SortStatusEnum.origin]
   }
   return (
-    <th {...commonProps} {...restProps}>
+    <th
+      {...commonProps}
+      {...restProps}
+    >
       {sorter ? (
         <TableAction
           sortNode={<SortAction sortStatus={sortStatus} />}

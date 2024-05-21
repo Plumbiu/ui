@@ -74,6 +74,9 @@ export const TableChildren: React.FC<
   if (hidden) {
     return null
   }
+  if (!(head || dataIndex || render)) {
+    return null
+  }
 
   const style: React.CSSProperties = {
     zIndex,
@@ -105,12 +108,6 @@ export const TableChildren: React.FC<
     rowspan,
   }
   if (head) {
-    if (column._colspan) {
-      commonProps.scope = 'colgroup'
-    }
-    if (column._rowspan) {
-      commonProps.scope = 'col'
-    }
     return (
       <ThItem
         {...commonProps}
@@ -124,9 +121,7 @@ export const TableChildren: React.FC<
       />
     )
   }
-  if (!(dataIndex || render)) {
-    return null
-  }
+
   return (
     <TdItem
       {...commonProps}
@@ -247,22 +242,20 @@ export const TableTr: React.FC<
   return (
     <tr className={cl} style={style}>
       {renderSelect()}
-      {columns.map((column, colIndex) => {
-        return (
-          <TableChildren
-            height={height}
-            virtual={virtual}
-            sortStatus={operaParams?.sortStatusMap?.[colIndex]}
-            setOperaParams={setOperaParams}
-            data={data}
-            key={column['key'] ?? column['dataIndex']}
-            column={column}
-            colIndex={colIndex}
-            head={head}
-            rowIndex={rowIndex}
-          />
-        )
-      })}
+      {columns.map((column, colIndex) => (
+        <TableChildren
+          height={height}
+          virtual={virtual}
+          sortStatus={operaParams?.sortStatusMap?.[colIndex]}
+          setOperaParams={setOperaParams}
+          data={data}
+          key={column['key'] ?? column['dataIndex']}
+          column={column}
+          colIndex={colIndex}
+          head={head}
+          rowIndex={rowIndex}
+        />
+      ))}
     </tr>
   )
 }
