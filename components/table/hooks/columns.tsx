@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { TableProps, TableRowSelection } from '../types'
 
 interface IUsePosition {
@@ -20,11 +20,8 @@ function calMaxDepth(columns: TableProps['columns']) {
 
 function flatLoop(
   flatArr: TableProps['columns'],
-  children?: TableProps['columns'],
+  children: TableProps['columns'],
 ) {
-  if (!children) {
-    return []
-  }
   for (const column of children) {
     if (column.children) {
       flatLoop(flatArr, column.children)
@@ -35,12 +32,9 @@ function flatLoop(
 
 function loop(
   mergedColumns: TableProps['columns'][],
-  children?: TableProps['columns'],
+  children: TableProps['columns'],
   idx: number = 0,
 ) {
-  if (!children) {
-    return
-  }
   for (const column of children) {
     if (column.children) {
       loop(mergedColumns, column.children, idx + 1)
@@ -79,7 +73,7 @@ const useColumns = (props: IUsePosition) => {
     return newColumns
   }, [columns])
 
-  const ColGroup = useMemo(() => {
+  useEffect(() => {
     let left = 0
     let lastLeftFixed
     // left
@@ -113,7 +107,8 @@ const useColumns = (props: IUsePosition) => {
       right += width ?? 200
     }
     lastRightFixed && (lastRightFixed._shadow = true)
-
+  }, [columns])
+  const ColGroup = useMemo(() => {
     return (
       <colgroup>
         {rowSelection !== undefined && (
