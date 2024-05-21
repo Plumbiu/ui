@@ -25,10 +25,10 @@ export default function Demo() {
     <div className="tag-demo">
       {colors.map((color) => (
         <React.Fragment key={color}>
-          <Tag icon={icon} key={color} color={color}>
+          <Tag icon={icon} color={color}>
             {color}
           </Tag>
-          <Tag icon={icon} fill={true} key={color} color={color}>
+          <Tag icon={icon} fill color={color}>
             {color}
           </Tag>
         </React.Fragment>
@@ -36,10 +36,10 @@ export default function Demo() {
       <br />
       {colors.map((color) => (
         <React.Fragment key={color}>
-          <Tag suffixIcon={icon} key={color} color={color}>
+          <Tag suffixIcon={icon} color={color}>
             {color}
           </Tag>
-          <Tag suffixIcon={icon} fill={true} key={color} color={color}>
+          <Tag suffixIcon={icon} fill color={color}>
             {color}
           </Tag>
         </React.Fragment>

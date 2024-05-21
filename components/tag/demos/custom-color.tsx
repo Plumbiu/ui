@@ -9,7 +9,7 @@ export default function Demo() {
   return (
     <div className="tag-demo">
       {colors.map((color) => (
-        <Tag key={color} color={color} fill={true}>
+        <Tag key={color} color={color} fill>
           {color}
         </Tag>
       ))}

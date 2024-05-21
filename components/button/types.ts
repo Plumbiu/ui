@@ -1,7 +1,7 @@
-import { HTMLAttributes } from "react"
-import { TSize, TBaseColor } from "@/types"
+import { ButtonHTMLAttributes } from 'react'
+import { TSize, TBaseColor } from '@/types'
 
-export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: TSize
   circle?: boolean
   color?: TBaseColor

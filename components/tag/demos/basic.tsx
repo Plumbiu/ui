@@ -21,7 +21,7 @@ export default function Demo() {
       ))}
       <br />
       {colors.map((color) => (
-        <Tag fill={true} key={color} color={color}>
+        <Tag fill key={color} color={color}>
           {color}
         </Tag>
       ))}

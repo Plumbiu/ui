@@ -7,7 +7,6 @@ import { formatHex, isDarkColor } from './utils'
 
 export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
   color?: TColor
-  plain?: boolean
   fill?: boolean
 
   icon?: React.ReactNode
@@ -27,18 +26,18 @@ const StyledTag = styled('span')<TagProps>(({ theme }) => {
       ...colorsVar.flatMap((color) => {
         return [
           {
-            props: { color, fill: true },
-            style: {
-              backgroundColor: theme[color],
-              color: theme['text-1'],
-            },
-          },
-          {
-            props: { color, fill: false },
+            props: { color },
             style: {
               backgroundColor: theme.vars[`${color}-6`],
               color: theme.vars[`${color}-1`],
               borderColor: theme.vars[`${color}-1`],
+            },
+          },
+          {
+            props: { color, fill: true },
+            style: {
+              backgroundColor: theme[color],
+              color: theme['text-1'],
             },
           },
         ]
@@ -50,7 +49,6 @@ const StyledTag = styled('span')<TagProps>(({ theme }) => {
 const Tag: React.FC<TagProps> = (props) => {
   const {
     color: customColor = 'primary',
-    plain = false,
     fill = false,
     icon = null,
     suffixIcon = null,
@@ -60,10 +58,11 @@ const Tag: React.FC<TagProps> = (props) => {
 
   const tagProps: TagProps = {
     ...restProps,
-    plain,
     fill,
+    color: customColor,
   }
   if (!isPresetColor) {
+    delete tagProps.color
     if (fill === true) {
       const fontColor = isDarkColor(customColor) ? '#fefefe' : '#323232'
       const style: React.CSSProperties = {
@@ -82,8 +81,6 @@ const Tag: React.FC<TagProps> = (props) => {
       }
       tagProps.style = style
     }
-  } else {
-    tagProps.color = customColor
   }
   return (
     <StyledTag className={fcc_inline} {...tagProps}>
