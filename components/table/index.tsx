@@ -44,13 +44,12 @@ const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
     ...restProps,
   }
 
-  const { ColGroup } = useColumns({
+  const { ColGroup, groupHeaderColumns, flatColumns } = useColumns({
     columns,
     bordered,
     rowSelection,
   })
   const [current, setCurrent] = useState(1)
-
   const { splitData, Pagintaion } = usePagination({
     pageSize,
     dataSource,
@@ -79,7 +78,6 @@ const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
 
   const commonProps = {
     updateCheckeboxByRowIndex,
-    columns,
     operaParams,
   }
 
@@ -109,15 +107,18 @@ const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
                 position: sticky ? undefined : 'static',
               }}
             >
-              <TableTr
-                isAllChecked={isAllChecked}
-                isNoneChecked={isNoneChecked}
-                checkStatus={checkArr?.[0]?.checkStatus}
-                setOperaParams={setOperaParams}
-                rowIndex={0}
-                head
-                {...commonProps}
-              />
+              {groupHeaderColumns.map((columns) => (
+                <TableTr
+                  isAllChecked={isAllChecked}
+                  isNoneChecked={isNoneChecked}
+                  checkStatus={checkArr?.[0]?.checkStatus}
+                  setOperaParams={setOperaParams}
+                  columns={columns}
+                  rowIndex={0}
+                  head
+                  {...commonProps}
+                />
+              ))}
             </thead>
           )}
           <tbody>
@@ -128,6 +129,7 @@ const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
                 rowIndex={rowIndex + 1}
                 data={data}
                 key={data?.[rowKey] ?? rowIndex}
+                columns={flatColumns}
                 {...commonProps}
               />
             ))}

@@ -7,15 +7,84 @@ interface IUsePosition {
   rowSelection?: TableRowSelection
 }
 
+function calMaxDepth(columns: TableProps['columns']) {
+  let max = 1
+  for (const item of columns) {
+    if (item.children) {
+      max = Math.max(1 + calMaxDepth(item.children), max)
+      item._colspan = max
+    }
+  }
+  return max
+}
+
+function flatLoop(
+  flatArr: TableProps['columns'],
+  children?: TableProps['columns'],
+) {
+  if (!children) {
+    return []
+  }
+  for (const column of children) {
+    if (column.children) {
+      flatLoop(flatArr, column.children)
+    }
+    flatArr.push(column)
+  }
+}
+
+function loop(
+  mergedColumns: TableProps['columns'][],
+  children?: TableProps['columns'],
+  idx: number = 0,
+) {
+  if (!children) {
+    return
+  }
+  for (const column of children) {
+    if (column.children) {
+      loop(mergedColumns, column.children, idx + 1)
+    } else {
+      column._rowspan = idx
+    }
+    if (!mergedColumns[idx]) {
+      mergedColumns[idx] = []
+    }
+    mergedColumns[idx].push(column)
+  }
+}
+
 const useColumns = (props: IUsePosition) => {
   const { columns, bordered, rowSelection } = props
+
+  const groupHeaderColumns = useMemo(() => {
+    const groupHeaderColumns: TableProps['columns'][] = []
+    loop(groupHeaderColumns, columns)
+    for (const columns of groupHeaderColumns) {
+      for (const column of columns) {
+        if (column.children) {
+          column._colspan = calMaxDepth(column.children) + 1
+        }
+        if (column._rowspan !== undefined) {
+          column._rowspan = groupHeaderColumns.length - column._rowspan
+        }
+      }
+    }
+    return groupHeaderColumns
+  }, [columns])
+
+  const flatColumns: TableProps['columns'] = useMemo(() => {
+    const newColumns: TableProps['columns'] = []
+    flatLoop(newColumns, columns)
+    return newColumns
+  }, [columns])
 
   const ColGroup = useMemo(() => {
     let left = 0
     let lastLeftFixed
     // left
-    for (let i = 0; i < columns.length; i++) {
-      const column = columns[i]
+    for (let i = 0; i < flatColumns.length; i++) {
+      const column = flatColumns[i]
       const { fixed, width } = column
       if (fixed !== 'left') {
         continue
@@ -31,8 +100,8 @@ const useColumns = (props: IUsePosition) => {
     // right
     let lastRightFixed
     let right = 0
-    for (let i = columns.length - 1; i >= 0; i--) {
-      const column = columns[i]
+    for (let i = flatColumns.length - 1; i >= 0; i--) {
+      const column = flatColumns[i]
       const { fixed, width } = column
       if (fixed !== 'right') {
         continue
@@ -50,14 +119,16 @@ const useColumns = (props: IUsePosition) => {
         {rowSelection !== undefined && (
           <col key="_radio" style={{ width: 50 }} />
         )}
-        {columns.map(({ width, key, dataIndex }) => (
-          <col key={key ?? dataIndex} style={{ width: width ?? 'auto' }} />
-        ))}
+        {flatColumns
+          .filter((item) => item.children == null)
+          .map(({ width, key, dataIndex }) => (
+            <col key={key ?? dataIndex} style={{ width: width ?? 'auto' }} />
+          ))}
       </colgroup>
     )
-  }, [columns, bordered])
+  }, [flatColumns, bordered])
 
-  return { ColGroup }
+  return { ColGroup, groupHeaderColumns, flatColumns }
 }
 
 export default useColumns

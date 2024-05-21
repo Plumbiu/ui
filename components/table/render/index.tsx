@@ -65,13 +65,13 @@ export const TableChildren: React.FC<
     fixed,
     className,
     zIndex,
-    colSpan,
-    rowSpan,
+    colspan,
+    rowspan,
     sorter,
     width,
   } = column
 
-  if (hidden || !(dataIndex || render)) {
+  if (hidden) {
     return null
   }
 
@@ -91,8 +91,6 @@ export const TableChildren: React.FC<
       {
         className: !!className,
         _td_fixed: !!fixed,
-        _td_hl:
-          sortStatus !== undefined && sortStatus !== SortStatusEnum.origin,
         [shadowLeftCls]: column._shadow && fixed === 'left',
         [shadowRightCls]: column._shadow && fixed === 'right',
         [virtualTdCls]: virtual,
@@ -103,13 +101,21 @@ export const TableChildren: React.FC<
     align,
     style,
     className: cl,
-    colSpan,
-    rowSpan,
+    colspan,
+    rowspan,
   }
   if (head) {
+    if (column._colspan) {
+      commonProps.scope = 'colgroup'
+    }
+    if (column._rowspan) {
+      commonProps.scope = 'col'
+    }
     return (
       <ThItem
         {...commonProps}
+        colspan={column._colspan || undefined}
+        rowspan={column._rowspan || undefined}
         sorter={sorter}
         title={title}
         sortStatus={sortStatus}
@@ -117,6 +123,9 @@ export const TableChildren: React.FC<
         colIndex={colIndex}
       />
     )
+  }
+  if (!(dataIndex || render)) {
+    return null
   }
   return (
     <TdItem

@@ -4,7 +4,7 @@ import { TableProps } from './types'
 export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
   ({ theme }) => {
     const hoverHeadBgColor = theme.vars['info-6']
-    const border = `1px solid ${hoverHeadBgColor}`
+    const border = `1px solid ${theme.vars['info-5']}`
     const bgColor = theme.vars['info-7']
     const radius = 6
     return {
@@ -32,9 +32,6 @@ export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
         overflow: 'hidden',
         fontWeight: 600,
         textAlign: 'left',
-        '& ._td_hl': {
-          backgroundColor: hoverHeadBgColor,
-        },
         '& > tr': {
           '& > th': {
             backgroundColor: bgColor,
@@ -56,9 +53,6 @@ export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
       '& > tbody': {
         overflow: 'hidden',
         backgroundColor: theme.vars['background-1'],
-        '& ._td_hl': {
-          backgroundColor: bgColor,
-        },
         '& > tr': {
           '&:hover > td': {
             backgroundColor: bgColor,
@@ -77,10 +71,10 @@ export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
           props: { bordered: true },
           style: {
             '& tr': {
-              '& > td': {
+              '& > td, & > th': {
                 borderLeft: border,
                 borderTop: border,
-                '&:last-child': {
+                '&:last-child[^colgroup]': {
                   borderRight: border,
                 },
               },
@@ -89,16 +83,12 @@ export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
                   borderBottom: 'none',
                 },
               },
-            },
-            '& > tbody': {
-              '& > tr': {
-                '&:last-child': {
-                  '& > td:first-child': {
-                    borderBottomLeftRadius: radius,
-                  },
-                  '& > td:last-child': {
-                    borderBottomRightRadius: radius,
-                  },
+              '&:last-child': {
+                '& > *:first-child': {
+                  borderBottomLeftRadius: radius,
+                },
+                '& > *:last-child': {
+                  borderBottomRightRadius: radius,
                 },
               },
             },

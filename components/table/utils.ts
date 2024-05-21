@@ -8,3 +8,45 @@ export function calOffset(width?: string | number) {
   }
   return 200
 }
+
+interface T {
+  a?: string
+  children: T[]
+}
+
+function findMaxChildren(a: T[]) {
+  let max = 0
+  for (const item of a) {
+    if (item.children) {
+      max = Math.max(1 + findMaxChildren(item.children), max)
+    }
+  }
+  return max
+}
+
+console.log(
+  findMaxChildren([
+    {
+      children: [],
+    },
+    {
+      a: '1',
+      children: [
+        {
+          a: '1',
+          children: [
+            {
+              a: '1',
+              children: [
+                {
+                  a: '1',
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ]),
+)

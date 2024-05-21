@@ -11,8 +11,8 @@ export type Render<T extends DefaultData> = (
 export interface TableColumnTypes<T extends DefaultData> {
   align?: 'left' | 'center' | 'right'
   className?: string
-  colSpan?: number
-  rowSpan?: number
+  colspan?: number
+  rowspan?: number
   dataIndex?: string
   key?: React.Key
   fixed?: boolean | 'right' | 'left'
@@ -22,6 +22,7 @@ export interface TableColumnTypes<T extends DefaultData> {
   width?: number
   title: string
   sorter?: (a: T, b: T) => number
+  children?: TableColumnTypes<T>[]
   [key: string]: any
 }
 
