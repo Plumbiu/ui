@@ -1,17 +1,11 @@
 import React from 'react'
 import { clsx } from 'clsx'
 import { css } from '@pigment-css/react'
-import {
-  CheckEnum,
-  DefaultData,
-  ITableOperateParams,
-  SetOperaParams,
-  SortStatusEnum,
-  TableProps,
-} from '../types'
-import { UpdateCheckeboxByRowIndex } from '../hooks/check'
+import { CheckEnum, SortStatusEnum, TableProps } from '../types'
 import TdItem from './Td'
 import ThItem from './Th'
+import { ITableTr } from './types'
+import { CheckInput } from './Check'
 
 const virtualTdCls = css({
   display: 'flex',
@@ -30,32 +24,22 @@ const shadowRightCls = css({
   transition: '0.3s',
 })
 
-interface RenderCommonTypes {
-  height?: number
-  virtual?: boolean
-  data?: DefaultData
-  rowIndex: number
-  setOperaParams?: SetOperaParams
-  head?: boolean
-}
-
-export const TableChildren: React.FC<
-  {
-    sortStatus?: SortStatusEnum
-    column: TableProps['columns'][number]
-    colIndex: number
-  } & RenderCommonTypes
-> = ({
-  column,
-  head,
-  colIndex,
-  rowIndex,
-  data,
-  setOperaParams,
-  sortStatus,
-  virtual,
-  height,
-}) => {
+export const TableChildren: React.FC<ITableTr & {
+  sortStatus?: SortStatusEnum
+  column: TableProps['columns'][number]
+  colIndex: number
+}> = (props) => {
+  const {
+    column,
+    head,
+    colIndex,
+    rowIndex,
+    data,
+    setOperaParams,
+    sortStatus,
+    virtual,
+    height,
+  } = props
   const {
     align,
     title,
@@ -123,15 +107,18 @@ export const TableChildren: React.FC<
   }
 
   return (
-    <TdItem
-      {...commonProps}
-      render={render}
-      column={column}
-      data={data}
-      colIndex={colIndex}
-      rowIndex={rowIndex}
-      dataIndex={dataIndex}
-    />
+    <>
+      {colIndex === 0 && <CheckInput {...props} />}
+      <TdItem
+        {...commonProps}
+        render={render}
+        column={column}
+        data={data}
+        colIndex={colIndex}
+        rowIndex={rowIndex}
+        dataIndex={dataIndex}
+      />
+    </>
   )
 }
 
@@ -151,24 +138,6 @@ const checkedCls = css(({ theme }) => ({
   },
 }))
 
-const halfCheckedCls = css(({ theme }) => ({
-  position: 'relative',
-  '&::after': {
-    content: '""',
-    display: 'block',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    width: '8px',
-    height: '8px',
-    backgroundColor: '#326bfb',
-    border: '0',
-    zIndex: 1,
-    transform: 'translate(-13.5px, -5.5px)',
-    borderRadius: 1.5,
-  },
-}))
-
 const disabledCls = css(({ theme }) => ({
   '& > td': {
     backgroundColor: `${theme.vars['info-6']}!important`,
@@ -176,84 +145,33 @@ const disabledCls = css(({ theme }) => ({
   },
 }))
 
-export const TableTr: React.FC<
-  {
-    isNoneChecked?: boolean
-    isAllChecked?: boolean
-    updateCheckeboxByRowIndex?: UpdateCheckeboxByRowIndex
-    disabled?: boolean
-    checkStatus?: CheckEnum
-    style?: React.CSSProperties
-    operaParams?: ITableOperateParams
-    columns: TableProps['columns']
-  } & RenderCommonTypes
-> = ({
-  columns,
-  rowIndex,
-  head = false,
-  data,
-  setOperaParams,
-  operaParams,
-  style,
-  virtual,
-  height,
-  checkStatus,
-  updateCheckeboxByRowIndex,
-  isNoneChecked,
-  isAllChecked,
-  disabled,
-}) => {
+export const TableTr: React.FC<ITableTr> = (props) => {
+  const {
+    columns,
+    rowIndex,
+    head = false,
+    operaParams,
+    style,
+    virtual,
+    checkStatus,
+    disabled,
+  } = props
   const cl = clsx({
     [virtualCls]: virtual,
     [checkedCls]: checkStatus === CheckEnum.on,
     [disabledCls]: disabled === true,
   })
-  const commonProps: any = {
-    type: 'checkbox',
-    value: checkStatus,
-    checked: head ? isAllChecked : checkStatus === CheckEnum.on,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (updateCheckeboxByRowIndex) {
-        const value = e.target.value
-        updateCheckeboxByRowIndex(
-          value === CheckEnum.on ? CheckEnum.off : CheckEnum.on,
-          rowIndex,
-        )
-      }
-    },
-    disabled: disabled || undefined,
-  }
-  const SelectInput = <input {...commonProps} />
-  function renderSelect() {
-    if (virtual || !updateCheckeboxByRowIndex) {
-      return null
-    }
-    return head ? (
-      <th>
-        {SelectInput}
-        {!(isNoneChecked || isAllChecked) && (
-          <span className={halfCheckedCls} />
-        )}
-      </th>
-    ) : (
-      <td>{SelectInput}</td>
-    )
-  }
+
   return (
     <tr className={cl} style={style}>
-      {renderSelect()}
+      {head && rowIndex === 0 && <CheckInput {...props} />}
       {columns.map((column, colIndex) => (
         <TableChildren
-          height={height}
-          virtual={virtual}
-          sortStatus={operaParams?.sortStatusMap?.[colIndex]}
-          setOperaParams={setOperaParams}
-          data={data}
-          key={column['key'] ?? column['dataIndex']}
-          column={column}
+          {...props}
           colIndex={colIndex}
-          head={head}
-          rowIndex={rowIndex}
+          column={column}
+          sortStatus={operaParams?.sortStatusMap?.[colIndex]}
+          key={column['key'] ?? column['dataIndex']}
         />
       ))}
     </tr>

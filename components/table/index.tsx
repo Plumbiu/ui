@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useState } from 'react'
+import { forwardRef, useId, useImperativeHandle, useState } from 'react'
 import { TableTr } from './render'
 import { StyledFooter, StyledTable, theadCls } from './styles'
 import { TableProps } from './types'
@@ -107,14 +107,15 @@ const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
                 position: sticky ? undefined : 'static',
               }}
             >
-              {groupHeaderColumns.map((columns) => (
+              {groupHeaderColumns.map((columns, rowIndex) => (
                 <TableTr
                   isAllChecked={isAllChecked}
                   isNoneChecked={isNoneChecked}
                   checkStatus={checkArr?.[0]?.checkStatus}
                   setOperaParams={setOperaParams}
                   columns={columns}
-                  rowIndex={0}
+                  rowIndex={rowIndex}
+                  id={useId()}
                   head
                   {...commonProps}
                 />
@@ -128,6 +129,7 @@ const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
                 checkStatus={checkArr?.[rowIndex + 1]?.checkStatus}
                 rowIndex={rowIndex + 1}
                 data={data}
+                id={data?.[rowKey] ?? rowIndex}
                 key={data?.[rowKey] ?? rowIndex}
                 columns={flatColumns}
                 {...commonProps}
