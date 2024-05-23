@@ -59,6 +59,7 @@ export type VirtualTableProps = Omit<
   scroll: { x?: number; y: number }
   itemHeight: number
   wait?: number
+  overscan?: number
 }
 
 export enum SortStatusEnum {

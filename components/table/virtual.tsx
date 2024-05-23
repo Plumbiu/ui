@@ -1,5 +1,5 @@
 import { useThrottleFn, useEventListener } from 'ahooks'
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useId } from 'react'
 import useColumns from './hooks/columns'
 import { TableTr } from './render'
 import { StyledTable, theadCls } from './styles'
@@ -19,7 +19,8 @@ const VirtualTable: React.FC<VirtualTableProps> = (props) => {
     tableLayout,
     itemHeight,
     scroll,
-    wait = 100,
+    wait = 0,
+    overscan = 10,
     ...restProps
   } = props
 
@@ -44,11 +45,11 @@ const VirtualTable: React.FC<VirtualTableProps> = (props) => {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const list = useMemo(() => {
-    const endIndex = start + showNum + 2
-    if (start < 3) {
+    const endIndex = start + showNum + overscan
+    if (start <= overscan) {
       return dataSource.slice(start, endIndex)
     }
-    return dataSource.slice(start - 3, endIndex)
+    return dataSource.slice(start - overscan, endIndex)
   }, [start, showNum])
 
   const { run: handleScroll } = useThrottleFn(
@@ -93,6 +94,7 @@ const VirtualTable: React.FC<VirtualTableProps> = (props) => {
               rowIndex={0}
               columns={columns}
               head
+              id={useId()}
             />
           </thead>
         )}
@@ -113,6 +115,7 @@ const VirtualTable: React.FC<VirtualTableProps> = (props) => {
               rowIndex={rowIndex + 1}
               data={data}
               key={data?.[rowKey] ?? rowIndex}
+              id={data?.[rowKey] ?? rowIndex}
               columns={columns}
             />
           ))}
