@@ -75,7 +75,7 @@ export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
               '& > td, & > th': {
                 borderLeft: border,
                 borderTop: border,
-                '&:last-child:not(th[$="span"])': {
+                '&:last-child:not(th[colspan]):not(th[rowspan])': {
                   borderRight: border,
                 },
               },
