@@ -1,8 +1,6 @@
 import { css } from '@pigment-css/react'
-import { ReactNode } from 'react'
 import { UpIcon, DownIcon } from '../icons'
 import { SortStatusEnum } from '../types'
-import { fcb, gap4 } from '@/_styles'
 import { IconWrap } from '@/icon'
 
 const tableActionSvgCls = css(({ theme }) => ({
@@ -32,17 +30,3 @@ export const SortAction: React.FC<{
     </div>
   )
 }
-
-const TableAction: React.FC<{
-  sortNode: ReactNode
-  title: string
-}> = ({ sortNode, title }) => {
-  return (
-    <div className={fcb}>
-      {title}
-      <div className={`${fcb} ${gap4}`}>{sortNode}</div>
-    </div>
-  )
-}
-
-export default TableAction

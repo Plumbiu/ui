@@ -13,8 +13,6 @@ interface TdProps {
 const TdItem: React.FC<TdProps> = ({
   render,
   column,
-  rowIndex,
-  colIndex,
   data,
   dataIndex,
   ...restProps
@@ -22,7 +20,7 @@ const TdItem: React.FC<TdProps> = ({
   return (
     <td {...restProps}>
       {render
-        ? render(data, column, rowIndex, colIndex)
+        ? render(data, column)
         : dataIndex
         ? data?.[dataIndex]
         : null}

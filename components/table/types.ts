@@ -5,8 +5,6 @@ export type DefaultData = Record<'key' | string, any>
 export type Render<T extends DefaultData> = (
   row: T,
   column: TableColumnTypes<T>,
-  rowIndex: number,
-  colIndex: number,
 ) => React.ReactNode
 export interface TableColumnTypes<T extends DefaultData> {
   align?: 'left' | 'center' | 'right'

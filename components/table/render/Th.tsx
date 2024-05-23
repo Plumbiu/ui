@@ -5,7 +5,8 @@ import {
   TableSort,
   sortHoverTitle,
 } from '../types'
-import TableAction, { SortAction } from './Action'
+import { SortAction } from './Action'
+import { fcb } from '@/_styles'
 
 interface ThItemProps {
   title: string
@@ -33,7 +34,6 @@ function handleSort(
   sortStatusMap[colIndex] = sortStatus
 
   return {
-    ...params,
     sorter:
       sortStatus === SortStatusEnum.origin
         ? undefined
@@ -59,15 +59,12 @@ const ThItem: React.FC<ThItemProps> = ({
     commonProps.title = sortHoverTitle[sortStatus ?? SortStatusEnum.origin]
   }
   return (
-    <th
-      {...commonProps}
-      {...restProps}
-    >
+    <th {...commonProps} {...restProps}>
       {sorter ? (
-        <TableAction
-          sortNode={<SortAction sortStatus={sortStatus} />}
-          title={title}
-        />
+        <div className={fcb}>
+          {title}
+          {<SortAction sortStatus={sortStatus} />}
+        </div>
       ) : (
         title
       )}

@@ -19,6 +19,7 @@ export const StyledTable = styled('table')<Pick<TableProps, 'bordered'>>(
       '& ._td_fixed': {
         position: 'sticky',
         zIndex: 10,
+        transition: '0.3s',
       },
       '& tr': {
         '& > td, & > th': {

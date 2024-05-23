@@ -112,7 +112,7 @@ const useColumns = (props: IUsePosition) => {
     return (
       <colgroup>
         {rowSelection !== undefined && (
-          <col key="_radio" style={{ width: 50 }} />
+          <col style={{ width: 45 }} />
         )}
         {flatColumns
           .filter((item) => item.children == null)

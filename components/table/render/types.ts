@@ -7,16 +7,6 @@ import {
   TableProps,
 } from '../types'
 
-export interface RenderCommonTypes {
-  height?: number
-  virtual?: boolean
-  data?: DefaultData
-  rowIndex: number
-  setOperaParams?: SetOperaParams
-  head?: boolean
-  id: string
-}
-
 export interface ITableTr {
   height?: number
   virtual?: boolean
@@ -33,5 +23,4 @@ export interface ITableTr {
   style?: React.CSSProperties
   operaParams?: ITableOperateParams
   columns: TableProps['columns']
-
 }
