@@ -27,7 +27,7 @@ export default defineConfig({
               // register page data
               api.addPageData({
                 pageId,
-                key: demoName,
+                key: `${componentName}-${demoName}`,
                 // register demo runtime data path
                 // it will be consumed by theme-doc
                 // the ?demo query will wrap the module with useful demoInfo
