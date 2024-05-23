@@ -21,9 +21,10 @@ const wrapperCls = css(({ theme }) => ({
     borderRadius: 3,
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: theme['info'],
+    borderColor: theme.vars['info-2'],
     position: 'relative',
     cursor: 'pointer',
+    transition: '0.2s',
     '&::before': {
       content: '" "',
       position: 'absolute',
@@ -43,23 +44,21 @@ const wrapperCls = css(({ theme }) => ({
 
 const halfCheckCls = css(({ theme }) => ({
   '> label': {
-    backgroundColor: theme['primary'],
-    borderColor: theme['primary'],
     '&::before': {
+      backgroundColor: theme['primary'],
       transform: 'none',
-      backgroundColor: '#fff',
       opacity: '1',
       border: 'none',
-      height: '2px',
-      borderRadius: 1,
-      top: 4,
+      height: 8,
+      borderRadius: 1.5,
+      top: 1.5,
     },
   },
 }))
 
 const disabledCheckCls = css(({ theme }) => ({
   '> label': {
-    borderColor: theme.vars['info-2'],
+    borderColor: theme.vars['info-4'],
     cursor: 'not-allowed',
     backgroundColor: theme.vars['info-6'],
   },
