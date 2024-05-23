@@ -3,20 +3,65 @@ import { clsx } from 'clsx'
 import { CheckEnum } from '../types'
 import { ITableTr } from './types'
 
-const halfCheckedCls = css(({ theme }) => ({
-  position: 'relative',
-  '&::after': {
-    content: '""',
-    display: 'block',
-    position: 'absolute',
-    top: 2.5,
-    left: 2.5,
-    width: 8,
-    height: 8,
-    border: '0',
-    zIndex: '1',
-    borderRadius: 1.5,
+const wrapperCls = css(({ theme }) => ({
+  '> input': {
+    display: 'none',
+    '&:checked+label': {
+      backgroundColor: theme['primary'],
+      borderColor: theme['primary'],
+      '&::before': {
+        opacity: 1,
+      },
+    },
+  },
+  '> label': {
+    display: 'inline-block',
+    width: 13,
+    height: 13,
+    borderRadius: 3,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: theme['info'],
+    position: 'relative',
+    cursor: 'pointer',
+    '&::before': {
+      content: '" "',
+      position: 'absolute',
+      top: 3,
+      left: 1.7,
+      display: 'inline-block',
+      opacity: 0,
+      width: 8,
+      height: 4,
+      border: '2px solid #fff',
+      borderTop: 'none',
+      borderRight: 'none',
+      transform: 'rotate(-45deg)',
+    },
+  },
+}))
+
+const halfCheckCls = css(({ theme }) => ({
+  '> label': {
     backgroundColor: theme['primary'],
+    borderColor: theme['primary'],
+    '&::before': {
+      transform: 'none',
+      backgroundColor: '#fff',
+      opacity: '1',
+      border: 'none',
+      height: '2px',
+      borderRadius: 1,
+      top: 4,
+    },
+  },
+}))
+
+const disabledCheckCls = css(({ theme }) => ({
+  '> label': {
+    borderColor: theme.vars['info-2'],
+    cursor: 'not-allowed',
+    backgroundColor: theme.vars['info-6'],
   },
 }))
 
@@ -56,8 +101,9 @@ export const CheckInput: React.FC<ITableTr> = ({
 
   const node = (
     <div
-      className={clsx({
-        [halfCheckedCls]: head && !(isNoneChecked || isAllChecked),
+      className={clsx(wrapperCls, {
+        [halfCheckCls]: head && !(isAllChecked || isNoneChecked),
+        [disabledCheckCls]: disabled,
       })}
     >
       <input {...commonProps} />
