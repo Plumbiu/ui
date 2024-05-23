@@ -51,6 +51,6 @@ export const wave = {
   },
   '&:active::after': {
     opacity: 0.4,
-    transition: '0s',
+    transition: 'none',
   },
 }

@@ -20,6 +20,7 @@ const sizeMap: Record<TSize, number> = {
 const sizeVar: TSize[] = ['sm', 'lg']
 export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
   fontSize: 14,
+  height: 14,
   variants: [
     ...colorsVar.map((color) => ({
       props: { color },
@@ -31,13 +32,14 @@ export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
       props: { size },
       style: {
         fontSize: sizeMap[size],
+        height: sizeMap[size],
       },
     })),
     {
       props: { hover: true },
       style: {
         cursor: 'pointer',
-        transition: 'color 0.1s',
+        transition: 'color 0.2s',
         '&:hover': {
           color: theme.vars['text-3'],
         },
@@ -47,11 +49,11 @@ export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
       props: { hoverBg: true },
       style: {
         cursor: 'pointer',
-        transition: 'background-color 0.1s',
+        transition: 'background-color 0.2s',
         borderRadius: '50%',
-        padding: 4,
+        aspectRatio: 1,
         '&:hover': {
-          backgroundColor: theme.vars['info-3'],
+          backgroundColor: theme.vars['info-4'],
         },
       },
     },

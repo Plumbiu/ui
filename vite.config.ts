@@ -43,7 +43,7 @@ export const viteOptions: InlineConfig = {
         entryFileNames: '[name].mjs',
         manualChunks: {
           _bundle: ['ahooks', '@pigment-css/react'],
-          _base: ['@/_styles', '@/_common'],
+          _base: ['@/_styles', '@/_common', '@/_hooks'],
         },
         globals: {
           react: 'React',

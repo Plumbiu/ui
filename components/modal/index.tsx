@@ -226,40 +226,42 @@ const Modal: React.FC<ModalProps> & {
   }, [visible])
 
   let children: React.ReactNode = (
-    <StyledModal style={modalStyles}>
-      <div className={`${fcb} ${modalHeadCls}`}>
-        <div className={titleCls}>{title}</div>
-        {closable ? (
-          <IconWrap size="lg" hover onClick={() => onClose?.()}>
-            <MaterialSymbolsCloseRounded />
-          </IconWrap>
-        ) : null}
-      </div>
-      <div className={contentCls}>{props.children}</div>
-      {footer === undefined ? (
-        <div className={footerCls}>
-          <Button
-            onClick={() => {
-              onClose?.()
-              onOk?.()
-            }}
-          >
-            {okText}
-          </Button>
-          <Button
-            onClick={() => {
-              onClose?.()
-              onCancel?.()
-            }}
-            outlined
-          >
-            {cancelText}
-          </Button>
+    <StyledMask ref={modalRef} style={maskStyles} key={closesFn.size}>
+      <StyledModal style={modalStyles}>
+        <div className={`${fcb} ${modalHeadCls}`}>
+          <div className={titleCls}>{title}</div>
+          {closable ? (
+            <IconWrap size="lg" hover onClick={() => onClose?.()}>
+              <MaterialSymbolsCloseRounded />
+            </IconWrap>
+          ) : null}
         </div>
-      ) : (
-        footer
-      )}
-    </StyledModal>
+        <div className={contentCls}>{props.children}</div>
+        {footer === undefined ? (
+          <div className={footerCls}>
+            <Button
+              onClick={() => {
+                onClose?.()
+                onOk?.()
+              }}
+            >
+              {okText}
+            </Button>
+            <Button
+              onClick={() => {
+                onClose?.()
+                onCancel?.()
+              }}
+              outlined
+            >
+              {cancelText}
+            </Button>
+          </div>
+        ) : (
+          footer
+        )}
+      </StyledModal>
+    </StyledMask>
   )
   if (!visible) {
     if (destoryOnClose) {
@@ -268,13 +270,7 @@ const Modal: React.FC<ModalProps> & {
     maskStyles.display = 'none'
   }
 
-  const node = (
-    <Portal target={portal}>
-      <StyledMask ref={modalRef} style={maskStyles} key={closesFn.size}>
-        {children}
-      </StyledMask>
-    </Portal>
-  )
+  const node = <Portal target={portal}>{children}</Portal>
 
   return node
 }
