@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
 
+export const status = ['danger', 'success', 'warning'] as const
+
 export type RowInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   'sizse' | 'prefix' | 'type' | 'onChange'
@@ -15,6 +17,10 @@ export interface InputProps extends RowInputProps {
   prefix?: ReactNode
   suffix?: ReactNode
   allowClear?: boolean
+  defaultValue?: string
+  maxLength?: number
+  status?: typeof status[number]
+
   onChange?: (e: InputChangeEvent) => void
 }
 

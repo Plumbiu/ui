@@ -63,7 +63,12 @@ export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
 export const IconWrap: React.FC<IconProps> = (props) => {
   const { color, size = 'md', ...restProps } = props
   return (
-    <StyledIcon className={fcc_inline} {...restProps} color={color} size={size}>
+    <StyledIcon
+      className={fcc_inline}
+      {...restProps}
+      color={color}
+      size={size}
+    >
       {props.children}
     </StyledIcon>
   )
