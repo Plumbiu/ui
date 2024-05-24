@@ -24,7 +24,7 @@ const StyledInputWrapper = styled('div')<InputProps>(({ theme }) => {
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: theme.vars['info-4'],
-    transition: 'border-color 0.3s',
+    transition: 'border-color 0.2s,box-shadow 0.2s',
     borderRadius: 4,
     '& > div': {
       margin: '0 auto',
@@ -36,13 +36,18 @@ const StyledInputWrapper = styled('div')<InputProps>(({ theme }) => {
         paddingRight: 12,
       },
     },
-    '&:hover,&:focus-within': {
-      borderColor: theme['primary'],
-    },
-    '&:focus-within': {
-      boxShadow: `0 0 0 2px ${theme.vars['primary-6']}`,
-    },
     variants: [
+      {
+        props: { disabled: false },
+        style: {
+          '&:hover,&:focus-within': {
+            borderColor: theme['primary'],
+          },
+          '&:focus-within': {
+            boxShadow: `0 0 0 2px ${theme.vars['primary-6']}`,
+          },
+        },
+      },
       ...status.map((s) => ({
         props: { status: s },
         style: {
@@ -55,6 +60,13 @@ const StyledInputWrapper = styled('div')<InputProps>(({ theme }) => {
           },
         },
       })),
+      {
+        props: { disabled: true },
+        style: {
+          cursor: 'not-allowed',
+          backgroundColor: theme.vars['info-6'],
+        },
+      },
     ],
   }
 })
@@ -80,8 +92,8 @@ const StyledInput = styled('input')<InputProps>(({ theme }) => {
     outline: 'none',
     border: 'none',
     width: '100%',
-    paddingLeft: 12,
-    transition: 'border-color .15s',
+    paddingLeft: 8,
+    paddingRight: 8,
     backgroundColor: 'transparent',
     color: theme.vars['text-1'],
     '&::placeholder': {
@@ -168,7 +180,7 @@ const Input: React.FC<InputProps> = (props) => {
   }
 
   return (
-    <StyledInputWrapper status={status}>
+    <StyledInputWrapper status={status} disabled={disabled}>
       {!!beforeNode && <div className={addonCls}>{beforeNode}</div>}
       {!!prefix && <div>{prefix}</div>}
       <StyledInput
@@ -177,6 +189,7 @@ const Input: React.FC<InputProps> = (props) => {
         disabled={disabled}
         onChange={handleChange}
         maxLength={maxLength}
+        style={{ cursor: disabled ? 'not-allowed' : undefined }}
         {...restProps}
       />
       {allowClear && (

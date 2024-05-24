@@ -14,6 +14,15 @@ export default function Demo() {
           console.log(e)
         }}
       />
+      <br />
+      <br />
+      <Input
+        disabled
+        placeholder="xxx"
+        onChange={(e) => {
+          console.log(e)
+        }}
+      />
     </>
   )
 }
