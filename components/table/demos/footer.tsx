@@ -54,6 +54,6 @@ for (let i = 0; i < 5; i++) {
     skill: 'game',
   })
 }
-export default function Demo() {
+export default function Footer() {
   return <Table columns={columns} dataSource={dataSource} footer={'hello'} />
 }

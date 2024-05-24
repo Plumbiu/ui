@@ -57,6 +57,6 @@ const dataSource: DataSource[] = [
     address: 'shenzhen',
   },
 ]
-export default function Demo() {
+export default function Borderd() {
   return <Table bordered columns={columns} dataSource={dataSource} />
 }

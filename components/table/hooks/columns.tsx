@@ -25,8 +25,9 @@ function flatLoop(
   for (const column of children) {
     if (column.children) {
       flatLoop(flatArr, column.children)
+    } else {
+      flatArr.push(column)
     }
-    flatArr.push(column)
   }
 }
 
@@ -111,13 +112,13 @@ const useColumns = (props: IUsePosition) => {
   const ColGroup = useMemo(() => {
     return (
       <colgroup>
-        {rowSelection !== undefined && (
-          <col style={{ width: 45 }} />
-        )}
+        {rowSelection !== undefined && <col style={{ width: 45 }} />}
         {flatColumns
-          .filter((item) => item.children == null)
           .map(({ width, key, dataIndex }) => (
-            <col key={key ?? dataIndex} style={{ width: width ?? 'auto' }} />
+            <col
+              key={key ?? dataIndex}
+              style={{ width: width ?? 'auto' }}
+            />
           ))}
       </colgroup>
     )

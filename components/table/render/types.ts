@@ -14,7 +14,6 @@ export interface ITableTr {
   rowIndex: number
   setOperaParams?: SetOperaParams
   head?: boolean
-  id: string
   isNoneChecked?: boolean
   isAllChecked?: boolean
   updateCheckeboxByRowIndex?: UpdateCheckeboxByRowIndex

@@ -1,4 +1,3 @@
-import { useId } from 'react'
 import useColumns from './hooks/columns'
 import { TableTr } from './render'
 import { StyledTable, theadCls, StyledFooter } from './styles'
@@ -52,8 +51,8 @@ const BaseTable: React.FC<BaseTableProps> = (props) => {
             {groupHeaderColumns.map((columns, rowIndex) => (
               <TableTr
                 columns={columns}
+                key={rowIndex}
                 rowIndex={rowIndex}
-                id={useId()}
                 head
               />
             ))}
@@ -66,7 +65,6 @@ const BaseTable: React.FC<BaseTableProps> = (props) => {
               data={data}
               key={data?.[rowKey] ?? rowIndex}
               columns={columns}
-              id={data?.[rowKey] ?? rowIndex}
             />
           ))}
         </tbody>

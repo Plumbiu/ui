@@ -107,7 +107,7 @@ for (let i = 0; i < 100; i++) {
   })
 }
 
-const App: React.FC = () => (
+const Group: React.FC = () => (
   <Table
     columns={columns}
     dataSource={data}
@@ -116,4 +116,4 @@ const App: React.FC = () => (
   />
 )
 
-export default App
+export default Group

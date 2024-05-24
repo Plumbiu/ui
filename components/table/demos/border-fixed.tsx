@@ -60,7 +60,7 @@ const data = [
   },
 ]
 
-export default function Demo() {
+export default function BorderFixed() {
   return (
     <Table
       bordered

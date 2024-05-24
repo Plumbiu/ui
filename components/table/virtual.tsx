@@ -1,5 +1,5 @@
 import { useThrottleFn, useEventListener } from 'ahooks'
-import { useState, useRef, useMemo, useId } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import useColumns from './hooks/columns'
 import { TableTr } from './render'
 import { StyledTable, theadCls } from './styles'
@@ -94,7 +94,6 @@ const VirtualTable: React.FC<VirtualTableProps> = (props) => {
               rowIndex={0}
               columns={columns}
               head
-              id={useId()}
             />
           </thead>
         )}
@@ -115,7 +114,6 @@ const VirtualTable: React.FC<VirtualTableProps> = (props) => {
               rowIndex={rowIndex + 1}
               data={data}
               key={data?.[rowKey] ?? rowIndex}
-              id={data?.[rowKey] ?? rowIndex}
               columns={columns}
             />
           ))}

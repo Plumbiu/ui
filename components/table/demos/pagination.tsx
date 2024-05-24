@@ -92,7 +92,7 @@ for (let i = 0; i < 100; i++) {
   })
 }
 
-export default function Demo() {
+export default function Pagination() {
   return (
     <Table pagination columns={columns} pageSize={5} dataSource={dataSource} />
   )

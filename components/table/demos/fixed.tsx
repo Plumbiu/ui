@@ -56,7 +56,7 @@ const data = [
   },
 ]
 
-export default function Demo() {
+export default function Fixed() {
   return (
     <Table scroll={{ y: 400, x: 1300 }} columns={columns} dataSource={data} />
   )

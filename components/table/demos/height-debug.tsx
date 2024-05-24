@@ -67,7 +67,7 @@ for (let i = 0; i < 100; i++) {
     address: 'beijing',
   })
 }
-export default function Demo() {
+export default function HeightDebug() {
   return (
     <Table
       scroll={{ y: 400, x: 1100 }}

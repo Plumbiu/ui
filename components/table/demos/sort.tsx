@@ -66,7 +66,7 @@ const data: DataType[] = [
   },
 ]
 
-export default function Demo() {
+export default function Sort() {
   return (
     <Table columns={columns} dataSource={data} />
   )

@@ -66,7 +66,7 @@ for (let i = 0; i < 100000; i++) {
     address: 'beijing',
   })
 }
-export default function Demo() {
+export default function Virtual() {
   return (
     <VirtualTable
       wait={200}

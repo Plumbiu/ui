@@ -66,7 +66,7 @@ const dataSource: DataSource[] = [
   },
 ]
 
-export default function Demo() {
+export default function Check() {
   const ref = useRef<TableRefProps>(null)
   const [selectedData, setSelectedData] = useState<React.Key[]>([])
 

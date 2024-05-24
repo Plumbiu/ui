@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { clsx } from 'clsx'
 import { css } from '@pigment-css/react'
 import { CheckEnum, SortStatusEnum, TableProps } from '../types'
@@ -85,6 +85,7 @@ export const TableChildren: React.FC<
     colSpan: head ? column._colspan : colspan,
     rowSpan: head ? column._rowspan : rowspan,
   }
+
   if (head) {
     return (
       <ThItem
@@ -99,7 +100,7 @@ export const TableChildren: React.FC<
   }
 
   return (
-    <>
+    <Fragment>
       {colIndex === 0 && <CheckInput {...props} />}
       <TdItem
         {...commonProps}
@@ -108,7 +109,7 @@ export const TableChildren: React.FC<
         data={data}
         dataIndex={dataIndex}
       />
-    </>
+    </Fragment>
   )
 }
 
@@ -152,18 +153,21 @@ export const TableTr: React.FC<ITableTr> = (props) => {
     [disabledCls]: disabled === true,
   })
 
-  return (
+  const node = (
     <tr className={cl} style={style}>
       {head && rowIndex === 0 && <CheckInput {...props} />}
-      {columns.map((column, colIndex) => (
-        <TableChildren
-          {...props}
-          colIndex={colIndex}
-          column={column}
-          sortStatus={operaParams?.sortStatusMap?.[colIndex]}
-          key={column['key'] ?? column['dataIndex']}
-        />
-      ))}
+      {columns.map((column, colIndex) => {
+        return (
+          <TableChildren
+            {...props}
+            colIndex={colIndex}
+            column={column}
+            sortStatus={operaParams?.sortStatusMap?.[colIndex]}
+            key={column['key'] ?? column['dataIndex'] ?? column['title']}
+          />
+        )
+      })}
     </tr>
   )
+  return node
 }

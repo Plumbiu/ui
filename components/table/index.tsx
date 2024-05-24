@@ -1,4 +1,4 @@
-import { forwardRef, useId, useImperativeHandle, useState } from 'react'
+import { forwardRef, useImperativeHandle, useState } from 'react'
 import { TableTr } from './render'
 import {
   StyledFooter,
@@ -121,8 +121,8 @@ const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
                   checkStatus={checkArr?.[0]?.checkStatus}
                   setOperaParams={setOperaParams}
                   columns={columns}
+                  key={rowIndex}
                   rowIndex={rowIndex}
-                  id={useId()}
                   head
                   {...commonProps}
                 />
@@ -136,7 +136,6 @@ const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
                 checkStatus={checkArr?.[rowIndex + 1]?.checkStatus}
                 rowIndex={rowIndex + 1}
                 data={data}
-                id={data?.[rowKey] ?? rowIndex}
                 key={data?.[rowKey] ?? rowIndex}
                 columns={flatColumns}
                 {...commonProps}
