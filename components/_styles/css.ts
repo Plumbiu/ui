@@ -38,6 +38,7 @@ export const overflowAutoCss = css({
 })
 export const scrollBarCss = css(({ theme }) => ({
   overflow: 'auto',
+  maxHeight: '100vh',
   '&::-webkit-scrollbar': {
     display: 'block',
     width: 7.6,
