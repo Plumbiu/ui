@@ -36,3 +36,29 @@ export const selfStart = css({
 export const overflowAutoCss = css({
   overflow: 'auto',
 })
+export const scrollBarCss = css(({ theme }) => ({
+  overflow: 'auto',
+  '&::-webkit-scrollbar': {
+    display: 'block',
+    width: 7.6,
+    height: 7.6,
+    backgroundColor: 'var(--scroll-bg-color)',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    backgroundColor: 'var(--scroll-thumb-bg-color)',
+    borderRadius: 4,
+    borderRight: '4px solid transparent',
+  },
+  '&::-webkit-scrollbar-thumb:hover': {
+    backgroundColor: 'var(--scroll-thumb-bg-color-active)',
+  },
+  '&::-webkit-scrollbar-track': {
+    padding: '0 2px',
+  },
+  '&::-webkit-scrollbar-track-piece': {
+    backgroundColor: 'var(--scroll-bg-color)',
+  },
+  '&::-webkit-scrollbar-corner': {
+    backgroundColor: 'var(--scroll-bg-color)',
+  },
+}))

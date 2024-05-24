@@ -7,8 +7,6 @@ export type RowInputProps = Omit<
 
 export type InputChangeEvent = React.ChangeEvent<HTMLInputElement>
 
-export type ClickEvent = React.MouseEvent
-
 export interface InputProps extends RowInputProps {
   placeholder?: string
   disabled?: boolean

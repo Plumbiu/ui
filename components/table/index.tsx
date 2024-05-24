@@ -1,6 +1,10 @@
 import { forwardRef, useId, useImperativeHandle, useState } from 'react'
 import { TableTr } from './render'
-import { StyledFooter, StyledTable, theadCls } from './styles'
+import {
+  StyledFooter,
+  StyledTable,
+  theadCls,
+} from './styles'
 import { TableProps } from './types'
 import useColumns from './hooks/columns'
 import useOperate from './hooks/operate'
@@ -9,7 +13,7 @@ import useCheck, {
   UpdateCheckeboxByRowIndex,
   UpdateCheckboxByKey,
 } from './hooks/check'
-import { overflowAutoCss } from '@/_styles'
+import { scrollBarCss } from '@/_styles'
 
 export type TableRefProps = Partial<{
   updateCheckeboxByRowIndex: UpdateCheckeboxByRowIndex
@@ -90,7 +94,10 @@ const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
 
   return (
     <div>
-      <div className={overflowAutoCss} style={{ maxHeight: props.scroll?.y }}>
+      <div
+        className={scrollBarCss}
+        style={{ maxHeight: props.scroll?.y }}
+      >
         <StyledTable
           style={{
             minWidth: props.scroll?.x,

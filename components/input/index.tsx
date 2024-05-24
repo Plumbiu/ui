@@ -10,6 +10,7 @@ const StyledInputWrapper = styled('div')(({ theme }) => {
   return {
     position: 'relative',
     display: 'inline-flex',
+    color: theme.vars['text-1'],
     alignItems: 'center',
     fontSize: 14,
     height: 30,
@@ -41,7 +42,7 @@ const addonCls = css(({ theme }) => ({
   height: '100%',
   paddingRight: 12,
   paddingLeft: 12,
-  backgroundColor: '#f8f8f8',
+  backgroundColor: theme.vars['background-2'],
   '&:first-child': {
     borderRight: `1px solid ${theme.vars['info-4']}`,
   },

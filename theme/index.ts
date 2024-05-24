@@ -8,7 +8,7 @@ const themeVars = {
     ['#dedfe0', '#393a3c'],
     ['#e9e9eb', '#2d2d2f'],
     ['#f4f4f5', '#202121'],
-    ['#f9f9f9', '#121215'],
+    ['#f7f7f7', '#181818'],
   ],
   primary: [
     ['#326bff', '#66b1ff'],
@@ -52,13 +52,26 @@ const themeVars = {
     ['#686868', '#c8c8c8'],
     ['#969696', '#e2e2e2'],
   ],
-  background: [['#fff', '#272727']],
+  background: [
+    ['#fff', '#272727'],
+    ['#f7f7f7', '#343434'],
+  ],
   title: [['#080808', '#fafafa']],
 } as const
 
 const colorSchemes: Record<'light' | 'dark', any> = {
-  light: {},
-  dark: {},
+  light: {
+    scroll: {
+      color: '#efefef',
+      bg: '#a2a2a2',
+    },
+  },
+  dark: {
+    scroll: {
+      color: '#212121',
+      bg: '#565656',
+    },
+  },
 }
 
 for (const [color, hexs] of Object.entries(themeVars)) {

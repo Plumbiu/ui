@@ -4,6 +4,18 @@
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+.theme-dark {
+  --scroll-thumb-bg-color: #565656;
+  --scroll-bg-color: #212121;
+  --scroll-thumb-bg-color-active: #767676;
+}
+
+body {
+  --scroll-thumb-bg-color: #a2a3a2;
+  --scroll-bg-color: #efefef;
+  --scroll-thumb-bg-color-active: #767676;
+}
+
 svg {
   width: 1em;
   height: 1em;

@@ -4,7 +4,7 @@ import useColumns from './hooks/columns'
 import { TableTr } from './render'
 import { StyledTable, theadCls } from './styles'
 import { VirtualTableProps } from './types'
-import { overflowAutoCss } from '@/_styles'
+import { scrollBarCss } from '@/_styles'
 
 const VirtualTable: React.FC<VirtualTableProps> = (props) => {
   const {
@@ -69,7 +69,7 @@ const VirtualTable: React.FC<VirtualTableProps> = (props) => {
   return (
     <div
       ref={scrollRef}
-      className={overflowAutoCss}
+      className={scrollBarCss}
       style={{ maxHeight: props.scroll?.y }}
     >
       <StyledTable

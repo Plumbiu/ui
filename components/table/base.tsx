@@ -3,7 +3,7 @@ import useColumns from './hooks/columns'
 import { TableTr } from './render'
 import { StyledTable, theadCls, StyledFooter } from './styles'
 import { BaseTableProps } from './types'
-import { overflowAutoCss } from '@/_styles'
+import { scrollBarCss } from '@/_styles'
 
 const BaseTable: React.FC<BaseTableProps> = (props) => {
   const {
@@ -32,7 +32,7 @@ const BaseTable: React.FC<BaseTableProps> = (props) => {
     bordered,
   })
   return (
-    <div className={overflowAutoCss} style={{ maxHeight: props.scroll?.y }}>
+    <div className={scrollBarCss} style={{ maxHeight: props.scroll?.y }}>
       <StyledTable
         style={{
           minWidth: props.scroll?.x,
