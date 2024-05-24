@@ -22,4 +22,7 @@ export { default as Modal } from './modal'
 export * from './input'
 export { default as Input } from './input'
 
+export * from './checkbox'
+export { default as Checkbox } from './checkbox'
+
 export type * from './types'
