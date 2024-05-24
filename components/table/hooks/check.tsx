@@ -62,20 +62,23 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
     rowIndex,
   ) => {
     setCheckArr((prevProps) => {
-      if (prevProps[rowIndex].checkStatus === status) {
+      if (prevProps[rowIndex].checkStatus === status && rowIndex !== 0) {
         return prevProps
       }
       const clonedProps = [...prevProps]
       clonedProps[rowIndex].checkStatus = status
       if (rowIndex === 0) {
+        const s = isNoneChecked
+          ? CheckEnum.on
+          : isAllChecked
+          ? CheckEnum.off
+          : CheckEnum.on
         for (let i = 0; i < checkArr.length; i++) {
           if (checkArr[i].disabled === true) {
             continue
           }
-          clonedProps[i].checkStatus = status
+          clonedProps[i].checkStatus = s
         }
-      } else if (status === CheckEnum.off) {
-        clonedProps[0].checkStatus = CheckEnum.off
       }
 
       return clonedProps

@@ -82,8 +82,8 @@ export const TableChildren: React.FC<
           [virtualTdCls]: virtual,
         },
       ]) || undefined,
-    colspan: head ? column._colspan : colspan,
-    rowspan: head ? column._rowspan : rowspan,
+    colSpan: head ? column._colspan : colspan,
+    rowSpan: head ? column._rowspan : rowspan,
   }
   if (head) {
     return (

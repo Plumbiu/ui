@@ -8,6 +8,7 @@
     "dev": "vite serve docs",
     "build-docs": "vite build docs",
     "preview-docs": "vite preview docs",
+    "benchmark": "pnpm build & pnpm dev",
     "build": "vite build && esno scripts/build.ts"
   },
   "files": [
@@ -46,9 +47,11 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "eslint": "8.57.0",
+    "puppeteer": "^22.9.0",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vite-pages-theme-doc": "^5.0.0",
+    "vite-plugin-pages": "^0.32.1",
     "vite-plugin-react-pages": "^5.0.0"
   }
 }

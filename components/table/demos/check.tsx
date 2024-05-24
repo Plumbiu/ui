@@ -74,13 +74,15 @@ export default function Demo() {
     const status = ref.current?.isAllChecked
       ? TableCheckEnum.off
       : TableCheckEnum.on
+    console.log(status)
+
     ref.current?.updateCheckeboxByRowIndex?.(status, 0)
   }
 
   const SelectButton = (
     <div>
       <Button onClick={selectAll}>
-        全部{ref.current?.isAllChecked ? '取消选中' : '选中'}
+        {ref.current?.isAllChecked ? '取消选中' : '全选中'}
       </Button>
       {'  '}
       <Button
@@ -97,6 +99,22 @@ export default function Demo() {
         }}
       >
         取消选中第一项
+      </Button>
+      {'  '}
+      <Button
+        onClick={() => {
+          ref.current?.updateCheckeboxByRowIndex?.(TableCheckEnum.on, 1)
+        }}
+      >
+        选中第一项(by rowindex)
+      </Button>
+      {'  '}
+      <Button
+        onClick={() => {
+          ref.current?.updateCheckboxByKey?.(TableCheckEnum.off, '1')
+        }}
+      >
+        取消选中第一项(by key)
       </Button>
     </div>
   )

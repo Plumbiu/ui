@@ -26,20 +26,15 @@ export interface CheckboxProps
   onChange?: (e: CheckboxChangeEvent) => void
 }
 const wrapperCls = css(({ theme }) => ({
+  display: 'inline-flex',
+  height: 14,
   '> input': {
     display: 'none',
-    '&:checked+span': {
-      backgroundColor: theme['primary'],
-      borderColor: theme['primary'],
-      '&::before': {
-        opacity: 1,
-      },
-    },
   },
   '> span': {
     display: 'inline-block',
-    width: 13,
-    height: 13,
+    width: 14,
+    height: 14,
     borderRadius: 3,
     borderWidth: 1,
     borderStyle: 'solid',
@@ -51,7 +46,7 @@ const wrapperCls = css(({ theme }) => ({
       content: '" "',
       position: 'absolute',
       top: 3,
-      left: 1.7,
+      left: 2,
       display: 'inline-block',
       opacity: 0,
       width: 8,
@@ -64,6 +59,18 @@ const wrapperCls = css(({ theme }) => ({
   },
 }))
 
+const checkedCls = css(({ theme }) => ({
+  '> input': {
+    '&:checked+span': {
+      backgroundColor: theme['primary'],
+      borderColor: theme['primary'],
+      '&::before': {
+        opacity: 1,
+      },
+    },
+  },
+}))
+
 const halfCheckCls = css(({ theme }) => ({
   '> span': {
     '&::before': {
@@ -72,8 +79,8 @@ const halfCheckCls = css(({ theme }) => ({
       opacity: '1',
       border: 'none',
       height: 8,
+      top: 2,
       borderRadius: 1.5,
-      top: 1.5,
     },
   },
 }))
@@ -83,6 +90,9 @@ const disabledCheckCls = css(({ theme }) => ({
     borderColor: theme.vars['info-4'],
     cursor: 'not-allowed',
     backgroundColor: theme.vars['info-6'],
+    '&::before': {
+      backgroundColor: theme.vars['info-3'],
+    },
   },
 }))
 
@@ -111,6 +121,7 @@ const Checkbox: React.FC<CheckboxProps> = (props) => {
   return (
     <label
       className={clsx(wrapperCls, {
+        [checkedCls]: !indeterminate && !disabled,
         [halfCheckCls]: indeterminate,
         [disabledCheckCls]: disabled,
       })}
