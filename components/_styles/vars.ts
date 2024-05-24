@@ -47,7 +47,7 @@ export const wave = {
     inset: 0,
     borderRadius: 'inherit',
     opacity: 0,
-    transition: 'opacity .2s cubic-bezier(.645,.045,.355,1)',
+    transition: 'opacity .4s ease-out',
   },
   '&:active::after': {
     opacity: 0.4,

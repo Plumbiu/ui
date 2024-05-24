@@ -4,12 +4,13 @@ export const status = ['danger', 'success', 'warning'] as const
 
 export type RowInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  'sizse' | 'prefix' | 'type' | 'onChange'
+  'size' | 'prefix' | 'onChange' | 'type'
 >
 
 export type InputChangeEvent = React.ChangeEvent<HTMLInputElement>
 
 export interface InputProps extends RowInputProps {
+  type?: 'password' | 'text'
   placeholder?: string
   disabled?: boolean
   beforeNode?: ReactNode
@@ -19,7 +20,7 @@ export interface InputProps extends RowInputProps {
   allowClear?: boolean
   defaultValue?: string
   maxLength?: number
-  status?: typeof status[number]
+  status?: (typeof status)[number]
 
   onChange?: (e: InputChangeEvent) => void
 }

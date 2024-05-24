@@ -1,6 +1,10 @@
 import { css, styled } from '@pigment-css/react'
 import React, { useMemo, useRef, useState } from 'react'
-import { MaterialSymbolsCloseSmallOutlineRounded } from './icons'
+import {
+  IconoirEye,
+  IconoirEyeClosed,
+  MaterialSymbolsCloseSmallOutlineRounded,
+} from './icons'
 import {
   EventKey,
   InputChangeEvent,
@@ -126,12 +130,14 @@ const Input: React.FC<InputProps> = (props) => {
     defaultValue,
     maxLength,
     status,
+    type: customType = 'text',
     ...restProps
   } = props
 
   const hasLimit = typeof maxLength === 'number'
   const inputRef = useRef<HTMLInputElement>(null)
   const [inputValue, setInputValue] = useState(defaultValue ?? '')
+  const [type, setType] = useState(customType)
   const mounted = useMounted()
 
   const proxy = useMemo(() => {
@@ -143,7 +149,7 @@ const Input: React.FC<InputProps> = (props) => {
         return Reflect.get(target, p)
       },
       set(target, p, newValue) {
-        if (target && p === EventKey) {
+        if (p === EventKey) {
           let value = newValue.target.value ?? ''
           if (hasLimit && value.length > maxLength) {
             return false
@@ -154,12 +160,10 @@ const Input: React.FC<InputProps> = (props) => {
               target: { value: inputRef.current },
               currentTarget: { value: inputRef.current },
             })
-            value = ''
           }
           setInputValue(value)
           inputRef!.current!.value = value
           onChange?.(event as InputChangeEvent)
-
           return true
         }
         return false
@@ -179,11 +183,16 @@ const Input: React.FC<InputProps> = (props) => {
     }
   }
 
+  const handleTypeChange = () => {
+    setType(type === 'password' ? 'text' : 'password')
+  }
+
   return (
     <StyledInputWrapper status={status} disabled={disabled}>
       {!!beforeNode && <div className={addonCls}>{beforeNode}</div>}
       {!!prefix && <div>{prefix}</div>}
       <StyledInput
+        type={type}
         ref={inputRef}
         className={fcc_inline}
         disabled={disabled}
@@ -209,6 +218,16 @@ const Input: React.FC<InputProps> = (props) => {
         <div className={lengthCls}>
           {inputValue.length}/{maxLength}
         </div>
+      )}
+      {customType === 'password' && (
+        <IconWrap
+          hover
+          color="info"
+          style={{ marginRight: 8 }}
+          onClick={handleTypeChange}
+        >
+          {type === 'password' ? <IconoirEyeClosed /> : <IconoirEye />}
+        </IconWrap>
       )}
       {!!afterNode && <div className={addonCls}>{afterNode}</div>}
       {!!suffix && <div>{suffix}</div>}
