@@ -1,4 +1,3 @@
-import useMeature from '../../hooks/useMeature'
 import { TableColumnTypes } from '@/table'
 import { Table } from '@plumbiu/ui'
 
@@ -19,7 +18,7 @@ for (let i = 0; i < 100; i++) {
 }
 
 const dataSource: DataType[] = []
-for (let i = 0; i < 1000; i++) {
+for (let i = 0; i < 100; i++) {
   dataSource.push({
     key: i,
     address: `London Park no. ${i}`,
@@ -27,7 +26,6 @@ for (let i = 0; i < 1000; i++) {
 }
 
 export default function TableBench() {
-  console.log('ui-table', useMeature())
   return (
     <Table columns={columns} dataSource={dataSource} />
   )

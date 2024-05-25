@@ -62,7 +62,7 @@ const useCheck = ({ splitData, rowSelection, rowKey }: UseCheck) => {
     rowIndex,
   ) => {
     setCheckArr((prevProps) => {
-      if (prevProps[rowIndex].checkStatus === status) {
+      if (prevProps[rowIndex].checkStatus === status && rowIndex !== 0) {
         return prevProps
       }
       const clonedProps = [...prevProps]

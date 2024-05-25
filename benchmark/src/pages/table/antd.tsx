@@ -1,5 +1,4 @@
 import { Table } from 'antd'
-import useMeature from '../../hooks/useMeature'
 
 const columns: any[] = []
 
@@ -13,13 +12,13 @@ for (let i = 0; i < 100; i++) {
 }
 
 const dataSource: any[] = []
-for (let i = 0; i < 1000; i++) {
+for (let i = 0; i < 100; i++) {
   dataSource.push({
     key: i,
     address: `London Park no. ${i}`,
+    sort: true,
   })
 }
 export default function TableBench() {
-  console.log('antd-table', useMeature())
   return <Table pagination={false} columns={columns} dataSource={dataSource} />
 }

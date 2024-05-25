@@ -60,18 +60,8 @@ const themeVars = {
 } as const
 
 const colorSchemes: Record<'light' | 'dark', any> = {
-  light: {
-    scroll: {
-      color: '#efefef',
-      bg: '#a2a2a2',
-    },
-  },
-  dark: {
-    scroll: {
-      color: '#212121',
-      bg: '#565656',
-    },
-  },
+  light: {},
+  dark: {},
 }
 
 for (const [color, hexs] of Object.entries(themeVars)) {
