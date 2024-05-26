@@ -26,7 +26,5 @@ for (let i = 0; i < 100; i++) {
 }
 
 export default function TableBench() {
-  return (
-    <Table columns={columns} dataSource={dataSource} />
-  )
+  return <Table columns={columns} dataSource={dataSource} />
 }

@@ -19,13 +19,13 @@ export const borderRadiusVariants = [
   {
     props: { size: 'lg' },
     style: {
-      borderRadius: 4,
+      borderRadius: 8,
     },
   },
   {
     props: { size: 'sm' },
     style: {
-      borderRadius: 3,
+      borderRadius: 4,
     },
   },
 ] as const

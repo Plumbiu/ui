@@ -47,7 +47,7 @@ const themeVars = {
     ['#fff3f3', '#120303'],
   ],
   text: [
-    ['#232323', '#ececec'],
+    ['#181818', '#f2f2f2'],
     ['#434343', '#dedede'],
     ['#686868', '#c8c8c8'],
     ['#969696', '#e2e2e2'],
@@ -57,6 +57,7 @@ const themeVars = {
     ['#f7f7f7', '#343434'],
   ],
   title: [['#080808', '#fafafa']],
+  hover: [['rgba(0, 0, 0, 0.12)', 'rgba(255, 255, 255, 0.12)']],
 } as const
 
 const colorSchemes: Record<'light' | 'dark', any> = {

@@ -5,7 +5,7 @@ import { sizeVariants } from './constants'
 import ButtonGroup from './group'
 import { ButtonProps } from './types'
 import { IconWrap } from '@/icon'
-import { fcc_inline, borderRadiusVariants, colorsVar, wave } from '@/_styles'
+import { fcc_inline, colorsVar } from '@/_styles'
 
 function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
   return (
@@ -64,10 +64,10 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
     cursor: 'pointer',
     outline: 'none',
     color: theme['text-1'],
-    opacity: 1,
-    transition: '0.175s',
+    transition: 'opacity 0.175s',
     borderWidth: 1,
     borderStyle: 'solid',
+    borderColor: theme.vars['info-1'],
     position: 'relative',
     '&:disabled': {
       filter: 'grayscale(1)',
@@ -75,16 +75,14 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
       cursor: 'not-allowed',
       boxShadow: 'none',
     },
-    height: 28,
     fontSize: 14,
-    padding: '0 12px',
+    padding: '0 15px',
     lineHeight: 1,
     gap: 4,
-    borderRadius: 4,
-    ...wave,
+    height: 32,
+    borderRadius: 6,
     variants: [
       ...sizeVariants,
-      ...borderRadiusVariants,
       ...colorsVar.flatMap((color) => {
         return [
           {
@@ -93,14 +91,6 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
               backgroundColor: theme[color],
               borderColor: theme[color],
               color: theme['text-1'],
-            },
-          },
-          {
-            props: { color, disabled: false },
-            style: {
-              '&::after': {
-                boxShadow: `0 0 0 4px ${theme.vars[`${color}-3`]}`,
-              },
             },
           },
           {
@@ -124,7 +114,6 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
             props: { ...commonProps },
             style: {
               backgroundColor: 'transparent',
-              boxShadow: 'none',
               borderColor: theme.vars[`${color}-1`],
               color: theme.vars[`${color}-1`],
             },
@@ -133,7 +122,7 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
             props: { ...commonProps, disabled: false },
             style: {
               '&:hover': {
-                backgroundColor: theme.vars[`${color}-6`],
+                backgroundColor: theme.vars['hover'],
               },
             },
           },
@@ -161,7 +150,7 @@ const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
             opacity: 0.9,
           },
           '&:active': {
-            opacity: 1,
+            opacity: 0.8,
           },
         },
       },

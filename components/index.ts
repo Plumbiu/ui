@@ -25,4 +25,7 @@ export { default as Input } from './input'
 export * from './checkbox'
 export { default as Checkbox } from './checkbox'
 
+export * from './dropdown'
+export { default as Dropdown } from './dropdown'
+
 export type * from './types'
