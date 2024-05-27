@@ -25,14 +25,13 @@ export function useAnimation<T extends HTMLDivElement>(
         ref.current.classList.add(cls)
       }
     }
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       for (const { ref, cls } of formatPrams) {
         if (ref.current) {
           ref.current.classList.remove(cls)
         }
       }
       cb?.()
-      clearTimeout(timer)
     }, wait)
   }
 

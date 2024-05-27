@@ -183,8 +183,18 @@ const Input: React.FC<InputProps> = (props) => {
     }
   }
 
+  const focus = () => {
+    if (inputRef.current) {
+      inputRef.current.selectionEnd = inputValue.length
+      setTimeout(() => {
+        inputRef.current!.focus()
+      })
+    }
+  }
+
   const handleTypeChange = () => {
     setType(type === 'password' ? 'text' : 'password')
+    focus()
   }
 
   return (
