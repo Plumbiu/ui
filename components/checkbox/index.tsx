@@ -1,5 +1,6 @@
 import { css } from '@pigment-css/react'
 import { clsx } from 'clsx'
+import CheckboxGroup from './group'
 
 // copyed https://github.com/react-component/checkbox/blob/master/LICENSE.md
 export interface CheckboxChangeEvent {
@@ -33,6 +34,9 @@ const BORDER_SIZE = 2
 
 const wrapperCls = css(({ theme }) => ({
   display: 'inline-flex',
+  alignItems: 'center',
+  gap: 4,
+  fontSize: 14,
   height: SIZE,
   '> input': {
     display: 'none',
@@ -79,7 +83,7 @@ const halfCheckCls = css(({ theme }) => ({
     '&::before': {
       backgroundColor: theme['primary'],
       transform: 'none',
-      opacity: '1',
+      opacity: 1,
       border: 'none',
       height: BEFORE_WIDTH,
       top: (SIZE - BEFORE_WIDTH - BORDER_SIZE) / 2,
@@ -108,7 +112,9 @@ const disabledCheckCls = css(({ theme }) => ({
   },
 }))
 
-const Checkbox: React.FC<CheckboxProps> = (props) => {
+const Checkbox: React.FC<CheckboxProps> & {
+  Group: typeof CheckboxGroup
+} = (props) => {
   const { indeterminate, children, disabled, onChange, ...restProps } = props
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,7 +139,7 @@ const Checkbox: React.FC<CheckboxProps> = (props) => {
   return (
     <label
       className={clsx(wrapperCls, {
-        [halfCheckCls]: indeterminate,
+        [halfCheckCls]: !props.checked && indeterminate,
         [disabledCheckCls]: disabled,
       })}
     >
@@ -148,5 +154,7 @@ const Checkbox: React.FC<CheckboxProps> = (props) => {
     </label>
   )
 }
+
+Checkbox.Group = CheckboxGroup
 
 export default Checkbox
