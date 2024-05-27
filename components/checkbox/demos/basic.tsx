@@ -14,6 +14,7 @@ export default function Demo() {
       <Checkbox indeterminate />
       <Checkbox disabled />
       <Checkbox indeterminate disabled />
+      <Checkbox checked disabled />
     </div>
   )
 }

@@ -25,9 +25,15 @@ export interface CheckboxProps
   indeterminate?: boolean
   onChange?: (e: CheckboxChangeEvent) => void
 }
+
+const SIZE = 16
+const BEFORE_WIDTH = 9
+const BEFORE_HEIGHT = 5
+const BORDER_SIZE = 2
+
 const wrapperCls = css(({ theme }) => ({
   display: 'inline-flex',
-  height: 14,
+  height: SIZE,
   '> input': {
     display: 'none',
     '&:checked+span': {
@@ -40,25 +46,27 @@ const wrapperCls = css(({ theme }) => ({
   },
   '> span': {
     display: 'inline-block',
-    width: 14,
-    height: 14,
-    borderRadius: 3,
+    width: SIZE,
+    height: SIZE,
+    borderRadius: 4,
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: theme.vars['info-2'],
+    borderColor: theme.vars['info-3'],
     position: 'relative',
     cursor: 'pointer',
     transition: '0.2s',
     '&::before': {
       content: '" "',
       position: 'absolute',
-      top: 3,
-      left: 2,
+      top: (SIZE - BEFORE_HEIGHT - BORDER_SIZE) / 2 - 1,
+      left: (SIZE - BEFORE_WIDTH - BORDER_SIZE) / 2,
       display: 'inline-block',
       opacity: 0,
-      width: 8,
-      height: 4,
-      border: '2px solid #fff',
+      width: BEFORE_WIDTH,
+      height: BEFORE_HEIGHT,
+      borderWidth: BORDER_SIZE,
+      borderStyle: 'solid',
+      borderColor: '#fff',
       borderTop: 'none',
       borderRight: 'none',
       transform: 'rotate(-45deg)',
@@ -73,14 +81,23 @@ const halfCheckCls = css(({ theme }) => ({
       transform: 'none',
       opacity: '1',
       border: 'none',
-      height: 8,
-      top: 2,
-      borderRadius: 1.5,
+      height: BEFORE_WIDTH,
+      top: (SIZE - BEFORE_WIDTH - BORDER_SIZE) / 2,
+      borderRadius: BORDER_SIZE,
     },
   },
 }))
 
 const disabledCheckCls = css(({ theme }) => ({
+  '>input:checked+span': {
+    backgroundColor: `${theme.vars['info-6']}`,
+    borderColor: `${theme.vars['info-4']}`,
+    '&::before': {
+      opacity: 1,
+      borderColor: theme.vars['info-2'],
+      backgroundColor: theme.vars['info-6'],
+    },
+  },
   '> span': {
     borderColor: theme.vars['info-4'],
     cursor: 'not-allowed',
