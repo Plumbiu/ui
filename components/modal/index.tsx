@@ -1,22 +1,20 @@
-import { css, keyframes, styled } from '@pigment-css/react'
 import React, { useRef } from 'react'
 import { useEventListener, useUpdateEffect } from 'ahooks'
+import {
+  StyledModal,
+  contentCls,
+  footerCls,
+  modalHeadCls,
+  titleCls,
+  StyledMask,
+  fadeCls,
+} from './styles'
 import { IconWrap, MaterialSymbolsCloseRounded } from '@/icon'
 import { fcb } from '@/_styles'
 import Button from '@/button'
 import { Portal } from '@/_common'
+import { useAnimation } from '@/_hooks'
 
-// eslint-disable-next-line @stylistic/template-tag-spacing
-const modalAnimation = keyframes`
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 1;
-  }
-`
-
-const GAP = 12
 export interface ModalProps {
   visible?: boolean
   onClose?: () => void
@@ -43,95 +41,6 @@ export interface ModalProps {
   keyboard?: boolean
   top?: number
 }
-
-const StyledMask = styled('div')({
-  position: 'fixed',
-  overflow: 'auto',
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
-  zIndex: 9999,
-  lineHeight: 1.575,
-  animation: `0.15s ${modalAnimation}`,
-  textAlign: 'center',
-  '&::after': {
-    content: '""',
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    height: '100%',
-  },
-})
-
-const StyledModal = styled('div')(({ theme }) => ({
-  position: 'relative',
-  display: 'inline-block',
-  verticalAlign: 'top',
-  top: 50,
-  textAlign: 'left',
-  margin: '0 auto',
-  minWidth: 380,
-  maxWidth: 'calc(100vw - 32px)',
-  width: 'max-content',
-  backgroundColor: theme.vars['background-1'],
-  borderRadius: 8,
-  padding: '12px 16px',
-  boxShadow: theme.boxShadow,
-  '&>div:first-child>span>svg': {
-    width: 20,
-    fontSize: 20,
-  },
-}))
-
-const titleCls = css(({ theme }) => ({
-  fontSize: 16,
-  color: theme.vars['title-1'],
-}))
-
-const footerCls = css(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  position: 'relative',
-  paddingTop: GAP,
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    left: -16,
-    right: -16,
-    top: 0,
-    height: 1,
-    backgroundColor: theme.vars['info-5'],
-  },
-  '& > button': {
-    minWidth: 56,
-    '&+button': {
-      marginLeft: 8,
-    },
-  },
-}))
-
-const contentCls = css(({ theme }) => {
-  return {
-    fontSize: 14,
-    paddingBottom: GAP,
-    paddingTop: GAP,
-    color: theme.vars['text-1'],
-  }
-})
-
-const modalHeadCls = css(({ theme }) => ({
-  paddingBottom: GAP,
-  position: 'relative',
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    left: -16,
-    right: -16,
-    bottom: 0,
-    height: 1,
-    backgroundColor: theme.vars['info-5'],
-  },
-}))
 
 const closesFn = new Set<(() => void) | undefined>()
 
@@ -163,11 +72,7 @@ const Modal: React.FC<ModalProps> & {
     top,
   } = props
 
-  const onClose = () => {
-    closesFn.delete(customOnClose)
-    customOnClose?.()
-  }
-
+  const maskRef = useRef<HTMLDivElement>(null)
   const modalRef = useRef<HTMLDivElement>(null)
   let modalStyles: React.CSSProperties = {
     ...style,
@@ -188,18 +93,36 @@ const Modal: React.FC<ModalProps> & {
     }
   }
 
+  const onClose = useAnimation(
+    [
+      {
+        ref: modalRef,
+        cls: fadeCls,
+      },
+      {
+        ref: maskRef,
+        cls: fadeCls,
+      },
+    ],
+    150,
+    () => {
+      closesFn.delete(customOnClose)
+      customOnClose?.()
+    },
+  )
+
   useEventListener(
     'click',
     (e) => {
       if (!maskClosable) {
         return
       }
-      if (e.target === modalRef.current) {
+      if (e.target === maskRef.current) {
         onClose()
       }
     },
     {
-      target: modalRef,
+      target: maskRef,
     },
   )
 
@@ -226,8 +149,8 @@ const Modal: React.FC<ModalProps> & {
   }, [visible])
 
   let children: React.ReactNode = (
-    <StyledMask ref={modalRef} style={maskStyles} key={closesFn.size}>
-      <StyledModal style={modalStyles}>
+    <StyledMask ref={maskRef} style={maskStyles} key={closesFn.size}>
+      <StyledModal ref={modalRef} style={modalStyles}>
         <div className={`${fcb} ${modalHeadCls}`}>
           <div className={titleCls}>{title}</div>
           {closable ? (
