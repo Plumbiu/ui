@@ -18,9 +18,12 @@ export interface RadioProps
   indeterminate?: boolean
   onChange?: (e: CheckboxChangeEvent) => void
 }
+const SIZE = 16
+const BEFORE_SIZE = 8
+
 const wrapperCls = css(({ theme }) => ({
   display: 'inline-flex',
-  height: 16,
+  height: SIZE,
   '> input': {
     display: 'none',
     '&:checked+span': {
@@ -31,8 +34,8 @@ const wrapperCls = css(({ theme }) => ({
   '> span': {
     display: 'inline-block',
     position: 'relative',
-    width: 16,
-    height: 16,
+    width: SIZE,
+    height: SIZE,
     borderRadius: '50%',
     borderWidth: 1,
     borderStyle: 'solid',
@@ -42,12 +45,12 @@ const wrapperCls = css(({ theme }) => ({
     '&::before': {
       content: '""',
       position: 'absolute',
-      top: 3,
-      left: 3,
+      top: (SIZE - BEFORE_SIZE) / 2 - 1,
+      left: (SIZE - BEFORE_SIZE) / 2 - 1,
       backgroundColor: 'transparent',
       borderRadius: '50%',
-      width: 8,
-      height: 8,
+      width: BEFORE_SIZE,
+      height: BEFORE_SIZE,
     },
   },
 }))
