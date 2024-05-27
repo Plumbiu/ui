@@ -28,4 +28,7 @@ export { default as Checkbox } from './checkbox'
 export * from './dropdown'
 export { default as Dropdown } from './dropdown'
 
+export * from './radio'
+export { default as Radio } from './radio'
+
 export type * from './types'

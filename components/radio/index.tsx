@@ -2,96 +2,71 @@ import { css } from '@pigment-css/react'
 import { clsx } from 'clsx'
 
 // copyed https://github.com/react-component/checkbox/blob/master/LICENSE.md
-export interface CheckboxChangeEvent {
+interface CheckboxChangeEvent {
   target: CheckboxChangeEventTarget
   stopPropagation: () => void
   preventDefault: () => void
   nativeEvent: React.ChangeEvent<HTMLInputElement>['nativeEvent']
 }
 
-export interface CheckboxChangeEventTarget extends CheckboxProps {
+interface CheckboxChangeEventTarget extends RadioProps {
   checked: boolean
 }
 
-export interface CheckboxRef {
-  focus: (options?: FocusOptions) => void
-  blur: () => void
-  input: HTMLInputElement | null
-  nativeElement: HTMLElement | null
-}
-
-export interface CheckboxProps
+export interface RadioProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   indeterminate?: boolean
   onChange?: (e: CheckboxChangeEvent) => void
 }
 const wrapperCls = css(({ theme }) => ({
   display: 'inline-flex',
-  height: 14,
+  height: 16,
   '> input': {
     display: 'none',
     '&:checked+span': {
-      backgroundColor: theme['primary'],
+      borderWidth: 5,
       borderColor: theme['primary'],
-      '&::before': {
-        opacity: 1,
-      },
     },
   },
   '> span': {
     display: 'inline-block',
-    width: 14,
-    height: 14,
-    borderRadius: 3,
+    position: 'relative',
+    width: 16,
+    height: 16,
+    borderRadius: '50%',
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: theme.vars['info-2'],
-    position: 'relative',
+    borderColor: theme.vars['info-3'],
     cursor: 'pointer',
     transition: '0.2s',
     '&::before': {
-      content: '" "',
+      content: '""',
       position: 'absolute',
       top: 3,
-      left: 2,
-      display: 'inline-block',
-      opacity: 0,
+      left: 3,
+      backgroundColor: 'transparent',
+      borderRadius: '50%',
       width: 8,
-      height: 4,
-      border: '2px solid #fff',
-      borderTop: 'none',
-      borderRight: 'none',
-      transform: 'rotate(-45deg)',
-    },
-  },
-}))
-
-const halfCheckCls = css(({ theme }) => ({
-  '> span': {
-    '&::before': {
-      backgroundColor: theme['primary'],
-      transform: 'none',
-      opacity: '1',
-      border: 'none',
       height: 8,
-      top: 2,
-      borderRadius: 1.5,
     },
   },
 }))
 
 const disabledCheckCls = css(({ theme }) => ({
-  '> span': {
-    borderColor: theme.vars['info-4'],
-    cursor: 'not-allowed',
-    backgroundColor: theme.vars['info-6'],
+  '> input:checked+span': {
+    borderWidth: 1,
+    borderColor: theme.vars['info-3'],
     '&::before': {
       backgroundColor: theme.vars['info-3'],
     },
   },
+  '> span': {
+    cursor: 'not-allowed',
+    backgroundColor: theme.vars['info-6'],
+  },
 }))
 
-const Checkbox: React.FC<CheckboxProps> = (props) => {
+const Radio: React.FC<RadioProps> = (props) => {
   const { indeterminate, children, disabled, onChange, ...restProps } = props
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,12 +91,11 @@ const Checkbox: React.FC<CheckboxProps> = (props) => {
   return (
     <label
       className={clsx(wrapperCls, {
-        [halfCheckCls]: indeterminate,
         [disabledCheckCls]: disabled,
       })}
     >
       <input
-        type="checkbox"
+        type="radio"
         {...restProps}
         disabled={disabled}
         onChange={handleChange}
@@ -132,4 +106,4 @@ const Checkbox: React.FC<CheckboxProps> = (props) => {
   )
 }
 
-export default Checkbox
+export default Radio
