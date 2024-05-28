@@ -3,6 +3,9 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { colorSchemes } from '../theme/index'
 
+const DARK_THEME_REGX = /\.theme-dark\s*\{[^}]+}/g
+const DEFAULT_THEME_REGX = /:root\s*\{[^}]+}/g
+
 async function autoImportCss() {
   const dirs = await fsp.readdir('dist', { withFileTypes: true })
   await Promise.all(
@@ -25,7 +28,9 @@ async function autoImportCss() {
 }
 
 async function generateTheme() {
-  const indexCss = await fsp.readFile('dist/index.css')
+  const indexCss = (await fsp.readFile('dist/index.css', 'utf-8'))
+    .replace(DARK_THEME_REGX, '')
+    .replace(DEFAULT_THEME_REGX, '')
   let cssVars = ':root{'
   for (const [key, value] of Object.entries(colorSchemes.light)) {
     cssVars += `--${key}:${value};`
