@@ -1,6 +1,6 @@
 import { keyframes, styled, css } from '@pigment-css/react'
 
-export const showAnimation = keyframes `
+export const showAnimation = keyframes`
   from {
     opacity: 0;
   }
@@ -9,17 +9,15 @@ export const showAnimation = keyframes `
   }
 `
 
-export const fadeAnimation = keyframes `
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-`
-export const fadeCls = css({
-  animation: `0.15s ${fadeAnimation} forwards!important`,
+const endPointStatus = {
+  opacity: 0,
+}
+
+export const fadeAnimation = keyframes({
+  '100%': endPointStatus,
 })
+
+export const fadeCls = css(endPointStatus)
 
 export const StyledMask = styled('div')({
   position: 'fixed',
@@ -29,6 +27,7 @@ export const StyledMask = styled('div')({
   left: 0,
   right: 0,
   zIndex: 9999,
+  transition: 'opacity 0.15s',
   animation: `0.15s ${showAnimation}`,
   lineHeight: 1.575,
   textAlign: 'center',

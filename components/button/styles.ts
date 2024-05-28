@@ -31,7 +31,7 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
       borderRadius: 'inherit',
       opacity: 0,
       boxShadow: `0 0 0 8px ${primaryColor}`,
-      transition: '0.55s cubic-bezier(0.08, 0.82, 0.17, 1)',
+      transition: '0.85s cubic-bezier(0.08, 0.82, 0.17, 1)',
     },
     variants: [
       {
@@ -77,7 +77,7 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
           '&:active': {
             '&::after': {
               boxShadow: `0 0 0 1px ${primaryColor}`,
-              opacity: 0.4,
+              opacity: 0.3,
               transition: '0s',
             },
           },

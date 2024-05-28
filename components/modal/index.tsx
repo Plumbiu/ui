@@ -163,6 +163,7 @@ const Modal: React.FC<ModalProps> & {
         {footer === undefined ? (
           <div className={footerCls}>
             <Button
+              type="primary"
               onClick={() => {
                 onClose?.()
                 onOk?.()
@@ -175,7 +176,6 @@ const Modal: React.FC<ModalProps> & {
                 onClose?.()
                 onCancel?.()
               }}
-              outlined
             >
               {cancelText}
             </Button>

@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useState } from 'react'
+import { RefObject, useCallback, useEffect, useState } from 'react'
 
 export function useMounted() {
   const [mount, setMount] = useState(false)
@@ -19,7 +19,8 @@ export function useAnimation<T extends HTMLDivElement>(
   cb?: () => void,
 ) {
   const formatPrams = Array.isArray(params) ? params : [params]
-  function fn() {
+  const mounted = useMounted()
+  const fn = useCallback(() => {
     for (const { ref, cls } of formatPrams) {
       if (ref.current) {
         ref.current.classList.add(cls)
@@ -33,7 +34,7 @@ export function useAnimation<T extends HTMLDivElement>(
       }
       cb?.()
     }, wait)
-  }
+  }, [params, wait, cb, mounted])
 
   return fn
 }

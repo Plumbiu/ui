@@ -1,4 +1,4 @@
-import { StrictMode, Suspense, useLayoutEffect, useRef } from 'react'
+import { StrictMode, Suspense, useLayoutEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, useRoutes } from 'react-router-dom'
 // @ts-ignore

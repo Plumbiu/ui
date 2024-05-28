@@ -1,6 +1,10 @@
 {
   "extends": "@plumbiu",
   "rules": {
-    "@stylistic/linebreak-style": "off"
-  }
+    "@stylistic/linebreak-style": "off",
+    "@stylistic/template-tag-spacing": "off"
+  },
+  "plugins": [
+    "react-compiler"
+  ]
 }

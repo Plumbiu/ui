@@ -10,6 +10,7 @@ export interface ButtonProps
   disabled?: boolean
   loading?: boolean
 
+  ref?: React.ForwardedRef<HTMLButtonElement>
   icon?: React.ReactNode
   suffixIcon?: React.ReactNode
 }

@@ -1,5 +1,5 @@
 /* eslint-disable @stylistic/max-len */
-import React, { SVGProps } from 'react'
+import React, { SVGProps, forwardRef } from 'react'
 import { clsx } from 'clsx'
 import ButtonGroup from './group'
 import { ButtonProps } from './types'
@@ -59,9 +59,7 @@ function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-const Button: React.FC<ButtonProps> & {
-  ButtonGroup: typeof ButtonGroup
-} = (props) => {
+const InternalButton = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const {
     circle = false,
     borderless = false,
@@ -70,6 +68,8 @@ const Button: React.FC<ButtonProps> & {
     onClick: customOnClick,
     ...restProps
   } = props
+
+  delete restProps.ref
 
   const onClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     if (loading || disabled) {
@@ -80,6 +80,7 @@ const Button: React.FC<ButtonProps> & {
 
   return (
     <StyledButton
+      ref={ref}
       className={clsx(fcc_inline, {
         [primaryButtonCls]: props.type === 'primary' || loading,
         [defaultButtonCls]: props.type !== 'primary' && !loading,
@@ -103,11 +104,19 @@ const Button: React.FC<ButtonProps> & {
       {!!props.suffixIcon && <IconWrap>{props.suffixIcon}</IconWrap>}
     </StyledButton>
   )
-}
+})
 
-Button.ButtonGroup = ButtonGroup
+type ButtonComponentType = React.ForwardRefRenderFunction<
+  HTMLButtonElement,
+  ButtonProps
+> & {
+  ButtonGroup: typeof ButtonGroup
+}
 
 export type { ButtonProps } from './types'
 export type { ButtonGroupProps } from './group'
+
+const Button = InternalButton as unknown as ButtonComponentType
+Button.ButtonGroup = ButtonGroup
 
 export default Button
