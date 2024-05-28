@@ -1,13 +1,11 @@
 /* eslint-disable @stylistic/max-len */
 import React, { SVGProps } from 'react'
-import { styled } from '@pigment-css/react'
-import { sizeVariants } from './constants'
+import { clsx } from 'clsx'
 import ButtonGroup from './group'
 import { ButtonProps } from './types'
-import { IconWrap } from '@/icon'
-import { fcc_inline, colorsVar } from '@/_styles'
-import clsx from 'clsx'
 import { StyledButton, defaultButtonCls, primaryButtonCls } from './styles'
+import { IconWrap } from '@/icon'
+import { fcc_inline } from '@/_styles'
 
 function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
   return (
@@ -164,13 +162,9 @@ const Button: React.FC<ButtonProps> & {
   ButtonGroup: typeof ButtonGroup
 } = (props) => {
   const {
-    size,
     circle = false,
-    type,
-    outlined = false,
     borderless = false,
     disabled = false,
-    plain = false,
     loading = false,
     onClick: customOnClick,
     ...restProps
@@ -186,18 +180,15 @@ const Button: React.FC<ButtonProps> & {
   return (
     <StyledButton
       className={clsx(fcc_inline, {
-        [primaryButtonCls]: type === 'primary',
-        [defaultButtonCls]: type !== 'primary',
+        [primaryButtonCls]: props.type === 'primary' || loading,
+        [defaultButtonCls]: props.type !== 'primary' && !loading,
       })}
       {...restProps}
-      size={size}
+      // @ts-ignore
       circle={circle}
-      type={type}
-      outlined={outlined}
       borderless={borderless}
       disabled={disabled}
       loading={loading}
-      plain={plain}
       onClick={onClick}
     >
       {loading ? (

@@ -6,10 +6,5 @@
 import { Button } from '@plumbiu/ui'
 
 export default function Demo() {
-  return (
-    <div className="button-demo">
-      <Button borderless loading>loading</Button>
-      <Button borderless>button</Button>
-    </div>
-  )
+  return <Button loading>loading</Button>
 }
