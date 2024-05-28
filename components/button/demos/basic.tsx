@@ -22,7 +22,7 @@ const icon = (
 export default function Demo() {
   return (
     <div className="button-demo">
-      <Button borderless>Button</Button>
+      <Button type="primary">Button</Button>
       <Button icon={icon}>Button</Button>
       <Button suffixIcon={icon}>Button</Button>
       <Button icon={icon} circle />

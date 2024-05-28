@@ -1,10 +1,11 @@
 import { ButtonHTMLAttributes } from 'react'
 import { TSize, TBaseColor } from '@/types'
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
   size?: TSize
   circle?: boolean
-  color?: TBaseColor
+  type?: TBaseColor
   outlined?: boolean
   borderless?: boolean
   disabled?: boolean

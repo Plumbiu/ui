@@ -6,6 +6,8 @@ import ButtonGroup from './group'
 import { ButtonProps } from './types'
 import { IconWrap } from '@/icon'
 import { fcc_inline, colorsVar } from '@/_styles'
+import clsx from 'clsx'
+import { StyledButton, defaultButtonCls, primaryButtonCls } from './styles'
 
 function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
   return (
@@ -59,104 +61,104 @@ function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
-  return {
-    cursor: 'pointer',
-    outline: 'none',
-    color: theme['text-1'],
-    transition: 'opacity 0.175s',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: theme.vars['info-1'],
-    position: 'relative',
-    '&:disabled': {
-      filter: 'grayscale(1)',
-      opacity: 0.5,
-      cursor: 'not-allowed',
-      boxShadow: 'none',
-    },
-    fontSize: 14,
-    padding: '0 15px',
-    lineHeight: 1,
-    gap: 4,
-    height: 32,
-    borderRadius: 6,
-    variants: [
-      ...sizeVariants,
-      ...colorsVar.flatMap((color) => {
-        return [
-          {
-            props: { color },
-            style: {
-              backgroundColor: theme[color],
-              borderColor: theme[color],
-              color: theme['text-1'],
-            },
-          },
-          {
-            props: { loading: true, color },
-            style: {
-              opacity: 0.65,
-              '&:hover': {
-                opacity: 0.5,
-              },
-              '&:active': {
-                opacity: 0.65,
-              },
-            },
-          },
-        ]
-      }),
-      ...colorsVar.flatMap((color) => {
-        const commonProps = { outlined: true, color }
-        return [
-          {
-            props: { ...commonProps },
-            style: {
-              backgroundColor: 'transparent',
-              borderColor: theme.vars[`${color}-1`],
-              color: theme.vars[`${color}-1`],
-            },
-          },
-          {
-            props: { ...commonProps, disabled: false },
-            style: {
-              '&:hover': {
-                backgroundColor: theme.vars['hover'],
-              },
-            },
-          },
-        ]
-      }),
-      ...colorsVar.map((color) => ({
-        props: { plain: true, color },
-        style: {
-          backgroundColor: theme.vars[`${color}-6`],
-          color: theme.vars[`${color}-1`],
-        },
-      })),
-      {
-        props: { circle: true },
-        style: {
-          borderRadius: '50%',
-          aspectRatio: 1,
-          padding: 6,
-        },
-      },
-      {
-        props: { disabled: false, loading: false },
-        style: {
-          '&:hover': {
-            opacity: 0.9,
-          },
-          '&:active': {
-            opacity: 0.8,
-          },
-        },
-      },
-    ],
-  }
-})
+// const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
+//   return {
+//     cursor: 'pointer',
+//     outline: 'none',
+//     color: theme['text-1'],
+//     transition: 'opacity 0.175s',
+//     borderWidth: 1,
+//     borderStyle: 'solid',
+//     borderColor: theme.vars['info-1'],
+//     position: 'relative',
+//     '&:disabled': {
+//       filter: 'grayscale(1)',
+//       opacity: 0.5,
+//       cursor: 'not-allowed',
+//       boxShadow: 'none',
+//     },
+//     fontSize: 14,
+//     padding: '0 15px',
+//     lineHeight: 1,
+//     gap: 4,
+//     height: 32,
+//     borderRadius: 6,
+//     variants: [
+//       ...sizeVariants,
+//       ...colorsVar.flatMap((color) => {
+//         return [
+//           {
+//             props: { color },
+//             style: {
+//               backgroundColor: theme[color],
+//               borderColor: theme[color],
+//               color: theme['text-1'],
+//             },
+//           },
+//           {
+//             props: { loading: true, color },
+//             style: {
+//               opacity: 0.65,
+//               '&:hover': {
+//                 opacity: 0.5,
+//               },
+//               '&:active': {
+//                 opacity: 0.65,
+//               },
+//             },
+//           },
+//         ]
+//       }),
+//       ...colorsVar.flatMap((color) => {
+//         const commonProps = { outlined: true, color }
+//         return [
+//           {
+//             props: { ...commonProps },
+//             style: {
+//               backgroundColor: 'transparent',
+//               borderColor: theme.vars[`${color}-1`],
+//               color: theme.vars[`${color}-1`],
+//             },
+//           },
+//           {
+//             props: { ...commonProps, disabled: false },
+//             style: {
+//               '&:hover': {
+//                 backgroundColor: theme.vars['hover'],
+//               },
+//             },
+//           },
+//         ]
+//       }),
+//       ...colorsVar.map((color) => ({
+//         props: { plain: true, color },
+//         style: {
+//           backgroundColor: theme.vars[`${color}-6`],
+//           color: theme.vars[`${color}-1`],
+//         },
+//       })),
+//       {
+//         props: { circle: true },
+//         style: {
+//           borderRadius: '50%',
+//           aspectRatio: 1,
+//           padding: 6,
+//         },
+//       },
+//       {
+//         props: { disabled: false, loading: false },
+//         style: {
+//           '&:hover': {
+//             opacity: 0.9,
+//           },
+//           '&:active': {
+//             opacity: 0.8,
+//           },
+//         },
+//       },
+//     ],
+//   }
+// })
 
 const Button: React.FC<ButtonProps> & {
   ButtonGroup: typeof ButtonGroup
@@ -164,7 +166,7 @@ const Button: React.FC<ButtonProps> & {
   const {
     size,
     circle = false,
-    color = 'primary',
+    type,
     outlined = false,
     borderless = false,
     disabled = false,
@@ -183,11 +185,14 @@ const Button: React.FC<ButtonProps> & {
 
   return (
     <StyledButton
-      className={fcc_inline}
+      className={clsx(fcc_inline, {
+        [primaryButtonCls]: type === 'primary',
+        [defaultButtonCls]: type !== 'primary',
+      })}
       {...restProps}
       size={size}
       circle={circle}
-      color={color}
+      type={type}
       outlined={outlined}
       borderless={borderless}
       disabled={disabled}
