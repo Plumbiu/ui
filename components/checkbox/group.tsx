@@ -8,7 +8,7 @@ export interface CheckboxGroupProps {
   defalutValue?: StrOrNum[]
   disabled?: boolean
   name?: string
-  options?: StrOrNum[]
+  options: StrOrNum[]
   value?: StrOrNum[]
   onChange?: (a: any[]) => void
 }
@@ -28,11 +28,10 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
     onChange: customOnChange,
   } = props
   const defaultArr = value || defalutValue || []
-  const [checkedArr, setCheckedArr] =
-    useState<(StrOrNum | undefined)[]>(defaultArr)
+  const [checkArr, setCheckArr] = useState<(StrOrNum | undefined)[]>(defaultArr)
 
-  function onChange(e: CheckboxChangeEvent, idx: number) {
-    if (!customOnChange || checkedArr.length === 0) {
+  function onChange(e: CheckboxChangeEvent) {
+    if (!customOnChange || checkArr.length === 0) {
       return
     }
     const value = e.target.value
@@ -41,22 +40,27 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
     }
     const checked = e.target.checked
     if (checked) {
-      checkedArr[idx] = value
+      checkArr.push(value)
+      setCheckArr([...checkArr])
     } else {
-      checkedArr[idx] = undefined
+      setCheckArr(checkArr.filter((item) => item !== value))
     }
-    setCheckedArr(checkedArr.filter(Boolean))
   }
   useEffect(() => {
-    if (checkedArr && customOnChange) {
-      console.log(checkedArr)
-      customOnChange(checkedArr)
+    if (checkArr && customOnChange) {
+      customOnChange(
+        checkArr.sort((a, b) => {
+          const aIdx = props.options?.findIndex((item) => item == a)
+          const bIdx = props.options?.findIndex((item) => item == b)
+          return aIdx - bIdx
+        }),
+      )
     }
-  }, [checkedArr])
+  }, [checkArr])
 
   return (
     <div className={groupCls}>
-      {props.options?.map((val, idx) => {
+      {props.options.map((val) => {
         return (
           <Checkbox
             checked={defaultArr.includes(val)}
@@ -64,7 +68,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
             value={val}
             name={name}
             disabled={disabled}
-            onChange={(e) => onChange(e, idx)}
+            onChange={onChange}
           >
             {val}
           </Checkbox>
