@@ -30,7 +30,7 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
       left: 0,
       borderRadius: 'inherit',
       opacity: 0,
-      boxShadow: `0 0 0 10px ${primaryColor}`,
+      boxShadow: `0 0 0 8px ${primaryColor}`,
       transition: '0.2s',
     },
     variants: [

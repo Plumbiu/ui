@@ -8,24 +8,32 @@ export interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
   size?: TSize
   children: React.ReactElement<ButtonProps>[]
 }
-const borderColor = {
-  primary: '#79bbff',
-  success: '#95d475',
-  warning: '#eebe77',
-  danger: '#f89898',
-  info: '#e9e9eb',
-}
+
 const StyledButtonGroup = styled('div')<ButtonGroupProps>(({ theme }) => {
   return {
     width: 'max-content',
-    borderRadius: 4,
+    borderRadius: 6,
+    color: theme.vars['text-1'],
     '& > button': {
+      '&:hover': {
+        borderColor: theme.vars['info-3'],
+      },
+      '&:focus': {
+        borderColor: theme['primary'],
+        borderRightWidth: '1px!important',
+        color: theme['primary'],
+        '&+button': {
+          borderLeftWidth: 0,
+        },
+      },
       '&:not(:first-child):not(:last-child)': {
         borderRadius: 0,
+        borderRightWidth: 0,
       },
       '&:first-child': {
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
+        borderRightWidth: 0,
       },
       '&:last-child': {
         borderTopLeftRadius: 0,
@@ -35,17 +43,6 @@ const StyledButtonGroup = styled('div')<ButtonGroupProps>(({ theme }) => {
       marginLeft: '0!important',
       marginRight: '0!important',
       boxShadow: 'none',
-      borderColor: 'transparent',
-      '&:not(:first-child)::before': {
-        content: '""',
-        position: 'absolute',
-        width: 1,
-        top: -1,
-        left: -1.5,
-        bottom: -1,
-        backgroundColor: (node) =>
-          borderColor[node.children?.[0]?.props?.color ?? 'primary'],
-      },
     },
     variants: [...borderRadiusVariants],
   }
