@@ -13,7 +13,7 @@ import useCheck, {
   UpdateCheckeboxByRowIndex,
   UpdateCheckboxByKey,
 } from './hooks/check'
-import { scrollBarCss } from '@/_styles'
+import { scrollBarCss } from '@/_utils/styles'
 
 export type TableRefProps = Partial<{
   updateCheckeboxByRowIndex: UpdateCheckeboxByRowIndex

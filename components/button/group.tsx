@@ -2,7 +2,6 @@ import { styled } from '@pigment-css/react'
 import { HTMLAttributes } from 'react'
 import { ButtonProps } from './types'
 import { TSize } from '@/types'
-import { borderRadiusVariants } from '@/_styles'
 
 export interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
   size?: TSize
@@ -44,7 +43,6 @@ const StyledButtonGroup = styled('div')<ButtonGroupProps>(({ theme }) => {
       marginRight: '0!important',
       boxShadow: 'none',
     },
-    variants: [...borderRadiusVariants],
   }
 })
 

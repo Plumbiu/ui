@@ -2,8 +2,8 @@ import { css, keyframes, styled } from '@pigment-css/react'
 import { useMemo, useRef, useState } from 'react'
 import { useEventListener } from 'ahooks'
 import Button from '../button'
-import { Portal } from '@/_common'
-import { useAnimation, useMounted } from '@/_hooks'
+import { Portal } from '@/_utils/components'
+import { useAnimation, useMounted } from '@/_utils/hooks'
 
 interface Offset {
   x: number

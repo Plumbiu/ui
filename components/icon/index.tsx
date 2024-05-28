@@ -1,7 +1,8 @@
 /* eslint-disable @stylistic/max-len */
 import { styled } from '@pigment-css/react'
 import { HTMLAttributes, SVGProps } from 'react'
-import { colorsVar, fcc_inline } from '@/_styles'
+import { fcc_inline } from '@/_utils/styles'
+import { colorsVar } from '@/_utils/vars'
 import { TColor, TSize } from '@/types'
 
 export interface IconProps extends HTMLAttributes<HTMLSpanElement> {
@@ -63,12 +64,7 @@ export const StyledIcon = styled('span')<IconProps>(({ theme }) => ({
 export const IconWrap: React.FC<IconProps> = (props) => {
   const { color, size = 'md', ...restProps } = props
   return (
-    <StyledIcon
-      className={fcc_inline}
-      {...restProps}
-      color={color}
-      size={size}
-    >
+    <StyledIcon className={fcc_inline} {...restProps} color={color} size={size}>
       {props.children}
     </StyledIcon>
   )

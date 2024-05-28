@@ -16,6 +16,10 @@ const entry = {
   ),
 }
 
+const baseBundle = fs.readdirSync('components/_utils')
+
+const SUFFIX_REGX = /\.(ts|tsx)$/
+
 export const viteOptions: InlineConfig = {
   plugins: [
     react(),
@@ -43,7 +47,11 @@ export const viteOptions: InlineConfig = {
         entryFileNames: '[name].mjs',
         manualChunks: {
           _bundle: ['ahooks', '@pigment-css/react'],
-          _base: ['@/_styles', '@/_common', '@/_hooks', '@/icon'],
+          _base: [
+            ...baseBundle.map(
+              (item) => `@/_utils/${item.replace(SUFFIX_REGX, '')}`,
+            ),
+          ],
         },
         globals: {
           react: 'React',

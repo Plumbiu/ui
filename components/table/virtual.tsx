@@ -4,7 +4,7 @@ import useColumns from './hooks/columns'
 import { TableTr } from './render'
 import { StyledTable, theadCls } from './styles'
 import { VirtualTableProps } from './types'
-import { scrollBarCss } from '@/_styles'
+import { scrollBarCss } from '@/_utils/styles'
 
 const VirtualTable: React.FC<VirtualTableProps> = (props) => {
   const {

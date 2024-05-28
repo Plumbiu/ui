@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react'
 import { styled } from '@pigment-css/react'
 import { TBaseColor, TSize } from '@/types'
-import { colorsVar, fontSizeVariants } from '@/_styles'
+import { colorsVar } from '@/_utils/vars'
 
 export interface LinkProps extends HTMLAttributes<HTMLAnchorElement> {
   size?: TSize
@@ -30,7 +30,18 @@ const StyledLink = styled('a')<LinkProps>(({ theme }) => {
           },
         },
       })),
-      ...fontSizeVariants,
+      {
+        props: { size: 'lg' },
+        style: {
+          fontSize: 16,
+        },
+      },
+      {
+        props: { size: 'sm' },
+        style: {
+          fontSize: 12,
+        },
+      },
       {
         props: { disabled: true },
         style: {
@@ -54,7 +65,7 @@ const StyledLink = styled('a')<LinkProps>(({ theme }) => {
 
 const Link: React.FC<LinkProps> = (props) => {
   const {
-    size = 'md',
+    size,
     color = 'primary',
     disabled = false,
     underline = true,

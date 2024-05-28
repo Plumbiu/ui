@@ -5,7 +5,7 @@ import ButtonGroup from './group'
 import { ButtonProps } from './types'
 import { StyledButton, defaultButtonCls, primaryButtonCls } from './styles'
 import { IconWrap } from '@/icon'
-import { fcc_inline } from '@/_styles'
+import { fcc_inline } from '@/_utils/styles'
 
 function LineMdLoadingTwotoneLoop(props: SVGProps<SVGSVGElement>) {
   return (

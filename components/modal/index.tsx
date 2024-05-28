@@ -10,10 +10,10 @@ import {
   fadeCls,
 } from './styles'
 import { IconWrap, MaterialSymbolsCloseRounded } from '@/icon'
-import { fcb } from '@/_styles'
+import { fcb } from '@/_utils/styles'
 import Button from '@/button'
-import { Portal } from '@/_common'
-import { useAnimation } from '@/_hooks'
+import { Portal } from '@/_utils/components'
+import { useAnimation } from '@/_utils/hooks'
 
 export interface ModalProps {
   visible?: boolean

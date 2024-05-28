@@ -7,7 +7,8 @@ import {
 } from './icons'
 import { TColor } from '@/types'
 import { IconWrap, MaterialSymbolsCloseRounded } from '@/icon'
-import { colorsVar, selfStart } from '@/_styles'
+import { selfStart } from '@/_utils/styles'
+import { colorsVar } from '@/_utils/vars'
 
 export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
   color?: TColor

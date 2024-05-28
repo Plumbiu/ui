@@ -1,9 +1,10 @@
 import { HTMLAttributes } from 'react'
 import { styled } from '@pigment-css/react'
 import { TColor } from '../types'
-import { colorsVar, fcc_inline } from '../_styles'
 import { IconWrap } from '../icon'
 import { formatHex, isDarkColor } from './utils'
+import { fcc_inline } from '@/_utils/styles'
+import { colorsVar } from '@/_utils/vars'
 
 export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
   color?: TColor

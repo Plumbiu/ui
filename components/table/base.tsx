@@ -2,7 +2,7 @@ import useColumns from './hooks/columns'
 import { TableTr } from './render'
 import { StyledTable, theadCls, StyledFooter } from './styles'
 import { BaseTableProps } from './types'
-import { scrollBarCss } from '@/_styles'
+import { scrollBarCss } from '@/_utils/styles'
 
 const BaseTable: React.FC<BaseTableProps> = (props) => {
   const {

@@ -6,7 +6,7 @@ import {
   sortHoverTitle,
 } from '../types'
 import { SortAction } from './Action'
-import { fcb } from '@/_styles'
+import { fcb } from '@/_utils/styles'
 
 interface ThItemProps {
   title: string
