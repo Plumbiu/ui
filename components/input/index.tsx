@@ -48,7 +48,7 @@ const StyledInputWrapper = styled('div')<InputProps>(({ theme }) => {
             borderColor: theme['primary'],
           },
           '&:focus-within': {
-            boxShadow: `0 0 0 2px ${theme.vars['primary-6']}`,
+            boxShadow: `0 0 0 3px ${theme.vars['primary-6']}`,
           },
         },
       },
