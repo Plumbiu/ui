@@ -30,8 +30,8 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
       left: 0,
       borderRadius: 'inherit',
       opacity: 0,
-      boxShadow: `0 0 0 8px ${primaryColor}`,
-      transition: '0.85s cubic-bezier(0.08, 0.82, 0.17, 1)',
+      boxShadow: `0 0 0 9px ${theme.vars['primary-1']}`,
+      transition: '0.6s cubic-bezier(0.08, 0.82, 0.17, 1)',
     },
     variants: [
       {

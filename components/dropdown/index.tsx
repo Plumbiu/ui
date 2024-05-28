@@ -41,6 +41,7 @@ const StyledDropdown = styled('div')<DropdownProps>(({ theme }) => {
     zIndex: 999,
     boxShadow: theme['boxShadow'],
     backgroundColor: theme.vars['background-1'],
+    color: theme.vars['text-1'],
     transformOrigin: 'center 0',
     borderRadius: 8,
     padding: 4,
