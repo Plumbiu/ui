@@ -1,82 +1,14 @@
-import { css, keyframes, styled } from '@pigment-css/react'
 import { useMemo, useRef, useState } from 'react'
 import { useEventListener } from 'ahooks'
 import Button from '../button'
+import {
+  reverseAnimationCls,
+  animationDuration,
+  StyledDropdown,
+} from './styles'
+import { DropdownProps, Offset } from './types'
 import { Portal } from '@/_utils/components'
 import { useAnimation, useMounted } from '@/_utils/hooks'
-
-interface Offset {
-  x: number
-  y: number
-}
-
-export interface DropdownProps {
-  children: React.ReactNode
-}
-
-const endPoint = {
-  transform: 'rotateX(0)',
-}
-
-const startPoint = {
-  transform: 'rotateX(90deg)',
-}
-
-const dropCls = keyframes({
-  '0%': startPoint,
-  '100%': endPoint,
-})
-
-const reverseDropCls = keyframes({
-  '100%': startPoint,
-  0: endPoint,
-})
-
-const animationDuration = 100
-
-const StyledDropdown = styled('div')<DropdownProps>(({ theme }) => {
-  const size = 12
-  return {
-    position: 'absolute',
-    zIndex: 999,
-    boxShadow: theme['boxShadow'],
-    backgroundColor: theme.vars['background-1'],
-    color: theme.vars['text-1'],
-    transformOrigin: 'center 0',
-    borderRadius: 8,
-    padding: 4,
-    animation: `${animationDuration}ms ${dropCls} forwards`,
-    margin: 'auto',
-    fontSize: 14,
-    minWidth: 120,
-    '& > div': {
-      padding: '8px 12px',
-      cursor: 'pointer',
-      borderRadius: 4,
-      transition: 'background-color 0.15s',
-      '&:hover': {
-        backgroundColor: theme.vars['info-6'],
-      },
-    },
-    '&::after': {
-      content: '""',
-      position: 'absolute',
-      display: 'inline-block',
-      width: size,
-      height: size,
-      zIndex: -1,
-      top: -size / 2,
-      left: '50%',
-      transform: `translateX(-${size / 2}px) rotate(45deg)`,
-      backgroundColor: theme.vars['background-1'],
-      boxShadow: theme['boxShadowTop'],
-    },
-  }
-})
-
-const reverseAnimationCls = css({
-  animation: `0.1s ${reverseDropCls} forwards`,
-})
 
 const Dropdown: React.FC<DropdownProps> = (props) => {
   const [offset, setOffset] = useState<Offset>()
