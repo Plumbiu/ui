@@ -10,7 +10,7 @@ export default function Basic() {
   const [messageApi] = useMessage()
 
   return (
-    <Button onClick={() => messageApi.info('Hello @plumbiu/ui')}>
+    <Button type="primary" onClick={() => messageApi.info('Hello @plumbiu/ui')}>
       open message
     </Button>
   )

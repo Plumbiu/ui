@@ -96,6 +96,7 @@ const StyledInput = styled('input')<InputProps>(({ theme }) => {
     outline: 'none',
     border: 'none',
     width: '100%',
+    height: '100%',
     paddingLeft: 8,
     paddingRight: 8,
     backgroundColor: 'transparent',
