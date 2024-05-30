@@ -1,6 +1,7 @@
 import { Fragment, useEffect } from 'react'
 import { Root, createRoot } from 'react-dom/client'
 import './styles.css'
+import { useThrottleFn } from 'ahooks'
 import { StyledMessageItem, fadeOutCls } from './styles'
 import { TBaseColor } from '@/types'
 import {
@@ -22,39 +23,37 @@ const useMessage = (props?: MessageProps) => {
   let mainElm: HTMLDivElement
   let root: Root
 
-  function commonRender(
-    node: React.ReactNode,
-    icon: React.ReactNode,
-    color: TBaseColor,
-  ) {
-    const id = `plumbiu-message-item-${idx++}`
-    toasts.push({
-      node: (
-        <StyledMessageItem className={`plumbiu-message-item ${id}`}>
-          <IconWrap color={color} size="lg">
-            {customIcon ?? icon}
-          </IconWrap>
-          <div>{node}</div>
-        </StyledMessageItem>
-      ),
-      id,
-    })
-    root.render(
-      toasts.map(({ node, id }) => <Fragment key={id}>{node}</Fragment>),
-    )
-    setTimeout(() => {
-      const toast = toasts.shift()
-      if (toast) {
-        const elm = mainElm.getElementsByClassName(toast.id)[0]
-        if (toasts.length === 0) {
-          root.render(null)
-          idx = 0
-        } else {
-          elm?.classList?.add(fadeOutCls)
+  const commonRender = (
+    (node: React.ReactNode, icon: React.ReactNode, color: TBaseColor) => {
+      const id = `plumbiu-message-item-${idx++}`
+      toasts.push({
+        node: (
+          <StyledMessageItem className={`plumbiu-message-item ${id}`}>
+            <IconWrap color={color} size="lg">
+              {customIcon ?? icon}
+            </IconWrap>
+            <div>{node}</div>
+          </StyledMessageItem>
+        ),
+        id,
+      })
+      root.render(
+        toasts.map(({ node, id }) => <Fragment key={id}>{node}</Fragment>),
+      )
+      setTimeout(() => {
+        const toast = toasts.shift()
+        if (toast) {
+          const elm = mainElm.getElementsByClassName(toast.id)[0]
+          if (toasts.length === 0) {
+            root.render(null)
+            idx = 0
+          } else {
+            elm?.classList?.add(fadeOutCls)
+          }
         }
-      }
-    }, duration)
-  }
+      }, duration)
+    }
+  )
 
   useEffect(() => {
     mainElm = document.createElement('div')

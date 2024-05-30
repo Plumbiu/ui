@@ -1,15 +1,5 @@
 import { css, keyframes, styled } from '@pigment-css/react'
 
-export const startPoint = {
-  opacity: 0,
-  transform: 'translateY(-8px)',
-}
-
-export const endPoint = {
-  opacity: 1,
-  transform: 'translateY(0)',
-}
-
 export const fadeIn = keyframes({
   '0%': {
     padding: 0,
@@ -25,13 +15,16 @@ export const fadeIn = keyframes({
 
 export const fadeout = keyframes({
   '0%': {
+    transform: 'translateY(0)',
     maxHeight: '100%',
     padding: '9px 12px',
     opacity: 1,
   },
   '100%': {
+    transform: 'translateY(-100%)',
     maxHeight: 0,
     padding: 0,
+    marginBottom: -18,
     opacity: 0,
   },
 })
@@ -48,6 +41,8 @@ export const StyledMessageItem = styled('div')(({ theme }) => ({
   backgroundColor: theme.vars['background-1'],
   color: theme.vars['text-1'],
   padding: '9px 12px',
+  lineHeight: 1.575,
+  marginBottom: 24,
   borderRadius: 6,
   fontSize: 14,
   boxShadow: theme['boxShadow-secondary'],

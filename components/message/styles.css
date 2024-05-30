@@ -4,7 +4,6 @@
   display: inline-flex;
   justify-content: center;
   flex-direction: column;
-  gap: 18px;
   position: fixed;
   z-index: 9999;
   left: 50%;
