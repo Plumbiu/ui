@@ -1,8 +1,7 @@
 import { Fragment, useEffect } from 'react'
 import { Root, createRoot } from 'react-dom/client'
 import './styles.css'
-import { styled } from '@pigment-css/react'
-import { fadeIn, fadeOutCls } from './styles'
+import { StyledMessageItem, fadeOutCls } from './styles'
 import { TBaseColor } from '@/types'
 import {
   IconWrap,
@@ -10,21 +9,6 @@ import {
   MaterialSymbolsCheckCircleRounded,
   MaterialSymbolsCancel,
 } from '@/icon'
-
-const StyledMessageItem = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 4,
-  pointerEvents: 'all',
-  backgroundColor: theme.vars['background-1'],
-  color: theme.vars['text-1'],
-  padding: '9px 12px',
-  borderRadius: 6,
-  fontSize: 14,
-  boxShadow: theme['boxShadow-secondary'],
-  animation: `${fadeIn} 0.2s forwards`,
-  transform: 'translateY(-16px)',
-}))
 
 interface MessageProps {
   duration?: number
