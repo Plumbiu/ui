@@ -8,7 +8,7 @@ import { Alert, Button } from '@plumbiu/ui'
 export default function Demo() {
   return (
     <>
-      <Alert closable action={<Button size="sm">UNDO</Button>}>
+      <Alert closable action={<Button size="sm" type="primary">UNDO</Button>}>
         Alert
       </Alert>
       <br />
@@ -16,9 +16,9 @@ export default function Demo() {
         closable
         action={
           <>
-            <Button size="sm">Foo</Button>
-            <Button size="sm" plain>
-              Bar
+            <Button size="sm" type="primary">按钮</Button>
+            <Button size="sm" type="primary">
+              按钮
             </Button>
           </>
         }

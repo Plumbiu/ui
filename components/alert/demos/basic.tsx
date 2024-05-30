@@ -12,7 +12,7 @@ export default function Demo() {
     <>
       {colors.map((color) => (
         <React.Fragment key={color}>
-          <Alert color={color}>Alert</Alert>
+          <Alert color={color}>{color.toUpperCase()} 信息提示</Alert>
           <br />
         </React.Fragment>
       ))}

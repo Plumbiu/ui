@@ -9,10 +9,10 @@ import { Alert } from '@plumbiu/ui'
 export default function Demo() {
   return (
     <>
-      <Alert closable description="Primary description">Alert</Alert>
+      <Alert closable>信息提示</Alert>
       <br />
       <Alert closable closeIcon="x">
-        Alert
+        信息提示
       </Alert>
     </>
   )

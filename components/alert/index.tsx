@@ -33,7 +33,7 @@ const StyledAlert = styled('div')<AlertProps>(({ theme }) => {
     borderStyle: 'solid',
     lineHeight: '16px',
     borderRadius: 8,
-    padding: '8px 12px',
+    padding: '7px 15px',
     color: theme.vars['text-1'],
     fontSize: 14,
     variants: [
@@ -52,8 +52,8 @@ const StyledAlertDescription = styled('div')({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  lineHeight: 1.45,
-  marginTop: 4,
+  lineHeight: 1.575,
+  marginTop: 2,
 })
 
 const iconMap: Record<TColor, React.ReactNode> = {
