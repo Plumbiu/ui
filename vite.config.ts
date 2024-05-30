@@ -62,6 +62,7 @@ export const viteOptions: InlineConfig = {
     cssTarget: 'chrome61',
     minify: true,
     cssCodeSplit: true,
+    reportCompressedSize: false,
   },
   resolve: {
     alias: {

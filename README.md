@@ -19,3 +19,16 @@ export default function Demo() {
   return <Button>Button</Button>
 }
 ```
+# size
+
+run:
+
+```bash
+pnpm run bundle-size
+```
+
+output:
+
+```txt
+gziped size:  28.4296875 kb
+```
