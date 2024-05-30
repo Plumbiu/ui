@@ -31,4 +31,7 @@ export { default as Dropdown } from './dropdown'
 export * from './radio'
 export { default as Radio } from './radio'
 
+export * from './message'
+export { default as useMessage } from './message'
+
 export type * from './types'

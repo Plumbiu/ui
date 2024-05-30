@@ -77,3 +77,5 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 }
 
 export default Dropdown
+
+export type { DropdownProps } from './types'

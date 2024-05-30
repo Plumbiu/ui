@@ -1,6 +1,6 @@
 export interface DropdownProps {
   children: React.ReactNode
-  menu: any
+  menu?: any
 }
 
 export interface Offset {

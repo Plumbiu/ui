@@ -1,12 +1,13 @@
 import React, { HTMLAttributes, useState } from 'react'
 import { css, styled } from '@pigment-css/react'
+import { TColor } from '@/types'
 import {
+  IconWrap,
+  MaterialSymbolsCloseRounded,
   MaterialSymbolsInfoRounded,
   MaterialSymbolsCheckCircleRounded,
   MaterialSymbolsCancel,
-} from './icons'
-import { TColor } from '@/types'
-import { IconWrap, MaterialSymbolsCloseRounded } from '@/icon'
+} from '@/icon'
 import { selfStart } from '@/_utils/styles'
 import { colorsVar } from '@/_utils/vars'
 

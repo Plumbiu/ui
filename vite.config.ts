@@ -51,6 +51,7 @@ export const viteOptions: InlineConfig = {
             ...baseBundle.map(
               (item) => `@/_utils/${item.replace(SUFFIX_REGX, '')}`,
             ),
+            '@/icons',
           ],
         },
         globals: {
