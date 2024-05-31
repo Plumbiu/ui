@@ -11,8 +11,6 @@ npm install @plumbiu/ui
 ```
 
 ```jsx
-// import style first
-import '@plumbiu/ui/style.css'
 import { Button } from '@plumbiu/ui'
 
 export default function Demo() {

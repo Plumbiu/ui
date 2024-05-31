@@ -45,7 +45,6 @@ const useMessage = (props?: MessageProps) => {
 
     setTimeout(() => {
       const toast = toasts.shift()
-      console.log(mainElm)
       if (toast) {
         const elm = mainElm.getElementsByClassName(toast.id)[0]
         if (toasts.length === 0) {
@@ -78,6 +77,9 @@ const useMessage = (props?: MessageProps) => {
       render(node, <MaterialSymbolsInfoRounded fontSize={20} />, 'primary'),
     warning: (node: React.ReactNode) =>
       render(node, <MaterialSymbolsCancel fontSize={20} />, 'warning'),
+    destory() {
+      root.render(null)
+    },
   }
 
   return [apis]
