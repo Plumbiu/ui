@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import { useEventListener, useUpdateEffect } from 'ahooks'
+import React, { useEffect, useRef } from 'react'
+import { useUpdateEffect } from 'ahooks'
 import {
   StyledModal,
   contentCls,
@@ -111,29 +111,28 @@ const Modal: React.FC<ModalProps> & {
     },
   )
 
-  useEventListener(
-    'click',
-    (e) => {
-      if (!maskClosable) {
-        return
-      }
-      if (e.target === maskRef.current) {
-        onClose()
-      }
-    },
-    {
-      target: maskRef,
-    },
-  )
+  function handleClose(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    if (!maskClosable) {
+      return
+    }
+    if (e.target === maskRef.current) {
+      onClose()
+    }
+  }
 
   function handleESC(e: KeyboardEvent) {
     e.preventDefault()
-    if (visible && keyboard && e.key === 'Escape') {
+    if (visible && e.key === 'Escape') {
       onClose?.()
     }
   }
 
-  useEventListener('keyup', handleESC)
+  useEffect(() => {
+    keyboard && window.addEventListener('keyup', handleESC)
+    return () => {
+      keyboard && window.removeEventListener('keyup', handleESC)
+    }
+  }, [onClose])
 
   useUpdateEffect(() => {
     closesFn.add(onClose)
@@ -149,7 +148,7 @@ const Modal: React.FC<ModalProps> & {
   }, [visible])
 
   let children: React.ReactNode = (
-    <StyledMask ref={maskRef} style={maskStyles} key={closesFn.size}>
+    <StyledMask ref={maskRef} onClick={handleClose} style={maskStyles}>
       <StyledModal ref={modalRef} style={modalStyles}>
         <div className={`${fcb} ${modalHeadCls}`}>
           <div className={titleCls}>{title}</div>
