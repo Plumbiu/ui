@@ -41,8 +41,8 @@ const wrapperCls = css(({ theme }) => ({
   '> input': {
     display: 'none',
     '&:checked+span': {
-      backgroundColor: theme['primary'],
-      borderColor: theme['primary'],
+      backgroundColor: theme['blue-4'],
+      borderColor: theme['blue-4'],
       '&::before': {
         opacity: 1,
       },
@@ -81,7 +81,7 @@ const wrapperCls = css(({ theme }) => ({
 const halfCheckCls = css(({ theme }) => ({
   '> span': {
     '&::before': {
-      backgroundColor: theme['primary'],
+      backgroundColor: theme['blue-4'],
       transform: 'none',
       opacity: 1,
       border: 'none',

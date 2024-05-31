@@ -74,12 +74,31 @@ for (const [color, hexs] of Object.entries(themeVars)) {
 }
 
 const tokens: Record<string, string | string[]> = {
-  text: ['#fefefe', '#e5eef3', '#ccd1cd', '#a4a4a8', '#919099', '#65676a'],
+  gray: [
+    '#fefefe',
+    '#e5eef3',
+    '#c8c9cc',
+    '#a4a4a8',
+    '#919099',
+    '#65676a',
+    '#434343',
+    '#232323',
+  ],
   info: '#73767a',
   primary: '#326bfb',
   success: '#52c41a',
   warning: '#faad14',
   danger: '#c45656',
+  blue: [
+    '#F6FAFF',
+    '#DDEDFF',
+    '#7AAEFC',
+    '#326BFB',
+    '#0344E9',
+    '#0047B3',
+    '#00338C',
+    '#002266',
+  ],
   boxShadow: `0 6px 16px 0 rgba(0, 0, 0, 0.08),
   0 3px 6px -4px rgba(0, 0, 0, 0.12),
   0 9px 28px 8px rgba(0, 0, 0, 0.05)`,

@@ -18,9 +18,9 @@ const StyledButtonGroup = styled('div')<ButtonGroupProps>(({ theme }) => {
         borderColor: theme.vars['info-3'],
       },
       '&:focus': {
-        borderColor: theme['primary'],
+        borderColor: theme['blue-4'],
         borderRightWidth: '1px!important',
-        color: theme['primary'],
+        color: theme['blue-4'],
         '&+button': {
           borderLeftWidth: 0,
         },

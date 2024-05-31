@@ -39,10 +39,10 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
       {
         props: { disabled: true },
         style: {
-          backgroundColor: `${theme.vars['info-6']}!important`,
-          color: `${theme.vars['text-4']}!important`,
+          backgroundColor: '#e9e9eb!important',
+          color: `${theme['gray-5']}!important`,
           cursor: 'not-allowed',
-          borderColor: `${theme.vars['info-3']}!important`,
+          borderColor: `${theme['gray-3']}!important`,
         },
       },
     ],
@@ -66,23 +66,25 @@ export const circleCls = css(({}) => ({
 }))
 
 export const primaryButtonCls = css(({ theme }) => ({
-  backgroundColor: theme['primary'],
+  backgroundColor: theme['blue-4'],
   color: 'white',
   borderColor: 'transparent',
   '&:hover': {
-    backgroundColor: theme['primary'] + 'd8',
+    backgroundColor: theme['blue-4'] + 'd8',
   },
 }))
 
 export const borderlessCls = css(({ theme }) => ({
   border: 'none',
   boxShadow: 'none',
+  color: theme['gray-8'],
 }))
 
 export const defaultButtonCls = css(({ theme }) => {
-  const primaryColor = theme['primary']
+  const primaryColor = theme['blue-4']
   return {
-    borderColor: theme.vars['info-3'],
+    borderColor: theme['gray-3'],
+    color: theme['gray-8'],
     '&:hover': {
       color: primaryColor,
       borderColor: primaryColor,

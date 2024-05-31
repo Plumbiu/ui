@@ -83,7 +83,7 @@ export const waveCls = css(({ theme }) => ({
   },
   '&:active': {
     '&::after': {
-      boxShadow: `0 0 0 0px ${theme['primary']}`,
+      boxShadow: `0 0 0 0px ${theme['blue-4']}`,
       opacity: 0.4,
       transition: '0s',
     },

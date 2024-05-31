@@ -45,7 +45,7 @@ const StyledInputWrapper = styled('div')<InputProps>(({ theme }) => {
         props: { disabled: false },
         style: {
           '&:hover,&:focus-within': {
-            borderColor: theme['primary'],
+            borderColor: theme['blue-4'],
           },
           '&:focus-within': {
             boxShadow: `0 0 0 3px ${theme.vars['primary-6']}`,

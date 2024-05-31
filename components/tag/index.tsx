@@ -38,7 +38,7 @@ const StyledTag = styled('span')<TagProps>(({ theme }) => {
             props: { color, fill: true },
             style: {
               backgroundColor: theme[color],
-              color: theme['text-1'],
+              color: theme['gray-1'],
             },
           },
         ]

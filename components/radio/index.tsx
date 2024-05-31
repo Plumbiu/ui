@@ -30,7 +30,7 @@ const wrapperCls = css(({ theme }) => ({
     display: 'none',
     '&:checked+span': {
       borderWidth: 5,
-      borderColor: theme['primary'],
+      borderColor: theme['blue-4'],
     },
   },
   '> span': {

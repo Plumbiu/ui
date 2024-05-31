@@ -23,8 +23,8 @@ const StyledPagintaion = styled('div')(({ theme }) => ({
     },
   },
   '& > ._pagination_hl': {
-    borderColor: theme['primary'],
-    color: theme['primary'],
+    borderColor: theme['blue-4'],
+    color: theme['blue-4'],
   },
 }))
 
@@ -33,7 +33,7 @@ const ellipsisCls = css(({ theme }) => ({
   color: 'rgba(0, 0, 0, 0.25)',
   fontWeight: 700,
   '&:hover': {
-    color: theme['primary'],
+    color: theme['blue-4'],
   },
 }))
 

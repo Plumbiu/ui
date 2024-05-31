@@ -11,6 +11,10 @@
   --scroll-thumb-bg-color-active: #767676;
 }
 
+.theme-dark body {
+  background-color: #121212;
+}
+
 body {
   --scroll-thumb-bg-color: #a2a3a2;
   --scroll-bg-color: #efefef;

@@ -37,4 +37,6 @@ export { default as useMessage } from './message'
 export * from './divider'
 export { default as Divider } from './divider'
 
+export { default as useToggleTheme } from './toggle'
+
 export type * from './types'
