@@ -34,4 +34,7 @@ export { default as Radio } from './radio'
 export * from './message'
 export { default as useMessage } from './message'
 
+export * from './divider'
+export { default as Divider } from './divider'
+
 export type * from './types'

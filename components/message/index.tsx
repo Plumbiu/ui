@@ -10,7 +10,7 @@ import {
   MaterialSymbolsCancel,
 } from '@/icon'
 
-interface MessageProps {
+export interface MessageProps {
   duration?: number
   icon?: React.ReactNode
 }
