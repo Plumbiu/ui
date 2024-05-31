@@ -30,7 +30,7 @@ export const viteOptions: InlineConfig = {
       declaration: true,
       emitDeclarationOnly: true,
       noForceEmit: true,
-      include: ['**/index.ts'],
+      include: ['**/index.tsx'],
       allowSyntheticDefaultImports: true,
     }),
   ],
@@ -62,7 +62,6 @@ export const viteOptions: InlineConfig = {
     cssTarget: 'chrome61',
     minify: true,
     cssCodeSplit: true,
-    reportCompressedSize: false,
   },
   resolve: {
     alias: {

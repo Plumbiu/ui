@@ -50,8 +50,6 @@
     "antd": "^5.17.4",
     "eslint": "8.57.0",
     "gzip-size": "^7.0.0",
-    "lightningcss": "^1.25.1",
-    "puppeteer": "^22.9.0",
     "typescript": "^5.4.5",
     "vite": "^5.2.12",
     "vite-pages-theme-doc": "^5.0.0",
