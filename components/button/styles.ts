@@ -1,10 +1,8 @@
 import { css, styled } from '@pigment-css/react'
 import { ButtonProps } from './types'
 
-// @ts-ignore
 export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
   const primaryColor = theme['primary']
-  const primaryHoverColor = primaryColor + 'd8'
   return {
     position: 'relative',
     cursor: 'pointer',
@@ -21,6 +19,7 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
     gap: 4,
     height: 32,
     borderRadius: 6,
+    boxShadow: '0 2px 0 rgba(0, 0, 0, 0.02)',
     '&::after': {
       content: '""',
       position: 'absolute',
@@ -34,18 +33,6 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
       transition: '0.75s cubic-bezier(0.08, 0.82, 0.17, 1) 85ms',
     },
     variants: [
-      {
-        props: { borderless: true },
-        style: {
-          border: 'none',
-        },
-      },
-      {
-        props: { borderless: false },
-        style: {
-          boxShadow: '0 2px 0 rgba(0, 0, 0, 0.02)',
-        },
-      },
       {
         props: { size: 'lg' },
         style: {
@@ -63,46 +50,6 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
         },
       },
       {
-        props: { circle: true },
-        style: {
-          borderRadius: '50%',
-          aspectRatio: 1,
-          padding: 6,
-        },
-      },
-      {
-        props: ({ disabled, borderless, loading }) =>
-          !borderless && !disabled && !loading,
-        style: {
-          '&:active': {
-            '&::after': {
-              boxShadow: `0 0 0 1px ${primaryColor}`,
-              opacity: 0.4,
-              transition: '0s',
-            },
-          },
-        },
-      },
-      {
-        props: ({ disabled, type, loading }) =>
-          type !== 'primary' && !disabled && !loading,
-        style: {
-          '&:hover': {
-            color: primaryColor,
-            borderColor: primaryColor,
-          },
-        },
-      },
-      {
-        props: ({ disabled, type, loading }) =>
-          (type === 'primary' || loading) && !disabled,
-        style: {
-          '&:hover': {
-            backgroundColor: primaryHoverColor,
-          },
-        },
-      },
-      {
         props: { disabled: true },
         style: {
           backgroundColor: `${theme.vars['info-6']}!important`,
@@ -111,30 +58,57 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
           borderColor: `${theme.vars['info-3']}!important`,
         },
       },
-      {
-        props: { loading: true },
-        style: {
-          opacity: 0.5,
-          '&:hover': {
-            opacity: 0.4,
-          },
-          '&:active': {
-            opacity: 0.7,
-          },
-        },
-      },
     ],
   }
 })
+
+export const waveCls = css(({ theme }) => ({
+  '&:active': {
+    '&::after': {
+      boxShadow: `0 0 0 1px ${theme['primary']}`,
+      opacity: 0.4,
+      transition: '0s',
+    },
+  },
+}))
+
+export const loadingCls = css(({}) => ({
+  opacity: 0.5,
+  '&:hover': {
+    opacity: 0.4,
+  },
+  '&:active': {
+    opacity: 0.7,
+  },
+}))
+
+export const circleCls = css(({}) => ({
+  borderRadius: '50%',
+  aspectRatio: 1,
+  padding: 6,
+}))
 
 export const primaryButtonCls = css(({ theme }) => ({
   backgroundColor: theme['primary'],
   color: 'white',
   borderColor: 'transparent',
+  '&:hover': {
+    backgroundColor: theme['primary'] + 'd8',
+  },
+}))
+
+export const borderlessCls = css(({ theme }) => ({
+  border: 'none',
+  boxShadow: 'none',
 }))
 
 export const defaultButtonCls = css(({ theme }) => {
+  const primaryColor = theme['primary']
   return {
     borderColor: theme.vars['info-3'],
+    '&:hover': {
+      color: primaryColor,
+      borderColor: primaryColor,
+    },
   }
 })

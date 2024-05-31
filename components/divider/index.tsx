@@ -5,7 +5,6 @@ export interface DividerProps {
   className?: string
   dashed?: boolean
   orientation?: 'left' | 'right' | 'center'
-  orientationMargin?: string | number
   plain?: boolean
   type?: 'horizontal' | 'vertical'
   children?: React.ReactNode
@@ -88,7 +87,6 @@ const Divider: React.FC<DividerProps> = ({
   className,
   dashed,
   orientation = 'center',
-  orientationMargin,
   plain,
   type = 'horizontal',
   children,
