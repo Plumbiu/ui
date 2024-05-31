@@ -63,3 +63,27 @@ export const scrollBarCss = css(({ theme }) => ({
     backgroundColor: 'var(--scroll-bg-color)',
   },
 }))
+
+export const waveCls = css(({ theme }) => ({
+  position: 'relative',
+  cursor: 'pointer',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    borderRadius: 'inherit',
+    opacity: 0,
+    boxShadow: `0 0 0 8px ${theme.vars['primary-1']}`,
+    transition: '0.75s cubic-bezier(0.08, 0.82, 0.17, 1) 85ms',
+  },
+  '&:active': {
+    '&::after': {
+      boxShadow: `0 0 0 0px ${theme['primary']}`,
+      opacity: 0.4,
+      transition: '0s',
+    },
+  },
+}))

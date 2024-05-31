@@ -9,10 +9,9 @@ import {
   defaultButtonCls,
   loadingCls,
   primaryButtonCls,
-  waveCls,
 } from './styles'
 import { IconWrap, LineMdLoadingTwotoneLoop } from '@/icon'
-import { fcc_inline } from '@/_utils/styles'
+import { fcc_inline, waveCls } from '@/_utils/styles'
 
 const InternalButton = forwardRef<HTMLButtonElement, ButtonProps>(
   (props, ref) => {

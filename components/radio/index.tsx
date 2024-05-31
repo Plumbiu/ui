@@ -1,5 +1,6 @@
 import { css } from '@pigment-css/react'
 import { clsx } from 'clsx'
+import { waveCls } from '@/_utils/styles'
 
 // copyed https://github.com/react-component/checkbox/blob/master/LICENSE.md
 interface CheckboxChangeEvent {
@@ -24,6 +25,7 @@ const BEFORE_SIZE = 8
 const wrapperCls = css(({ theme }) => ({
   display: 'inline-flex',
   height: SIZE,
+  borderRadius: '50%',
   '> input': {
     display: 'none',
     '&:checked+span': {
@@ -95,6 +97,7 @@ const Radio: React.FC<RadioProps> = (props) => {
     <label
       className={clsx(wrapperCls, {
         [disabledCheckCls]: disabled,
+        [waveCls]: !disabled,
       })}
     >
       <input

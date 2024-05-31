@@ -2,7 +2,6 @@ import { css, styled } from '@pigment-css/react'
 import { ButtonProps } from './types'
 
 export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
-  const primaryColor = theme['primary']
   return {
     position: 'relative',
     cursor: 'pointer',
@@ -20,18 +19,6 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
     height: 32,
     borderRadius: 6,
     boxShadow: '0 2px 0 rgba(0, 0, 0, 0.02)',
-    '&::after': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      right: 0,
-      left: 0,
-      borderRadius: 'inherit',
-      opacity: 0,
-      boxShadow: `0 0 0 8px ${theme.vars['primary-1']}`,
-      transition: '0.75s cubic-bezier(0.08, 0.82, 0.17, 1) 85ms',
-    },
     variants: [
       {
         props: { size: 'lg' },
@@ -61,16 +48,6 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
     ],
   }
 })
-
-export const waveCls = css(({ theme }) => ({
-  '&:active': {
-    '&::after': {
-      boxShadow: `0 0 0 1px ${theme['primary']}`,
-      opacity: 0.4,
-      transition: '0s',
-    },
-  },
-}))
 
 export const loadingCls = css(({}) => ({
   opacity: 0.5,
