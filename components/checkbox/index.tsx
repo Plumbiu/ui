@@ -27,17 +27,13 @@ export interface CheckboxProps
   onChange?: (e: CheckboxChangeEvent) => void
 }
 
-const SIZE = 16
-const BEFORE_WIDTH = 9
-const BEFORE_HEIGHT = 5
-const BORDER_SIZE = 2
-
 const wrapperCls = css(({ theme }) => ({
   display: 'inline-flex',
+  boxSizing: 'border-box',
   alignItems: 'center',
   gap: 4,
-  fontSize: 14,
-  height: SIZE,
+  fontSize: 16,
+  height: 16,
   '> input': {
     display: 'none',
     '&:checked+span': {
@@ -45,13 +41,24 @@ const wrapperCls = css(({ theme }) => ({
       borderColor: theme['blue-4'],
       '&::before': {
         opacity: 1,
+        width: 9,
+        height: 5,
+        borderWidth: 2,
+        top: 3.25,
+        left: 2.75,
+        borderStyle: 'solid',
+        borderColor: '#fff',
+        borderTop: 'none',
+        borderRight: 'none',
+        transform: 'rotate(-45deg)',
       },
     },
   },
   '> span': {
     display: 'inline-block',
-    width: SIZE,
-    height: SIZE,
+    boxSizing: 'border-box',
+    width: 16,
+    height: 16,
     borderRadius: 4,
     borderWidth: 1,
     borderStyle: 'solid',
@@ -60,20 +67,10 @@ const wrapperCls = css(({ theme }) => ({
     cursor: 'pointer',
     transition: '0.2s',
     '&::before': {
-      content: '" "',
+      content: '""',
       position: 'absolute',
-      top: (SIZE - BEFORE_HEIGHT - BORDER_SIZE) / 2 - 1,
-      left: (SIZE - BEFORE_WIDTH - BORDER_SIZE) / 2,
-      display: 'inline-block',
+      display: 'block',
       opacity: 0,
-      width: BEFORE_WIDTH,
-      height: BEFORE_HEIGHT,
-      borderWidth: BORDER_SIZE,
-      borderStyle: 'solid',
-      borderColor: '#fff',
-      borderTop: 'none',
-      borderRight: 'none',
-      transform: 'rotate(-45deg)',
     },
   },
 }))
@@ -85,9 +82,11 @@ const halfCheckCls = css(({ theme }) => ({
       transform: 'none',
       opacity: 1,
       border: 'none',
-      height: BEFORE_WIDTH,
-      top: (SIZE - BEFORE_WIDTH - BORDER_SIZE) / 2,
-      borderRadius: BORDER_SIZE,
+      height: '60%',
+      width: '60%',
+      top: '20%',
+      left: '20%',
+      borderRadius: 2,
     },
   },
 }))
