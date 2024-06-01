@@ -39,4 +39,7 @@ export { default as Divider } from './divider'
 
 export { default as useToggleTheme } from './toggle'
 
+export * from './breadcrumb'
+export { default as Breadcrumb } from './breadcrumb'
+
 export type * from './types'

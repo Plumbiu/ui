@@ -11,6 +11,12 @@
   --scroll-thumb-bg-color-active: #767676;
 }
 
+a {
+  text-decoration: none;
+  color: var(--primary-1);
+  font-size: 14px,
+}
+
 .theme-dark body {
   background-color: #121212;
 }

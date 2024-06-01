@@ -32,7 +32,7 @@ const wrapperCls = css(({ theme }) => ({
   boxSizing: 'border-box',
   alignItems: 'center',
   gap: 4,
-  fontSize: 16,
+  fontSize: 14,
   height: 16,
   '> input': {
     display: 'none',

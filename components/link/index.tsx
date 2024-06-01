@@ -16,7 +16,6 @@ const StyledLink = styled('a')<LinkProps>(({ theme }) => {
     color: theme.vars['primary-1'],
     padding: 2,
     transition: '0.1s',
-    fontSize: 14,
     variants: [
       ...colorsVar.map((color) => ({
         props: { color, disabled: false },
