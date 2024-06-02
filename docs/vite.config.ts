@@ -7,6 +7,9 @@ import theme from '../theme'
 
 export default defineConfig({
   plugins: [
+    pigment({
+      theme,
+    }),
     react(),
     pages({
       pagesDir: path.join(__dirname, 'pages'),
@@ -69,9 +72,6 @@ export default defineConfig({
           )
         },
       }),
-    }),
-    pigment({
-      theme,
     }),
   ],
   resolve: {

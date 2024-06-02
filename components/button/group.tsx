@@ -9,6 +9,7 @@ export interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const StyledButtonGroup = styled('div')<ButtonGroupProps>(({ theme }) => {
+  const borderColor = theme['blue-4']
   return {
     width: 'max-content',
     borderRadius: 6,
@@ -18,11 +19,10 @@ const StyledButtonGroup = styled('div')<ButtonGroupProps>(({ theme }) => {
         borderColor: theme.vars['info-3'],
       },
       '&:focus': {
-        borderColor: theme['blue-4'],
-        borderRightWidth: '1px!important',
-        color: theme['blue-4'],
+        borderColor: borderColor,
+        color: borderColor,
         '&+button': {
-          borderLeftWidth: 0,
+          borderLeftColor: borderColor,
         },
       },
       '&:not(:first-child):not(:last-child)': {

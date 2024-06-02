@@ -1,6 +1,6 @@
 {
   "name": "@plumbiu/ui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "ui for plumbiu's blog",
   "main": "dist/index.mjs",
   "types": "dist/types/components/index.d.ts",

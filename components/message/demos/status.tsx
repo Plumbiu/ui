@@ -10,16 +10,19 @@ export default function Basic() {
   const [messageApi] = useMessage()
 
   return (
-    <>
-      <Button onClick={() => messageApi.info('Info Message')}>
+    <div className="button-demo">
+      <Button onClick={() => messageApi.info('This is info message')}>
         info message
       </Button>
-      <Button onClick={() => messageApi.warning('Warning Message')}>
+      <Button onClick={() => messageApi.warning('This is warning message')}>
         warning message
       </Button>
-      <Button onClick={() => messageApi.success('Success Message')}>
+      <Button onClick={() => messageApi.success('This is success message')}>
         success message
       </Button>
-    </>
+      <Button onClick={() => messageApi.error('This is error message')}>
+        error message
+      </Button>
+    </div>
   )
 }

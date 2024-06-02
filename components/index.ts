@@ -43,4 +43,7 @@ export { default as useToggleTheme } from './toggle'
 export * from './breadcrumb'
 export { default as Breadcrumb } from './breadcrumb'
 
+export * from './menu'
+export { default as Menu } from './menu'
+
 export type * from './types'

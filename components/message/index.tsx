@@ -32,7 +32,7 @@ const useMessage = (props?: MessageProps) => {
     const id = `plumbiu-message-item-${idx++}`
     toasts.push({
       node: (
-        <StyledMessageItem className={`plumbiu-message-item ${id}`}>
+        <StyledMessageItem className={id}>
           <IconWrap color={color}>{customIcon ?? icon}</IconWrap>
           <div>{node}</div>
         </StyledMessageItem>
@@ -76,7 +76,9 @@ const useMessage = (props?: MessageProps) => {
     info: (node: React.ReactNode) =>
       render(node, <MaterialSymbolsInfoRounded fontSize={20} />, 'primary'),
     warning: (node: React.ReactNode) =>
-      render(node, <MaterialSymbolsCancel fontSize={20} />, 'warning'),
+      render(node, <MaterialSymbolsInfoRounded fontSize={20} />, 'warning'),
+    error: (node: React.ReactNode) =>
+      render(node, <MaterialSymbolsCancel fontSize={20} />, 'danger'),
     destory() {
       root.render(null)
     },
