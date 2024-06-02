@@ -20,10 +20,14 @@ const items: MenuItem[] = [
     disabled: true,
   },
   {
+    type: 'divider',
+  },
+  {
     label: 'Navigation Three - Submenu',
     key: 'SubMenu',
     children: [
       {
+        type: 'group',
         label: 'Item 1',
         children: [
           { label: 'Option 1', key: 'setting:1' },
@@ -31,6 +35,7 @@ const items: MenuItem[] = [
         ],
       },
       {
+        type: 'group',
         label: 'Item 2',
         children: [
           { label: 'Option 3', key: 'setting:3' },
