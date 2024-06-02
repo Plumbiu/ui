@@ -30,7 +30,7 @@ export const viteOptions: InlineConfig = {
       declaration: true,
       emitDeclarationOnly: true,
       noForceEmit: true,
-      include: ['**/index.tsx'],
+      include: ['**/index.ts'],
       allowSyntheticDefaultImports: true,
     }),
   ],

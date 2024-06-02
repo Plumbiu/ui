@@ -16,7 +16,7 @@ export const dropCls = keyframes({
 
 export const reverseDropCls = keyframes({
   '100%': startPoint,
-  0: endPoint,
+  '0%': endPoint,
 })
 
 export const animationDuration = 100
