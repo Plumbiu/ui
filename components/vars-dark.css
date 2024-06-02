@@ -1,0 +1,9 @@
+.theme-dark {
+  --scroll-thumb-bg-color: #565656;
+  --scroll-bg-color: #212121;
+  --scroll-thumb-bg-color-active: #767676;
+}
+
+.theme-dark body {
+  background-color: #121212;
+}

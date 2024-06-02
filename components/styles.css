@@ -5,20 +5,10 @@
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-.theme-dark {
-  --scroll-thumb-bg-color: #565656;
-  --scroll-bg-color: #212121;
-  --scroll-thumb-bg-color-active: #767676;
-}
-
 a {
   text-decoration: none;
   color: var(--primary-1);
-  font-size: 14px,
-}
-
-.theme-dark body {
-  background-color: #121212;
+  font-size: 14px;
 }
 
 body {

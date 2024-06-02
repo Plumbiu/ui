@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { colorSchemes } from '../theme/index'
 
-const DARK_THEME_REGX = /\.theme-dark\s*\{[^}]+}/g
+const DARK_THEME_REGX = /\.theme-dark[^}]*\{[^}]+}/g
 const DEFAULT_THEME_REGX = /:root\s*\{[^}]+}/g
 
 async function autoImportCss() {
@@ -28,6 +28,8 @@ async function autoImportCss() {
 }
 
 async function generateTheme() {
+  const customDarkCss = await fsp.readFile('components/vars-dark.css', 'utf-8')
+
   const indexCss = (await fsp.readFile('dist/index.css', 'utf-8'))
     .replace(DARK_THEME_REGX, '')
     .replace(DEFAULT_THEME_REGX, '')
@@ -42,7 +44,7 @@ async function generateTheme() {
   for (const [key, value] of Object.entries(colorSchemes.dark)) {
     darkCssVars += `--${key}:${value};`
   }
-  darkCssVars += '}'
+  darkCssVars += `}${customDarkCss}`
   await fsp.writeFile('dist/vars-dark.css', darkCssVars)
 }
 
