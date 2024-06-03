@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { TableProps, TableRowSelection } from '../types'
 
 interface IUsePosition {
@@ -74,7 +74,7 @@ const useColumns = (props: IUsePosition) => {
     return newColumns
   }, [columns])
 
-  useEffect(() => {
+  const ColGroup = useMemo(() => {
     let left = 0
     let lastLeftFixed
     // left
@@ -108,8 +108,6 @@ const useColumns = (props: IUsePosition) => {
       right += width ?? 200
     }
     lastRightFixed && (lastRightFixed._shadow = true)
-  }, [columns])
-  const ColGroup = useMemo(() => {
     return (
       <colgroup>
         {rowSelection !== undefined && <col style={{ width: 45 }} />}

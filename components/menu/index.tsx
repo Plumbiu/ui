@@ -1,50 +1,37 @@
-import { IconWrap } from '@/icon'
 import { css, styled } from '@pigment-css/react'
-import clsx from 'clsx'
-import { MenuProps } from './types'
-import { Divider } from '..'
-import { flatMenuItems } from './utils'
+import { clsx } from 'clsx'
 import { useMemo, useState } from 'react'
+import { Divider } from '..'
+import { MenuItem, MenuProps } from './types'
+import { findAcitveArr } from './utils'
+import { IconWrap, MaterialSymbolsKeyboardArrowUpRounded } from '@/icon'
 
 const menuCls = css(({ theme }) => ({
   borderRight: `1px solid ${theme.vars['info-5']}`,
 }))
 
-const depths = [2, 3, 4, 5, 6]
-
-const StyleMenuItem = styled('div')<{
-  depth: number
-}>(({ theme }) => ({
+const StyleMenuItem = styled('div')(({ theme }) => ({
   boxSizing: 'border-box',
-  display: 'flex',
   color: theme.vars['text-1'],
   lineHeight: 1.5,
   fontSize: 14,
-  flexDirection: 'column',
-  variants: [
-    ...depths.map((depth) => ({
-      props: { depth },
-      style: {
-        backgroundColor: theme.vars[`${9 - depth}`],
-      },
-    })),
-  ],
+  cursor: 'pointer',
 }))
 
 const labelCls = css(({ theme }) => ({
-  paddingTop: 8,
-  paddingBottom: 8,
-  marginTop: 2,
-  marginBottom: 2,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  paddingTop: 9,
+  paddingRight: 16,
+  paddingBottom: 9,
   borderRadius: 6,
-  cursor: 'pointer',
-  transition: '0.15s',
   '&:hover': {
     backgroundColor: theme.vars['info-6'],
   },
 }))
 
-const activeLabelCls = css(({ theme }) => ({
+const activeCls = css(({ theme }) => ({
   backgroundColor: theme.vars['primary-6'],
   color: theme['primary'],
   '&:hover': {
@@ -73,48 +60,99 @@ const beforeCss = css(({ theme }) => ({
   },
 }))
 
+const MenuItemCmp: React.FC<{
+  setActiveMenuItem: React.Dispatch<React.SetStateAction<string[]>>
+  activeMenuItem: string[]
+  item: MenuItem
+  depth: number
+  children: React.ReactNode
+  shoudOpen: boolean
+}> = ({
+  activeMenuItem,
+  item,
+  depth,
+  setActiveMenuItem,
+  children,
+  shoudOpen,
+}) => {
+  const [isOpen, setIsOpen] = useState(shoudOpen)
+  if (item.type === 'divider') {
+    return <Divider style={{ marginTop: 6, marginBottom: 6 }} />
+  }
+  const pl = depth * 24
+  return (
+    <StyleMenuItem>
+      <div
+        className={clsx({
+          [labelCls]: item.type === undefined,
+          [groupCls]: item.type === 'group',
+          [activeCls]: item.key && activeMenuItem.includes(item.key),
+        })}
+        onClick={() => {
+          const newActiveArr = item.key
+            ? [...item._activeArr, item.key]
+            : [...item._activeArr]
+          setActiveMenuItem(newActiveArr)
+          if (item.children) {
+            setIsOpen(!isOpen)
+          }
+        }}
+        style={{ paddingLeft: pl }}
+      >
+        <div>
+          <IconWrap
+            className={clsx({
+              [beforeCss]: item.type === 'group',
+            })}
+          >
+            {item.icon}
+          </IconWrap>
+          <span>{item.label}</span>
+        </div>
+        {item.children && item.type === undefined && (
+          <IconWrap>
+            <MaterialSymbolsKeyboardArrowUpRounded fontSize={18} />
+          </IconWrap>
+        )}
+      </div>
+      {isOpen && children}
+    </StyleMenuItem>
+  )
+}
+
 const Menu: React.FC<MenuProps> = ({ items, className, ...restProps }) => {
   const [activeMenuItem, setActiveMenuItem] = useState<string[]>([])
-  const flat = useMemo(() => flatMenuItems(items), [items])
 
+  function render(items: MenuItem[], depth = 1) {
+    console.log(items)
+
+    return items.map((item) => {
+      return (
+        <MenuItemCmp
+          key={item.key}
+          setActiveMenuItem={setActiveMenuItem}
+          activeMenuItem={activeMenuItem}
+          item={item}
+          depth={depth}
+          shoudOpen={item.type === 'group'}
+        >
+          {item.children &&
+            render(item.children, item.type === 'group' ? depth : depth + 1)}
+        </MenuItemCmp>
+      )
+    })
+  }
+
+  useMemo(() => {
+    findAcitveArr(items)
+  }, [items])
+
+  const node = useMemo(() => {
+    return render(items)
+  }, [items, activeMenuItem])
   return (
-    <div className={clsx(menuCls, className)} {...restProps}>
-      {flat.map(({ item, depth, activeArr }) => {
-        if (item.type === 'divider') {
-          return <Divider style={{ marginTop: 6, marginBottom: 6 }} />
-        }
-        const pl = depth * 24
-        return (
-          <StyleMenuItem
-            depth={depth}
-            onClick={() => {
-              const newActiveArr = item.key
-                ? [...activeArr, item.key]
-                : [...activeArr]
-              setActiveMenuItem(newActiveArr)
-            }}
-            key={item.key}
-          >
-            <div
-              className={clsx({
-                [labelCls]: item.type === undefined,
-                [groupCls]: item.type === 'group',
-                [activeLabelCls]: item.key && activeMenuItem.includes(item.key),
-              })}
-              style={{ paddingLeft: pl }}
-            >
-              <IconWrap
-                className={clsx({
-                  [beforeCss]: item.type === 'group',
-                })}
-              >
-                {item.icon}
-              </IconWrap>
-              <span>{item.label}</span>
-            </div>
-          </StyleMenuItem>
-        )
-      })}
+    <div className={clsx(className, menuCls)} {...restProps}>
+      {node}
     </div>
   )
 }

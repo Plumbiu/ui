@@ -4,53 +4,72 @@
  * @title 操作
  */
 import React from 'react'
-import type { MenuProps } from '@plumbiu/ui'
-import { Menu } from '@plumbiu/ui'
+import { type MenuProps, Menu } from '@plumbiu/ui'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
 const items: MenuItem[] = [
   {
+    key: 'sub1',
     label: 'Navigation One',
-    key: 'mail',
-  },
-  {
-    label: 'Navigation Two',
-    key: 'app',
-    disabled: true,
-  },
-  {
-    type: 'divider',
-  },
-  {
-    label: 'Navigation Three - Submenu',
-    key: 'SubMenu',
     children: [
       {
-        type: 'group',
+        key: 'g1',
         label: 'Item 1',
+        type: 'group',
         children: [
-          { label: 'Option 1', key: 'setting:1' },
-          { label: 'Option 2', key: 'setting:2' },
+          { key: '1', label: 'Option 1' },
+          { key: '2', label: 'Option 2' },
         ],
       },
       {
-        type: 'group',
+        key: 'g2',
         label: 'Item 2',
+        type: 'group',
         children: [
-          { label: 'Option 3', key: 'setting:3' },
-          { label: 'Option 4', key: 'setting:4' },
+          { key: '3', label: 'Option 3' },
+          { key: '4', label: 'Option 4' },
         ],
       },
     ],
   },
   {
-    key: 'alipay',
-    label: (
-      <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-        Navigation Four - Link
-      </a>
-    ),
+    key: 'sub2',
+    label: 'Navigation Two',
+    children: [
+      { key: '5', label: 'Option 5' },
+      { key: '6', label: 'Option 6' },
+      {
+        key: 'sub3',
+        label: 'Submenu',
+        children: [
+          { key: '7', label: 'Option 7' },
+          { key: '8', label: 'Option 8' },
+        ],
+      },
+    ],
+  },
+  {
+    type: 'divider',
+  },
+  {
+    key: 'sub4',
+    label: 'Navigation Three',
+    children: [
+      { key: '9', label: 'Option 9' },
+      { key: '10', label: 'Option 10' },
+      { key: '11', label: 'Option 11' },
+      { key: '12', label: 'Option 12' },
+    ],
+  },
+  {
+    key: 'grp',
+    label: 'Group',
+    type: 'group',
+    children: [
+      { key: '13', label: 'Option 13' },
+      { key: '14', label: 'Option 14' },
+    ],
   },
 ]
 

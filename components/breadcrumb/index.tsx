@@ -1,7 +1,7 @@
 import { css } from '@pigment-css/react'
-import { BreadcrumbProps } from './types'
 import { Fragment } from 'react/jsx-runtime'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
+import { BreadcrumbProps } from './types'
 
 const olCls = css(({ theme }) => ({
   display: 'flex',
@@ -76,3 +76,5 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, separator = '/' }) => {
 }
 
 export default Breadcrumb
+
+export type { BreadcrumbProps } from './types'

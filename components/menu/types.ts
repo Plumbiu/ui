@@ -7,6 +7,7 @@ export interface MenuItem {
   icon?: React.ReactNode
   key?: string
   children?: MenuItem[]
+  [key: string]: any
 }
 
 export interface MenuProps extends HTMLAttributes<HTMLDivElement> {

@@ -1,30 +1,26 @@
 import { MenuItem } from './types'
 
-interface FlatParams {
-  item: MenuItem
-  depth: number
-  activeArr: string[]
-}
-
-export const flatMenuItems = (items: MenuItem[]) => {
+export const findAcitveArr = (items: MenuItem[]) => {
   function doFlat(
-    arr: FlatParams[],
     item: MenuItem,
+    beforeItem: MenuItem,
     depth = 1,
     activeArr: string[] = [],
   ) {
-    arr.push({ item, depth, activeArr })
+    if (item.type === undefined) {
+      item._activeArr = activeArr
+    }
     if (item.children) {
-      const newArr = item.key ? [...activeArr, item.key] : activeArr
+      const newArr =
+        item.key && item.type === undefined
+          ? [...activeArr, item.key]
+          : activeArr
       for (const child of item.children) {
-        doFlat(arr, child, item.type === 'group' ? depth : depth + 1, newArr)
+        doFlat(child, item, depth + 1, newArr)
       }
     }
   }
-
-  const flatItems: FlatParams[] = []
   for (const item of items) {
-    doFlat(flatItems, item)
+    doFlat(item, item)
   }
-  return flatItems
 }
