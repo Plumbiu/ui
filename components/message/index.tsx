@@ -1,6 +1,5 @@
 import { Fragment, useEffect } from 'react'
 import { Root, createRoot } from 'react-dom/client'
-import './styles.css'
 import { StyledMessageItem, fadeOutCls } from './styles'
 import { TBaseColor } from '@/types'
 import {

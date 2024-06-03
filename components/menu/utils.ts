@@ -3,7 +3,6 @@ import { MenuItem } from './types'
 export const findAcitveArr = (items: MenuItem[]) => {
   function doFlat(
     item: MenuItem,
-    beforeItem: MenuItem,
     depth = 1,
     activeArr: string[] = [],
   ) {
@@ -16,11 +15,11 @@ export const findAcitveArr = (items: MenuItem[]) => {
           ? [...activeArr, item.key]
           : activeArr
       for (const child of item.children) {
-        doFlat(child, item, depth + 1, newArr)
+        doFlat(child, depth + 1, newArr)
       }
     }
   }
   for (const item of items) {
-    doFlat(item, item)
+    doFlat(item)
   }
 }
