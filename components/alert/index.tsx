@@ -64,3 +64,5 @@ const Alert: React.FC<AlertProps> = (props) => {
 }
 
 export default Alert
+
+export type { AlertProps } from './types'

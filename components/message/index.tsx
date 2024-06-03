@@ -8,6 +8,7 @@ import {
   MaterialSymbolsCheckCircleRounded,
   MaterialSymbolsCancel,
 } from '@/icon'
+import './styles.css'
 
 export interface MessageProps {
   duration?: number

@@ -49,3 +49,5 @@ const Checkbox: React.FC<CheckboxProps> & {
 Checkbox.Group = CheckboxGroup
 
 export default Checkbox
+
+export type { CheckboxProps } from './types'

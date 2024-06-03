@@ -1,24 +1,17 @@
 import path from 'node:path'
-import fs from 'node:fs'
 import { defineConfig, InlineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import typescript from '@rollup/plugin-typescript'
 import { pigment } from '@pigment-css/vite-plugin'
-import theme from './theme'
+import { libInjectCss } from 'vite-plugin-lib-inject-css'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import renameNodeModules from 'rollup-plugin-rename-node-modules'
 
-const dirs = fs.readdirSync('components')
-const inputoptions = dirs.filter((dir) => !dir.includes('.') && dir[0] !== '_')
+import theme from './theme'
 
 const entry = {
   index: 'components/index.ts',
-  ...Object.fromEntries(
-    inputoptions.map((dir) => [dir, path.join('components', dir, 'index.tsx')]),
-  ),
 }
-
-const baseBundle = fs.readdirSync('components/_utils')
-
-const SUFFIX_REGX = /\.(ts|tsx)$/
 
 export const viteOptions: InlineConfig = {
   plugins: [
@@ -33,39 +26,9 @@ export const viteOptions: InlineConfig = {
       include: ['**/index.ts'],
       allowSyntheticDefaultImports: true,
     }),
-    {
-      name: 'vite:inject-css',
-      apply: 'build',
-      enforce: 'post',
-      config() {
-        return {
-          build: {
-            cssCodeSplit: true,
-          },
-        }
-      },
-      renderChunk(code, chunk) {
-        if (!chunk.viteMetadata) return
-        
-        const { importedCss } = chunk.viteMetadata
-        console.log(chunk.viteMetadata, );
-        
-        if (!importedCss.size) return
-
-        let result = code
-        for (const cssFileName of importedCss) {
-          let cssFilePath = path.relative(
-            path.dirname(chunk.fileName),
-            cssFileName,
-          )
-          cssFilePath = cssFilePath.startsWith('.')
-            ? cssFilePath
-            : `./${cssFilePath}`
-          result = `import '${cssFilePath}';\n${result}`
-        }
-        return result
-      },
-    },
+    libInjectCss(),
+    nodeResolve(),
+    renameNodeModules('_bundle'),
   ],
   build: {
     lib: {
@@ -75,18 +38,10 @@ export const viteOptions: InlineConfig = {
     rollupOptions: {
       external: ['react', 'react-dom', 'react-router-dom', 'react/jsx-runtime'],
       output: {
+        preserveModules: true,
         assetFileNames: '[name].[ext]',
         chunkFileNames: '[name].mjs',
         entryFileNames: '[name].mjs',
-        manualChunks: {
-          _bundle: ['ahooks', '@pigment-css/react'],
-          _base: [
-            ...baseBundle.map(
-              (item) => `@/_utils/${item.replace(SUFFIX_REGX, '')}`,
-            ),
-            '@/icon',
-          ],
-        },
         globals: {
           react: 'React',
         },
