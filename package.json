@@ -12,6 +12,15 @@
     "build": "vite build && esno scripts/build.ts",
     "bundle-size": "esno scripts/size.ts"
   },
+  "exports": {
+    ".": {
+      "types": "./dist/types/components/index.d.ts",
+      "import": "./dist/index.mjs"
+    },
+    "./vars-dark": {
+      "import": "./dist/components/vars-dark.css"
+    }
+  },
   "files": [
     "dist"
   ],
