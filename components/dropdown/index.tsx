@@ -1,11 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { useEventListener } from 'ahooks'
 import Button from '../button'
-import {
-  reverseAnimationCls,
-  animationDuration,
-  StyledDropdown,
-} from './styles'
+import { reverseAnimationCls, animationDuration, dropdownCls } from './styles'
 import { DropdownProps, Offset } from './types'
 import { Portal } from '@/_utils/components'
 import { useAnimation, useMounted } from '@/_utils/hooks'
@@ -57,7 +53,8 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
       {props.children}
       {offset && (
         <Portal>
-          <StyledDropdown
+          <div
+            className={dropdownCls}
             ref={dropdownRef}
             style={{
               inset: `${offset?.y}px auto auto ${offset?.x}px`,
@@ -69,7 +66,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
             <div>2</div>
             <div>3</div>
             <div>4</div>
-          </StyledDropdown>
+          </div>
         </Portal>
       )}
     </Button>

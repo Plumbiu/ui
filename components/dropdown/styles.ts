@@ -1,5 +1,4 @@
-import { keyframes, styled, css } from '@pigment-css/react'
-import { DropdownProps } from '.'
+import { keyframes, css } from '@pigment-css/react'
 
 export const endPoint = {
   transform: 'rotateX(0)',
@@ -21,7 +20,7 @@ export const reverseDropCls = keyframes({
 
 export const animationDuration = 100
 
-export const StyledDropdown = styled('div')<DropdownProps>(({ theme }) => {
+export const dropdownCls = css(({ theme }) => {
   const size = 12
   return {
     position: 'absolute',

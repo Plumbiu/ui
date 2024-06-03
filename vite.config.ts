@@ -33,6 +33,39 @@ export const viteOptions: InlineConfig = {
       include: ['**/index.ts'],
       allowSyntheticDefaultImports: true,
     }),
+    {
+      name: 'vite:inject-css',
+      apply: 'build',
+      enforce: 'post',
+      config() {
+        return {
+          build: {
+            cssCodeSplit: true,
+          },
+        }
+      },
+      renderChunk(code, chunk) {
+        if (!chunk.viteMetadata) return
+        
+        const { importedCss } = chunk.viteMetadata
+        console.log(chunk.viteMetadata, );
+        
+        if (!importedCss.size) return
+
+        let result = code
+        for (const cssFileName of importedCss) {
+          let cssFilePath = path.relative(
+            path.dirname(chunk.fileName),
+            cssFileName,
+          )
+          cssFilePath = cssFilePath.startsWith('.')
+            ? cssFilePath
+            : `./${cssFilePath}`
+          result = `import '${cssFilePath}';\n${result}`
+        }
+        return result
+      },
+    },
   ],
   build: {
     lib: {
@@ -42,7 +75,7 @@ export const viteOptions: InlineConfig = {
     rollupOptions: {
       external: ['react', 'react-dom', 'react-router-dom', 'react/jsx-runtime'],
       output: {
-        assetFileNames: '[name].css',
+        assetFileNames: '[name].[ext]',
         chunkFileNames: '[name].mjs',
         entryFileNames: '[name].mjs',
         manualChunks: {

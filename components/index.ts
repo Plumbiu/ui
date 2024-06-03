@@ -1,5 +1,6 @@
 import '@pigment-css/react/styles.css'
 import './styles.css'
+import './vars-dark.css'
 
 export type * from './button'
 export { default as Button } from './button'

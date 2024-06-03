@@ -1,80 +1,14 @@
-import React, { HTMLAttributes, useState } from 'react'
-import { css, styled } from '@pigment-css/react'
-import { TColor } from '@/types'
+import React, { useState } from 'react'
 import {
-  IconWrap,
-  MaterialSymbolsCloseRounded,
-  MaterialSymbolsInfoRounded,
-  MaterialSymbolsCheckCircleRounded,
-  MaterialSymbolsCancel,
-} from '@/icon'
+  iconMap,
+  StyledAlert,
+  headingCls,
+  StyledAlertDescription,
+  actionCls,
+} from './styles'
+import { AlertProps } from './types'
+import { IconWrap, MaterialSymbolsCloseRounded } from '@/icon'
 import { selfStart } from '@/_utils/styles'
-import { colorsVar } from '@/_utils/vars'
-
-export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
-  color?: TColor
-  message?: React.ReactNode
-  description?: React.ReactNode
-  showIcon?: boolean
-
-  closable?: boolean
-  closeIcon?: React.ReactNode
-  action?: React.ReactNode
-  icon?: React.ReactNode
-  onClose?: () => void
-}
-
-const StyledAlert = styled('div')<AlertProps>(({ theme }) => {
-  return {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    lineHeight: '16px',
-    borderRadius: 8,
-    padding: '7px 15px',
-    color: theme.vars['text-1'],
-    fontSize: 14,
-    variants: [
-      ...colorsVar.map((color) => ({
-        props: { color },
-        style: {
-          backgroundColor: theme.vars[`${color}-4`],
-          borderColor: theme[color],
-        },
-      })),
-    ],
-  }
-})
-
-const StyledAlertDescription = styled('div')({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  lineHeight: 1.575,
-  marginTop: 2,
-})
-
-const iconMap: Record<TColor, React.ReactNode> = {
-  primary: <MaterialSymbolsInfoRounded />,
-  success: <MaterialSymbolsCheckCircleRounded />,
-  warning: <MaterialSymbolsInfoRounded />,
-  danger: <MaterialSymbolsCancel />,
-  info: <MaterialSymbolsInfoRounded />,
-}
-
-const headingCls = css({
-  display: 'flex',
-  gap: 6,
-})
-
-const actionCls = css({
-  alignSelf: 'flex-start',
-  display: 'flex',
-  alignItems: 'center',
-  gap: 4,
-})
 
 const Alert: React.FC<AlertProps> = (props) => {
   const {
