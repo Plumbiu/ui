@@ -15,6 +15,7 @@ import {
   gridAnimationCls,
   gridAnimationItemCls,
   chilrenBgcCls,
+  labelWrapCls,
 } from './styles'
 import { IconWrap, MaterialSymbolsKeyboardArrowDownRounded } from '@/icon'
 
@@ -58,8 +59,9 @@ const MenuItemCmp: React.FC<{
         }}
         style={{ paddingLeft: pl }}
       >
-        <div>
+        <div className={labelWrapCls}>
           <IconWrap
+            size="lg"
             className={clsx({
               [beforeCss]: item.type === 'group',
             })}
@@ -144,7 +146,12 @@ const MenuGroup: React.FC<{
   })
 }
 
-const Menu: React.FC<MenuProps> = ({ items, className, uniqueOpen = false, ...restProps }) => {
+const Menu: React.FC<MenuProps> = ({
+  items,
+  className,
+  uniqueOpen = false,
+  ...restProps
+}) => {
   const [activeMenuItem, setActiveMenuItem] = useState<string[]>([])
 
   const render = (items: MenuItem[], depth = 1) => {

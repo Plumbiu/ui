@@ -1,5 +1,18 @@
 import { css, styled } from '@pigment-css/react'
 
+export const labelWrapCls = css({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+  '& > span': {
+    display: 'flex',
+    alignItems: 'center',
+    svg: {
+      fontSize: 16,
+    },
+  },
+})
+
 export const menuCls = css(({ theme }) => ({
   borderRight: `1px solid ${theme.vars['info-5']}`,
 }))
@@ -76,5 +89,5 @@ export const gridAnimationCls = css({
 
 export const gridAnimationItemCls = css({
   transition: 'max-height 0.5s ease-in 0.1s!important',
-  maxHeight: '100vh'
+  maxHeight: '100vh',
 })
