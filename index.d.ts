@@ -1,5 +1,5 @@
 import type { ExtendTheme } from '@pigment-css/react/theme'
-import { colorSchemes } from './theme'
+import { colorSchemes, tokens } from './theme'
 
 declare module '@pigment-css/react/theme' {
   type IColor = typeof colorSchemes.dark
@@ -13,7 +13,7 @@ declare module '@pigment-css/react/theme' {
   interface ThemeArgs {
     theme: ExtendTheme<{
       colorScheme: 'light' | 'dark'
-      tokens: typeof dark
+      tokens: typeof tokens
     }>
   }
 }

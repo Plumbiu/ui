@@ -1,3 +1,4 @@
+import '@pigment-css/react/styles.css'
 import './styles.css'
 import './vars-dark.css'
 

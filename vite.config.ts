@@ -3,7 +3,6 @@ import { defineConfig, InlineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import typescript from '@rollup/plugin-typescript'
 import { pigment } from '@pigment-css/vite-plugin'
-import { libInjectCss } from 'vite-plugin-lib-inject-css'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import renameNodeModules from 'rollup-plugin-rename-node-modules'
 
@@ -26,7 +25,6 @@ export const viteOptions: InlineConfig = {
       include: ['**/index.ts'],
       allowSyntheticDefaultImports: true,
     }),
-    libInjectCss(),
     nodeResolve(),
     renameNodeModules('_bundle'),
   ],
