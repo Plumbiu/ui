@@ -1,7 +1,7 @@
 /**
- * @order 1
- * @description 基本菜单
- * @title 基本
+ * @order 2
+ * @description 只展开一个父节点，适合菜单项比较多的情况
+ * @title 只展开一个父节点
  */
 import React from 'react'
 import { type MenuProps, Menu } from '@plumbiu/ui'
@@ -74,7 +74,7 @@ const items: MenuItem[] = [
 ]
 
 const App: React.FC = () => {
-  return <Menu style={{ width: 250 }} items={items} />
+  return <Menu uniqueOpen style={{ width: 250 }} items={items} />
 }
 
 export default App

@@ -12,4 +12,6 @@ export interface MenuItem {
 
 export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
   items: MenuItem[]
+  uniqueOpen?: boolean
+
 }

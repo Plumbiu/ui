@@ -14,6 +14,7 @@ import {
   route90Cls,
   gridAnimationCls,
   gridAnimationItemCls,
+  chilrenBgcCls,
 } from './styles'
 import { IconWrap, MaterialSymbolsKeyboardArrowDownRounded } from '@/icon'
 
@@ -22,17 +23,18 @@ const MenuItemCmp: React.FC<{
   activeMenuItem: string[]
   item: MenuItem
   depth: number
-  shoudOpen: boolean
+  isOpen: boolean
   children: React.ReactNode
+  cb: () => void
 }> = ({
   activeMenuItem,
   item,
   depth,
   setActiveMenuItem,
-  shoudOpen,
+  isOpen,
   children,
+  cb,
 }) => {
-  const [isOpen, setIsOpen] = useState(shoudOpen)
   if (item.type === 'divider') {
     return <Divider style={{ marginTop: 6, marginBottom: 6 }} />
   }
@@ -50,8 +52,8 @@ const MenuItemCmp: React.FC<{
             ? [...item._activeArr, item.key]
             : [...item._activeArr]
           setActiveMenuItem(newActiveArr)
-          if (item.children) {
-            setIsOpen(!isOpen)
+          if (item.children && item.type !== 'group') {
+            cb()
           }
         }}
         style={{ paddingLeft: pl }}
@@ -78,6 +80,7 @@ const MenuItemCmp: React.FC<{
       </div>
       <div
         className={clsx(gridAnimationCls, {
+          [chilrenBgcCls]: item.type === undefined,
           [gridAnimationItemCls]: isOpen,
         })}
       >
@@ -87,25 +90,74 @@ const MenuItemCmp: React.FC<{
   )
 }
 
-const Menu: React.FC<MenuProps> = ({ items, className, ...restProps }) => {
+const MenuGroup: React.FC<{
+  items: MenuItem[]
+  setActiveMenuItem: React.Dispatch<React.SetStateAction<string[]>>
+  activeMenuItem: string[]
+  depth: number
+  render(items: MenuItem[], depth?: number): React.ReactNode
+  uniqueOpen: boolean
+}> = ({
+  items,
+  setActiveMenuItem,
+  activeMenuItem,
+  depth,
+  render,
+  uniqueOpen,
+}) => {
+  const [openMenu, setOpenMenu] = useState<string[]>([])
+
+  return items.map((item) => {
+    return (
+      <MenuItemCmp
+        key={item.key}
+        setActiveMenuItem={setActiveMenuItem}
+        activeMenuItem={activeMenuItem}
+        item={item}
+        depth={depth}
+        cb={() => {
+          if (item.key === undefined) {
+            return
+          }
+          if (uniqueOpen) {
+            if (openMenu.includes(item.key)) {
+              setOpenMenu([])
+            } else {
+              setOpenMenu([item.key])
+            }
+            return
+          }
+          if (openMenu.includes(item.key)) {
+            setOpenMenu(openMenu.filter((menu) => menu !== item.key))
+          } else {
+            setOpenMenu([...openMenu, item.key])
+          }
+        }}
+        isOpen={
+          item.type === 'group' || (!!item.key && openMenu.includes(item.key))
+        }
+      >
+        {item.children &&
+          render(item.children, item.type === 'group' ? depth : depth + 1)}
+      </MenuItemCmp>
+    )
+  })
+}
+
+const Menu: React.FC<MenuProps> = ({ items, className, uniqueOpen = false, ...restProps }) => {
   const [activeMenuItem, setActiveMenuItem] = useState<string[]>([])
 
-  function render(items: MenuItem[], depth = 1) {
-    return items.map((item) => {
-      return (
-        <MenuItemCmp
-          key={item.key}
-          setActiveMenuItem={setActiveMenuItem}
-          activeMenuItem={activeMenuItem}
-          item={item}
-          depth={depth}
-          shoudOpen={item.type === 'group'}
-        >
-          {item.children &&
-            render(item.children, item.type === 'group' ? depth : depth + 1)}
-        </MenuItemCmp>
-      )
-    })
+  const render = (items: MenuItem[], depth = 1) => {
+    return (
+      <MenuGroup
+        setActiveMenuItem={setActiveMenuItem}
+        activeMenuItem={activeMenuItem}
+        uniqueOpen={uniqueOpen}
+        items={items}
+        depth={depth}
+        render={render}
+      />
+    )
   }
 
   useMemo(() => {
