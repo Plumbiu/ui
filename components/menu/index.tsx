@@ -1,5 +1,5 @@
 import { clsx } from 'clsx'
-import { HTMLAttributes, useMemo, useState } from 'react'
+import { HTMLAttributes, useContext, useMemo, useState } from 'react'
 import { Divider } from '..'
 import { MenuItem, MenuMode, MenuProps } from './types'
 import {
@@ -12,7 +12,6 @@ import {
   route90Cls,
   gridAnimationCls,
   gridAnimationItemCls,
-  chilrenBgcCls,
   labelWrapCls,
   horizontalCls,
   horizontalMenuItemCls,
@@ -21,6 +20,7 @@ import {
   horizontalWrapperCls,
 } from './styles'
 import { IconWrap, MaterialSymbolsKeyboardArrowDownRounded } from '@/icon'
+import { ActiveKeyContext } from './context'
 
 const MenuItemCmp: React.FC<{
   isActive: boolean
@@ -31,8 +31,6 @@ const MenuItemCmp: React.FC<{
   mode: MenuMode
   cb: () => void
 }> = ({ item, depth, isOpen, render, mode, cb, isActive }) => {
-  console.log(11);
-  
   if (item.type === 'divider') {
     return <Divider style={{ marginTop: 6, marginBottom: 6 }} />
   }
@@ -91,7 +89,6 @@ const MenuItemCmp: React.FC<{
       </div>
       <div
         className={clsx(gridAnimationCls, {
-          [chilrenBgcCls]: item.type === undefined,
           [gridAnimationItemCls]: isOpen,
           [horizontalMenuItemCls]: depth === 1 && isHorizontal,
           [activeHorizontalOverflowCls]: isHorizontalActive,
@@ -104,15 +101,16 @@ const MenuItemCmp: React.FC<{
 }
 
 const MenuGroup: React.FC<{
+  setActiveKey: React.Dispatch<React.SetStateAction<string | undefined>>
   items: MenuItem[]
   depth: number
   render(items: MenuItem[], depth?: number): React.ReactNode
   uniqueOpen: boolean
   mode: MenuMode
-}> = ({ items, depth, render, uniqueOpen, mode }) => {
+}> = ({ items, depth, render, uniqueOpen, mode, setActiveKey }) => {
   const [openMenu, setOpenMenu] = useState<string[]>([])
-  const [activeKey, setActiveKey] = useState<string | null>(null)
-
+  const activeKey = useContext(ActiveKeyContext)
+  
   return items.map((item) => {
     let isOpen =
       item.type === 'group' || (!!item.key && openMenu.includes(item.key))
@@ -155,29 +153,33 @@ const Menu: React.FC<MenuProps> = ({
   mode = 'inline',
   ...restProps
 }) => {
+  const [activeKey, setActiveKey] = useState<string>()
+  const render = (items: MenuItem[], depth = 1) => {
+    return (
+      <MenuGroup
+        setActiveKey={setActiveKey}
+        uniqueOpen={uniqueOpen}
+        items={items}
+        depth={depth}
+        render={render}
+        mode={mode}
+      />
+    )
+  }
   const node = useMemo(() => {
-    const render = (items: MenuItem[], depth = 1) => {
-      return (
-        <MenuGroup
-          uniqueOpen={uniqueOpen}
-          items={items}
-          depth={depth}
-          render={render}
-          mode={mode}
-        />
-      )
-    }
     return render(items)
-  }, [items])
+  }, [items, activeKey])
   return (
-    <div
-      className={clsx(className, menuCls, {
-        [horizontalCls]: mode === 'horizontal',
-      })}
-      {...restProps}
-    >
-      {node}
-    </div>
+    <ActiveKeyContext.Provider value={activeKey}>
+      <div
+        className={clsx(className, menuCls, {
+          [horizontalCls]: mode === 'horizontal',
+        })}
+        {...restProps}
+      >
+        {node}
+      </div>
+    </ActiveKeyContext.Provider>
   )
 }
 

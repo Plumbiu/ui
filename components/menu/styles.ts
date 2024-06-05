@@ -67,10 +67,6 @@ export const route90Cls = css({
   transform: 'rotate(180deg)',
 })
 
-export const chilrenBgcCls = css({
-  backgroundColor: 'rgba(0, 0, 0, 0.02)',
-})
-
 export const gridAnimationCls = css({
   maxHeight: 0,
   overflow: 'hidden',
