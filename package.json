@@ -40,7 +40,7 @@
   "author": "Plumbiu",
   "license": "MIT",
   "dependencies": {
-    "@pigment-css/react": "^0.0.11",
+    "@pigment-css/react": "^0.0.12",
     "ahooks": "^3.8.0",
     "clsx": "^2.1.1",
     "react": "18.2.0",
@@ -48,6 +48,7 @@
     "react-router-dom": "^6.23.0"
   },
   "devDependencies": {
+    "@ant-design/icons": "^5.3.7",
     "@mdx-js/react": "^3.0.1",
     "@pigment-css/vite-plugin": "^0.0.11",
     "@plumbiu/eslint-config": "^0.2.1",

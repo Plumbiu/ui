@@ -4,14 +4,14 @@
  * @title 只展开一个父节点
  */
 import React from 'react'
-import { type MenuProps, Menu } from '@plumbiu/ui'
-
-type MenuItem = Required<MenuProps>['items'][number]
+import { type MenuItem, Menu } from '@plumbiu/ui'
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 
 const items: MenuItem[] = [
   {
     key: 'sub1',
     label: 'Navigation One',
+    icon: <MailOutlined />,
     children: [
       {
         key: 'g1',
@@ -36,6 +36,7 @@ const items: MenuItem[] = [
   {
     key: 'sub2',
     label: 'Navigation Two',
+    icon: <AppstoreOutlined />,
     children: [
       { key: '5', label: 'Option 5' },
       { key: '6', label: 'Option 6' },
@@ -55,6 +56,7 @@ const items: MenuItem[] = [
   {
     key: 'sub4',
     label: 'Navigation Three',
+    icon: <SettingOutlined />,
     children: [
       { key: '9', label: 'Option 9' },
       { key: '10', label: 'Option 10' },
@@ -71,7 +73,7 @@ const items: MenuItem[] = [
       { key: '14', label: 'Option 14' },
     ],
   },
-]
+];
 
 const App: React.FC = () => {
   return <Menu uniqueOpen style={{ width: 250 }} items={items} />

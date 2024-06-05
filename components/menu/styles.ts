@@ -118,3 +118,8 @@ export const horizontalWrapperCls = css(({ theme }) => ({
 export const activeHorizontalCls = css(({ theme }) => ({
   borderBottomColor: theme.vars['primary-1']
 }))
+
+export const disabledCls = css(({ theme }) => ({
+  color: theme.vars['text-5'],
+  cursor: 'not-allowed',
+}))

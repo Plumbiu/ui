@@ -7,7 +7,6 @@ export interface MenuItem {
   icon?: React.ReactNode
   key?: string
   children?: MenuItem[]
-  [key: string]: any
 }
 
 export type MenuMode = 'inline' | 'horizontal'

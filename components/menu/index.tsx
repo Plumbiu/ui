@@ -18,6 +18,7 @@ import {
   activeHorizontalOverflowCls,
   activeHorizontalCls,
   horizontalWrapperCls,
+  disabledCls,
 } from './styles'
 import { IconWrap, MaterialSymbolsKeyboardArrowDownRounded } from '@/icon'
 import { ActiveKeyContext } from './context'
@@ -31,6 +32,7 @@ const MenuItemCmp: React.FC<{
   mode: MenuMode
   cb: () => void
 }> = ({ item, depth, isOpen, render, mode, cb, isActive }) => {
+  
   if (item.type === 'divider') {
     return <Divider style={{ marginTop: 6, marginBottom: 6 }} />
   }
@@ -56,7 +58,8 @@ const MenuItemCmp: React.FC<{
     <StyleMenuItem
       className={clsx({
         [horizontalWrapperCls]: isHorizontal && depth === 1,
-        [activeHorizontalCls]: isHorizontal && depth === 1 && isActive,
+        [activeHorizontalCls]: isHorizontal && depth === 1 && isActive && !item.disabled,
+        [disabledCls]: item.disabled,
       })}
       style={{
         position: isHorizontal ? 'relative' : undefined,
@@ -70,6 +73,7 @@ const MenuItemCmp: React.FC<{
         })}
         style={{
           paddingLeft: pl,
+          pointerEvents: item.disabled ? 'none' : undefined,
         }}
         {...props}
       >
