@@ -74,11 +74,11 @@ export const chilrenBgcCls = css({
 export const gridAnimationCls = css({
   maxHeight: 0,
   overflow: 'hidden',
-  transition: 'max-height 0.5s ease',
+  transition: 'max-height 0.5s',
 })
 
 export const gridAnimationItemCls = css({
-  transition: 'max-height 0.7s ease!important',
+  transition: 'max-height 0.7s!important',
   maxHeight: '100vh',
 })
 

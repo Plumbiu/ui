@@ -1,7 +1,7 @@
 /**
- * @order 1
- * @description 基本菜单
- * @title 基本
+ * @order 3
+ * @description 水平菜单
+ * @title 水平
  */
 import React, { SVGProps } from 'react'
 import { type MenuProps, Menu } from '@plumbiu/ui'
