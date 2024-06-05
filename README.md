@@ -28,5 +28,7 @@ pnpm run bundle-size
 output:
 
 ```txt
-gziped size:  28.4296875 kb
+js gziped size:  22.0185546875 kb
+css gziped size:  5.328125 kb
+total gziped size:  27.3466796875 kb
 ```

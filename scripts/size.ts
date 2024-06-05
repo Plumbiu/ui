@@ -3,38 +3,39 @@ import path from 'node:path'
 import { gzipSize } from 'gzip-size'
 import { glob } from 'fast-glob'
 
-const COMPONENT_PATH = path.join('dist', 'components')
-const BUNDLE_PATH = path.join('dist', '_bundle')
+const DIST_PATH = path.join('dist')
 
 async function run() {
-  const components = await glob('**/*', {
-    cwd: COMPONENT_PATH,
+  const globOtpions = {
+    cwd: DIST_PATH,
     dot: true,
     absolute: true,
-  })
-  const bundles = await glob('**/*', {
-    cwd: BUNDLE_PATH,
-    dot: true,
-    absolute: true,
-  })
+    ignore: ['**/types/**']
+  }
+  const componentsJs = await glob('**/*.mjs', globOtpions)
+  const componentsCss = await glob('**/*.css', globOtpions)
 
-  let total = 0
+  let jsStr = ''
   await Promise.all(
-    components.map(async (componentPath) => {
+    componentsJs.map(async (componentPath) => {
       const content = await fsp.readFile(componentPath, 'utf-8')
-      const gzipedSize = await gzipSize(content)
-      total += gzipedSize
+      jsStr += content
+    }),
+  )
+  let cssStr = ''
+  await Promise.all(
+    componentsCss.map(async (componentPath) => {
+      const content = await fsp.readFile(componentPath, 'utf-8')
+      cssStr += content
     }),
   )
 
-  await Promise.all(
-    bundles.map(async (bundlePath) => {
-      const content = await fsp.readFile(bundlePath, 'utf-8')
-      const gzipedSize = await gzipSize(content)
-      total += gzipedSize
-    }),
-  )
-  console.log('gziped size: ', total / 1024, 'kb')
+  const jsSize = await gzipSize(jsStr)
+  const cssSize = await gzipSize(cssStr)
+
+  console.log('js gziped size: ', jsSize / 1024, 'kb')
+  console.log('css gziped size: ', cssSize / 1024, 'kb')
+  console.log('total gziped size: ', (cssSize + jsSize) / 1024, 'kb')
 }
 
 run()
