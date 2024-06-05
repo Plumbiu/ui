@@ -31,6 +31,8 @@ const MenuItemCmp: React.FC<{
   mode: MenuMode
   cb: () => void
 }> = ({ item, depth, isOpen, render, mode, cb, isActive }) => {
+  console.log(11);
+  
   if (item.type === 'divider') {
     return <Divider style={{ marginTop: 6, marginBottom: 6 }} />
   }
@@ -115,7 +117,7 @@ const MenuGroup: React.FC<{
     let isOpen =
       item.type === 'group' || (!!item.key && openMenu.includes(item.key))
     if (mode === 'horizontal' && depth > 1) {
-      isOpen = false
+      isOpen = true
     }
     return (
       <MenuItemCmp
