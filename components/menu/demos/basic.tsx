@@ -5,7 +5,11 @@
  */
 import React from 'react'
 import { type MenuItem, Menu } from '@plumbiu/ui'
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import {
+  AppstoreOutlined,
+  MailOutlined,
+  SettingOutlined,
+} from '@ant-design/icons'
 
 const items: MenuItem[] = [
   {
@@ -74,10 +78,16 @@ const items: MenuItem[] = [
       { key: '14', label: 'Option 14' },
     ],
   },
-];
+]
 
 const App: React.FC = () => {
-  return <Menu style={{ width: 250 }} items={items} />
+  return (
+    <Menu
+      onClick={(e) => console.log(e)}
+      style={{ width: 250 }}
+      items={items}
+    />
+  )
 }
 
 export default App

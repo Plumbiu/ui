@@ -11,8 +11,15 @@ export interface MenuItem {
 
 export type MenuMode = 'inline' | 'horizontal'
 
-export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
+export type MenuOnClickParams = {
+  domEvent:  React.MouseEvent<HTMLDivElement, MouseEvent>
+  key?: string
+  keyPath: string[]
+}
+
+export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'>{
   items: MenuItem[]
   mode?: MenuMode
   uniqueOpen?: boolean
+  onClick?: (e: MenuOnClickParams) => void
 }
