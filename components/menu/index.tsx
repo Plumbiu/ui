@@ -1,14 +1,13 @@
 import { clsx } from 'clsx'
-import { useMemo, useState } from 'react'
+import { HTMLAttributes, useMemo, useState } from 'react'
 import { Divider } from '..'
-import { MenuItem, MenuProps } from './types'
+import { MenuItem, MenuMode, MenuProps } from './types'
 import { findAcitveArr } from './utils'
 import {
   StyleMenuItem,
   labelCls,
   groupCls,
   activeCls,
-  beforeCss,
   menuCls,
   iconCls,
   route90Cls,
@@ -16,6 +15,11 @@ import {
   gridAnimationItemCls,
   chilrenBgcCls,
   labelWrapCls,
+  horizontalCls,
+  horizontalMenuItemCls,
+  activeHorizontalOverflowCls,
+  activeHorizontalCls,
+  horizontalWrapperCls,
 } from './styles'
 import { IconWrap, MaterialSymbolsKeyboardArrowDownRounded } from '@/icon'
 
@@ -26,6 +30,7 @@ const MenuItemCmp: React.FC<{
   depth: number
   isOpen: boolean
   children: React.ReactNode
+  mode: MenuMode
   cb: () => void
 }> = ({
   activeMenuItem,
@@ -34,40 +39,53 @@ const MenuItemCmp: React.FC<{
   setActiveMenuItem,
   isOpen,
   children,
+  mode,
   cb,
 }) => {
   if (item.type === 'divider') {
     return <Divider style={{ marginTop: 6, marginBottom: 6 }} />
   }
-  const pl = depth * 24
+  const isHorizontal = mode === 'horizontal'
+  const formatDepth = depth - (item.type === 'group' ? 1 : 0)
+  const pl =
+    formatDepth < 1 ? 8 : (isHorizontal ? 12 : 24) * formatDepth
+
+  const isActive = item.key && activeMenuItem.includes(item.key)
+  const isHorizontalActive = isOpen && isHorizontal && isActive
+
+  const props: HTMLAttributes<HTMLDivElement> = {}
+
+  props.onClick = () => {
+    const newActiveArr = item.key
+      ? [...item._activeArr, item.key]
+      : [...item._activeArr]
+    setActiveMenuItem(newActiveArr)
+    cb()
+  }
+
   return (
-    <StyleMenuItem>
+    <StyleMenuItem
+      className={clsx({
+        [horizontalWrapperCls]: isHorizontal && depth === 1,
+        [activeHorizontalCls]: isHorizontal && depth === 1 && isActive,
+      })}
+      style={{
+        position: isHorizontal ? 'relative' : undefined,
+      }}
+    >
       <div
         className={clsx({
           [labelCls]: item.type === undefined,
           [groupCls]: item.type === 'group',
-          [activeCls]: item.key && activeMenuItem.includes(item.key),
+          [activeCls]: mode === 'inline' && isActive,
         })}
-        onClick={() => {
-          const newActiveArr = item.key
-            ? [...item._activeArr, item.key]
-            : [...item._activeArr]
-          setActiveMenuItem(newActiveArr)
-          if (item.children && item.type !== 'group') {
-            cb()
-          }
+        style={{
+          paddingLeft: pl,
         }}
-        style={{ paddingLeft: pl }}
+        {...props}
       >
         <div className={labelWrapCls}>
-          <IconWrap
-            size="lg"
-            className={clsx({
-              [beforeCss]: item.type === 'group',
-            })}
-          >
-            {item.icon}
-          </IconWrap>
+          <IconWrap size="lg">{item.icon}</IconWrap>
           <span>{item.label}</span>
         </div>
         {item.children && item.type === undefined && (
@@ -76,7 +94,7 @@ const MenuItemCmp: React.FC<{
               [route90Cls]: isOpen,
             })}
           >
-            <MaterialSymbolsKeyboardArrowDownRounded fontSize={18} />
+            <MaterialSymbolsKeyboardArrowDownRounded fontSize={20} />
           </IconWrap>
         )}
       </div>
@@ -84,6 +102,8 @@ const MenuItemCmp: React.FC<{
         className={clsx(gridAnimationCls, {
           [chilrenBgcCls]: item.type === undefined,
           [gridAnimationItemCls]: isOpen,
+          [horizontalMenuItemCls]: depth === 1 && isHorizontal,
+          [activeHorizontalOverflowCls]: isHorizontalActive,
         })}
       >
         {children}
@@ -99,6 +119,7 @@ const MenuGroup: React.FC<{
   depth: number
   render(items: MenuItem[], depth?: number): React.ReactNode
   uniqueOpen: boolean
+  mode: MenuMode
 }> = ({
   items,
   setActiveMenuItem,
@@ -106,12 +127,14 @@ const MenuGroup: React.FC<{
   depth,
   render,
   uniqueOpen,
+  mode,
 }) => {
   const [openMenu, setOpenMenu] = useState<string[]>([])
 
   return items.map((item) => {
     return (
       <MenuItemCmp
+        mode={mode}
         key={item.key}
         setActiveMenuItem={setActiveMenuItem}
         activeMenuItem={activeMenuItem}
@@ -121,7 +144,7 @@ const MenuGroup: React.FC<{
           if (item.key === undefined) {
             return
           }
-          if (uniqueOpen) {
+          if (uniqueOpen || mode === 'horizontal') {
             if (openMenu.includes(item.key)) {
               setOpenMenu([])
             } else {
@@ -150,6 +173,7 @@ const Menu: React.FC<MenuProps> = ({
   items,
   className,
   uniqueOpen = false,
+  mode = 'inline',
   ...restProps
 }) => {
   const [activeMenuItem, setActiveMenuItem] = useState<string[]>([])
@@ -163,6 +187,7 @@ const Menu: React.FC<MenuProps> = ({
         items={items}
         depth={depth}
         render={render}
+        mode={mode}
       />
     )
   }
@@ -175,7 +200,12 @@ const Menu: React.FC<MenuProps> = ({
     return render(items)
   }, [items, activeMenuItem])
   return (
-    <div className={clsx(className, menuCls)} {...restProps}>
+    <div
+      className={clsx(className, menuCls, {
+        [horizontalCls]: mode === 'horizontal',
+      })}
+      {...restProps}
+    >
       {node}
     </div>
   )

@@ -10,8 +10,10 @@ export interface MenuItem {
   [key: string]: any
 }
 
+export type MenuMode = 'inline' | 'horizontal'
+
 export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
   items: MenuItem[]
+  mode?: MenuMode
   uniqueOpen?: boolean
-
 }

@@ -50,27 +50,17 @@ export const activeCls = css(({ theme }) => ({
 export const groupCls = css(({ theme }) => ({
   marginTop: 8,
   marginBottom: 8,
-  color: theme['primary'],
   fontWeight: 500,
   cursor: 'text',
-}))
+  color: theme.vars['text-4'],
 
-export const beforeCss = css(({ theme }) => ({
-  position: 'relative',
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: -24,
-    bottom: 0,
-    width: 4,
-    borderRadius: 4,
-    background: theme['primary'],
-  },
 }))
 
 export const iconCls = css(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
   transition: '0.2s',
+  marginLeft: 6,
 }))
 
 export const route90Cls = css({
@@ -84,10 +74,51 @@ export const chilrenBgcCls = css({
 export const gridAnimationCls = css({
   maxHeight: 0,
   overflow: 'hidden',
-  transition: 'max-height 0.25s ease-out',
+  transition: 'max-height 0.5s ease',
 })
 
 export const gridAnimationItemCls = css({
-  transition: 'max-height 0.5s ease-in 0.1s!important',
+  transition: 'max-height 0.7s ease!important',
   maxHeight: '100vh',
 })
+
+export const horizontalCls = css(({ theme }) => ({
+  display: 'flex',
+  position: 'relative',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 1,
+    backgroundColor: theme.vars['info-5'],
+  },
+}))
+
+export const horizontalMenuItemCls = css(({ theme }) => ({
+  position: 'absolute',
+  zIndex: 999,
+  right: 0,
+  left: 0,
+  top: '125%',
+  backgroundColor: theme.vars['background-1'],
+  borderRadius: 8,
+  boxShadow: theme['boxShadow'],
+}))
+
+export const activeHorizontalOverflowCls = css(({ theme }) => ({
+  overflow: 'unset',
+}))
+
+export const horizontalWrapperCls = css(({ theme }) => ({
+  paddingBottom: 6,
+  borderBottomWidth: 2,
+  borderBottomStyle: 'solid',
+  borderBottomColor: 'transparent',
+  transition: '0.5s',
+}))
+
+export const activeHorizontalCls = css(({ theme }) => ({
+  borderBottomColor: theme.vars['primary-1']
+}))
