@@ -1,12 +1,12 @@
 import { HTMLAttributes } from 'react'
 
-export interface MenuItem {
+export interface MenuItemType {
   label?: React.ReactNode
   disabled?: boolean
   type?: 'group' | 'divider'
   icon?: React.ReactNode
   key?: string
-  children?: MenuItem[]
+  children?: MenuItemType[]
 }
 
 export type MenuMode = 'inline' | 'horizontal'
@@ -18,9 +18,8 @@ export type MenuOnClickParams = {
 }
 
 export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'>{
-  items: MenuItem[]
+  items: MenuItemType[]
   mode?: MenuMode
-  uniqueOpen?: boolean
   onClick?: (e: MenuOnClickParams) => void
   inlineCollapsed?: boolean
 }
