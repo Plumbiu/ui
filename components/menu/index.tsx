@@ -30,14 +30,11 @@ const Menu: React.FC<MenuProps> = ({
     const node = items.map((item) => {
       const newKeyPath =
         item.key && item.type === undefined ? [...keyPath, item.key] : keyPath
-      const children =
-        inlineCollapsed && !item.children && depth === 1
-          ? render([item], depth + 1, keyPath, false)
-          : render(
-              item.children,
-              item.type === undefined ? depth + 1 : depth,
-              newKeyPath,
-            )
+      const children = render(
+        item.children,
+        item.type === undefined ? depth + 1 : depth,
+        newKeyPath,
+      )
       return (
         <MenuItem
           item={item}

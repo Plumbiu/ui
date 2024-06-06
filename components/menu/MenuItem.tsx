@@ -42,16 +42,11 @@ const MenuGroup: React.FC<
   const { item, depth, mode, inlineCollapsed, children } = props
 
   const isHorizontal = mode === 'horizontal'
-  const formatDepth = depth - 1
-  const pl = inlineCollapsed
-    ? 12
-    : formatDepth < 1
-    ? 8
-    : (isHorizontal ? 12 : 24) * formatDepth
+  const pl = inlineCollapsed ? 12 : (isHorizontal ? 12 : 24) * depth
   return (
     <StyleMenuItem
       style={{
-        position: mode === 'horizontal' ? 'relative' : undefined,
+        position: isHorizontal ? 'relative' : undefined,
       }}
     >
       <div
@@ -61,7 +56,7 @@ const MenuGroup: React.FC<
         }}
       >
         <div className={itemWrapCls}>
-          <IconWrap size="lg">{item.icon}</IconWrap>
+          {item.icon && <IconWrap size="lg">{item.icon}</IconWrap>}
           <div className={labelWrapCls}>
             <span style={{ flex: 1 }}>{item.label}</span>
           </div>
@@ -102,8 +97,6 @@ const InlineMenuItem: React.FC<MenuItemProps> = (props) => {
       onClick?.({ key: item.key, keyPath, domEvent: e })
     }
   }
-  console.log(children)
-
   return (
     <StyleMenuItem
       className={clsx({
@@ -125,7 +118,7 @@ const InlineMenuItem: React.FC<MenuItemProps> = (props) => {
         onClick={clickHandler}
       >
         <div className={itemWrapCls}>
-          <IconWrap size="lg">{item.icon}</IconWrap>
+          {item.icon && <IconWrap size="lg">{item.icon}</IconWrap>}
           <div className={clsx(labelWrapCls, { [collapsecls]: depth === 1 })}>
             <span style={{ flex: 1 }}>{item.label}</span>
           </div>
@@ -162,34 +155,33 @@ const MenuItem: React.FC<MenuItemProps> = (props) => {
   const isActive = activeKey === item.key
   const isOpen = item.key && openKeys.includes(item.key)
   const isHorizontal = mode === 'horizontal'
-  const pl = depth < 1 ? 8 : (isHorizontal ? 12 : 24) * depth
+  const pl = (isHorizontal ? 12 : 24) * depth
   const isHorizontalActive = isHorizontal && isActive
   const isHorizontalOpen = isHorizontal && isOpen
-  const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+
+  const commonHandler = () => {
     if (!item.key) {
       return
     }
-    e.stopPropagation()
+    if (openKeys.includes(item.key)) {
+      setOpenKeys(openKeys.filter((key) => key !== item.key))
+    } else {
+      setOpenKeys([...openKeys, item.key])
+    }
+  }
+  const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (clickable && item.children) {
+      onClick?.({ key: item.key, keyPath, domEvent: e })
+    }
+    setActiveKey(item.key)
     if (mode === 'horizontal') {
       if (item.children) {
-        setOpenKeys([...openKeys, item.key])
+        commonHandler()
       } else {
         setOpenKeys([])
       }
-      if (depth === 1) {
-        setActiveKey(item.key)
-      }
     } else {
-      if (openKeys.includes(item.key)) {
-        setOpenKeys(openKeys.filter((key) => key !== item.key))
-      } else {
-        setOpenKeys([...openKeys, item.key])
-      }
-      setActiveKey(item.key)
-    }
-
-    if (clickable) {
-      onClick?.({ key: item.key, keyPath, domEvent: e })
+      commonHandler()
     }
   }
   return (
@@ -216,7 +208,7 @@ const MenuItem: React.FC<MenuItemProps> = (props) => {
         onClick={clickHandler}
       >
         <div className={itemWrapCls}>
-          <IconWrap size="lg">{item.icon}</IconWrap>
+          {item.icon && <IconWrap size="lg">{item.icon}</IconWrap>}
           <div className={labelWrapCls}>
             <span style={{ flex: 1 }}>{item.label}</span>
             {item.children && (

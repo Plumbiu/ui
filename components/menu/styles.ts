@@ -3,20 +3,20 @@ import { css, styled } from '@pigment-css/react'
 export const itemWrapCls = css({
   display: 'flex',
   alignItems: 'center',
-  gap: 8,
   width: '100%',
+  '&>span+div': {
+    marginLeft: 8
+  }
 })
 
 export const labelWrapCls = css({
   display: 'flex',
   alignItems: 'center',
-  gap: 8,
   width: '100%',
   '& > span': {
-    display: 'flex',
     alignItems: 'center',
     svg: {
-      fontSize: 16,
+      fontSize: 18,
     },
   },
 })
@@ -72,7 +72,7 @@ export const iconCls = css(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   transition: '0.2s',
-  marginLeft: 6,
+  marginLeft: 8,
 }))
 
 export const route90Cls = css({
@@ -126,7 +126,6 @@ export const horizontalMenuItemCls = css(({ theme }) => ({
 export const activeHorizontalOverflowCls = css(({ theme }) => ({
   overflow: 'unset',
 }))
-
 
 export const activeHorizontalCls = css(({ theme }) => ({
   borderBottomColor: theme.vars['primary-1']
