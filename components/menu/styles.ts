@@ -1,9 +1,17 @@
 import { css, styled } from '@pigment-css/react'
 
+export const itemWrapCls = css({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+  width: '100%',
+})
+
 export const labelWrapCls = css({
   display: 'flex',
   alignItems: 'center',
   gap: 8,
+  width: '100%',
   '& > span': {
     display: 'flex',
     alignItems: 'center',
@@ -15,6 +23,8 @@ export const labelWrapCls = css({
 
 export const menuCls = css(({ theme }) => ({
   borderRight: `1px solid ${theme.vars['info-5']}`,
+  paddingRight: 8,
+  boxSizing: 'border-box',
 }))
 
 export const StyleMenuItem = styled('div')(({ theme }) => ({
@@ -34,6 +44,7 @@ export const labelCls = css(({ theme }) => ({
   paddingBottom: 9,
   borderRadius: 6,
   transition: '0.15s',
+  whiteSpace: 'nowrap',
   '&:hover': {
     backgroundColor: theme.vars['info-6'],
   },
@@ -122,4 +133,18 @@ export const activeHorizontalCls = css(({ theme }) => ({
 export const disabledCls = css(({ theme }) => ({
   color: theme.vars['text-5'],
   cursor: 'not-allowed',
+}))
+
+export const collapsecls = css(({ theme }) => ({
+  width: 0,
+  overflow: 'hidden',
+}))
+
+export const collapseChildencls = css(({ theme }) => ({
+  position: 'absolute',
+  left: 'calc(100% + 12px)',
+  top: '-50%',
+  boxShadow: theme['boxShadow'],
+  borderRadius: 6,
+  zIndex: 9999,
 }))

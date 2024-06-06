@@ -22,4 +22,5 @@ export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick
   mode?: MenuMode
   uniqueOpen?: boolean
   onClick?: (e: MenuOnClickParams) => void
+  inlineCollapsed?: boolean
 }

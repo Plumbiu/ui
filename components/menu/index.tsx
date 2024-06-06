@@ -19,6 +19,9 @@ import {
   activeHorizontalCls,
   horizontalWrapperCls,
   disabledCls,
+  itemWrapCls,
+  collapsecls,
+  collapseChildencls,
 } from './styles'
 import { IconWrap, MaterialSymbolsKeyboardArrowDownRounded } from '@/icon'
 import { ActiveKeyContext } from './context'
@@ -32,22 +35,43 @@ const MenuItemCmp: React.FC<{
   mode: MenuMode
   keyPath: string[]
   cb: (e: MenuOnClickParams) => void
-}> = ({ item, depth, isOpen, render, mode, cb, isActive, keyPath }) => {
+  inlineCollapsed: boolean
+}> = ({
+  item,
+  depth,
+  isOpen,
+  render,
+  mode,
+  cb,
+  isActive,
+  keyPath,
+  inlineCollapsed,
+}) => {
   if (item.type === 'divider') {
     return <Divider style={{ marginTop: 6, marginBottom: 6 }} />
+  }
+
+  if (inlineCollapsed && item.type === 'group') {
+    return null
   }
 
   const newKeyPath =
     item.key && item.type === undefined ? [...keyPath, item.key] : keyPath
   const isHorizontal = mode === 'horizontal'
   const formatDepth = depth - (item.type === 'group' ? 1 : 0)
-  const pl = formatDepth < 1 ? 8 : (isHorizontal ? 12 : 24) * formatDepth
+  const pl = inlineCollapsed
+    ? 12
+    : formatDepth < 1
+    ? 8
+    : (isHorizontal ? 12 : 24) * formatDepth
   const isHorizontalActive = isHorizontal && isActive
 
   const props: HTMLAttributes<HTMLDivElement> = {}
 
   props.onClick = (e) => {
-    cb({ key: item.key, keyPath: newKeyPath, domEvent: e })
+    if (item.type === undefined) {
+      cb({ key: item.key, keyPath: newKeyPath, domEvent: e })
+    }
   }
 
   const chilren = useMemo(() => {
@@ -71,7 +95,7 @@ const MenuItemCmp: React.FC<{
         [disabledCls]: item.disabled,
       })}
       style={{
-        position: isHorizontal ? 'relative' : undefined,
+        position: inlineCollapsed ? 'relative' : undefined,
       }}
     >
       <div
@@ -86,25 +110,33 @@ const MenuItemCmp: React.FC<{
         }}
         {...props}
       >
-        <div className={labelWrapCls}>
+        <div className={itemWrapCls}>
           <IconWrap size="lg">{item.icon}</IconWrap>
-          <span>{item.label}</span>
-        </div>
-        {item.children && item.type === undefined && (
-          <IconWrap
-            className={clsx(iconCls, {
-              [route90Cls]: isOpen,
+          {!!inlineCollapsed && <div
+            className={clsx(labelWrapCls, {
+              [collapsecls]: inlineCollapsed && depth === 1,
             })}
           >
-            <MaterialSymbolsKeyboardArrowDownRounded fontSize={20} />
-          </IconWrap>
-        )}
+            <span style={{ flex: 1 }}>{item.label}</span>
+            {item.children && item.type === undefined && (
+              <IconWrap
+                className={clsx(iconCls, {
+                  [route90Cls]: isOpen,
+                })}
+              >
+                <MaterialSymbolsKeyboardArrowDownRounded fontSize={20} />
+              </IconWrap>
+            )}
+          </div>}
+        </div>
       </div>
       <div
-        className={clsx(gridAnimationCls, {
+        className={clsx({
           [gridAnimationItemCls]: isOpen,
           [horizontalMenuItemCls]: depth === 1 && isHorizontal,
           [activeHorizontalOverflowCls]: isHorizontalActive,
+          [collapseChildencls]: inlineCollapsed,
+          [gridAnimationCls]: !inlineCollapsed,
         })}
       >
         {chilren}
@@ -122,6 +154,7 @@ const MenuGroup: React.FC<{
   mode: MenuMode
   keyPath: string[]
   clickEvent: MenuProps['onClick']
+  inlineCollapsed: boolean
 }> = ({
   items,
   depth,
@@ -131,6 +164,7 @@ const MenuGroup: React.FC<{
   setActiveKey,
   keyPath,
   clickEvent,
+  inlineCollapsed,
 }) => {
   const [openMenu, setOpenMenu] = useState<string[]>([])
   const activeKey = useContext(ActiveKeyContext)
@@ -143,6 +177,7 @@ const MenuGroup: React.FC<{
     }
     return (
       <MenuItemCmp
+        inlineCollapsed={inlineCollapsed}
         mode={mode}
         key={item.key}
         item={item}
@@ -178,14 +213,16 @@ const Menu: React.FC<MenuProps> = ({
   uniqueOpen = false,
   mode = 'inline',
   onClick,
+  inlineCollapsed = false,
   ...restProps
 }) => {
   const [activeKey, setActiveKey] = useState<string>()
   const render = (items: MenuItem[], depth = 1, keyPath: string[] = []) => {
     return (
       <MenuGroup
+        inlineCollapsed={inlineCollapsed}
         setActiveKey={setActiveKey}
-        uniqueOpen={uniqueOpen}
+        uniqueOpen={inlineCollapsed || uniqueOpen}
         items={items}
         depth={depth}
         clickEvent={onClick}
@@ -194,6 +231,12 @@ const Menu: React.FC<MenuProps> = ({
         keyPath={keyPath}
       />
     )
+  }
+  const style: React.CSSProperties = {
+    width: restProps?.style?.width,
+  }
+  if (inlineCollapsed) {
+    style.width = 48
   }
   useEffect(() => {
     window.addEventListener('click', (e) => {})
@@ -208,6 +251,7 @@ const Menu: React.FC<MenuProps> = ({
           [horizontalCls]: mode === 'horizontal',
         })}
         {...restProps}
+        style={style}
       >
         {node}
       </div>
