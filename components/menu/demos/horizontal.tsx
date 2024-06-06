@@ -4,7 +4,11 @@
  * @title 水平
  */
 import { type MenuItem, Menu } from '@plumbiu/ui'
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import {
+  AppstoreOutlined,
+  MailOutlined,
+  SettingOutlined,
+} from '@ant-design/icons'
 
 const items: MenuItem[] = [
   {
@@ -48,10 +52,12 @@ const items: MenuItem[] = [
       </a>
     ),
   },
-];
+]
 
 const App: React.FC = () => {
-  return <Menu mode="horizontal" items={items} />
+  return (
+    <Menu onClick={(e) => console.log(e)} mode="horizontal" items={items} />
+  )
 }
 
 export default App

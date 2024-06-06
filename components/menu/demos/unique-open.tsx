@@ -76,7 +76,7 @@ const items: MenuItem[] = [
 ];
 
 const App: React.FC = () => {
-  return <Menu uniqueOpen style={{ width: 250 }} items={items} />
+  return <Menu onClick={(e) => console.log(e)} uniqueOpen style={{ width: 250 }} items={items} />
 }
 
 export default App

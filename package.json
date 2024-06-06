@@ -9,7 +9,7 @@
     "build-docs": "vite build docs",
     "preview-docs": "vite preview docs",
     "benchmark": "pnpm build & pnpm dev",
-    "build": "vite build && esno scripts/build.ts",
+    "build": "vite build && esno scripts/build.ts && esno scripts/size.ts",
     "bundle-size": "esno scripts/size.ts"
   },
   "exports": {

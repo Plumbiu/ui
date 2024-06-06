@@ -23,6 +23,7 @@ export const labelWrapCls = css({
 
 export const menuCls = css(({ theme }) => ({
   borderRight: `1px solid ${theme.vars['info-5']}`,
+  marginRight: 8,
   paddingRight: 8,
   boxSizing: 'border-box',
 }))
@@ -103,6 +104,14 @@ export const horizontalCls = css(({ theme }) => ({
   },
 }))
 
+export const horizontalWrapperCls = css(({ theme }) => ({
+  paddingBottom: 6,
+  borderBottomWidth: 2,
+  borderBottomStyle: 'solid',
+  borderBottomColor: 'transparent',
+  transition: '0.5s',
+}))
+
 export const horizontalMenuItemCls = css(({ theme }) => ({
   position: 'absolute',
   zIndex: 999,
@@ -118,13 +127,6 @@ export const activeHorizontalOverflowCls = css(({ theme }) => ({
   overflow: 'unset',
 }))
 
-export const horizontalWrapperCls = css(({ theme }) => ({
-  paddingBottom: 6,
-  borderBottomWidth: 2,
-  borderBottomStyle: 'solid',
-  borderBottomColor: 'transparent',
-  transition: '0.5s',
-}))
 
 export const activeHorizontalCls = css(({ theme }) => ({
   borderBottomColor: theme.vars['primary-1']
@@ -142,9 +144,10 @@ export const collapsecls = css(({ theme }) => ({
 
 export const collapseChildencls = css(({ theme }) => ({
   position: 'absolute',
-  left: 'calc(100% + 12px)',
-  top: '-50%',
+  left: 'calc(100% + 8px)',
+  top: 0,
   boxShadow: theme['boxShadow'],
   borderRadius: 6,
   zIndex: 9999,
+  background: theme.vars['background-1'],
 }))
