@@ -15,6 +15,7 @@ export type MenuOnClickParams = {
   domEvent:  React.MouseEvent<HTMLDivElement, MouseEvent>
   key?: string
   keyPath: string[]
+  
 }
 
 export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'>{
@@ -22,4 +23,5 @@ export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick
   mode?: MenuMode
   onClick?: (e: MenuOnClickParams) => void
   inlineCollapsed?: boolean
+  defaultOpenKeys?: string[]
 }

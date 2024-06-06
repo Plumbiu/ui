@@ -3,8 +3,8 @@
  * @description 菜单收起
  * @title 折叠菜单
  */
-import React from 'react'
-import { type MenuItem, Menu } from '@plumbiu/ui'
+import React, { useState } from 'react'
+import { type MenuItem, Menu, Button } from '@plumbiu/ui'
 import {
   AppstoreOutlined,
   ContainerOutlined,
@@ -45,16 +45,20 @@ const items: MenuItem[] = [
       },
     ],
   },
-];
+]
 
 const App: React.FC = () => {
+  const [inlineCollapsed, setInlineCollapsed] = useState(true)
   return (
-    <Menu
-      inlineCollapsed
-      onClick={(e) => console.log(e)}
-      style={{ width: 250 }}
-      items={items}
-    />
+    <>
+      <Button onClick={() => setInlineCollapsed(!inlineCollapsed)}>点击</Button>
+      <Menu
+        inlineCollapsed={inlineCollapsed}
+        onClick={(e) => console.log(e)}
+        style={{ width: 250 }}
+        items={items}
+      />
+    </>
   )
 }
 

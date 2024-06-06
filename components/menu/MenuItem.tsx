@@ -1,7 +1,7 @@
 import { IconWrap, MaterialSymbolsKeyboardArrowDownRounded } from '@/icon'
 import clsx from 'clsx'
-import { useContext, useState, useRef, HTMLAttributes, useEffect } from 'react'
-import { VisibleContext, ActiveKeyContext } from './context'
+import { useContext } from 'react'
+import { MenuContext } from './context'
 import {
   StyleMenuItem,
   horizontalWrapperCls,
@@ -31,81 +31,167 @@ interface MenuItemProps {
   mode: MenuMode
   keyPath: string[]
   onClick: MenuProps['onClick']
-  inlineCollapsed: boolean
   clickable: boolean
-  setActiveKey: React.Dispatch<React.SetStateAction<string | undefined>>
-  setCloseAll: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({
-  item,
-  depth,
-  mode,
-  keyPath,
-  inlineCollapsed,
-  children,
-  onClick,
-  clickable,
-  setActiveKey,
-  setCloseAll,
-}) => {
-  if (item.type === 'divider') {
-    return <Divider style={{ marginTop: 6, marginBottom: 6 }} />
+const MenuGroup: React.FC<
+  MenuItemProps & {
+    inlineCollapsed: boolean
   }
-  const alwaysOpenItem =
-    item.type === 'group' || (mode === 'horizontal' && depth > 1)
-  const closeAll = useContext(VisibleContext)
-  const activeKey = useContext(ActiveKeyContext)
+> = (props) => {
+  const { item, depth, mode, inlineCollapsed, children } = props
 
-  let defaultOpen = false
-  if (alwaysOpenItem) {
-    defaultOpen = true
-  }
-  const [isOpen, setIsOpen] = useState(defaultOpen)
-
-  const isActive = activeKey === item.key
-
-  const ref = useRef<HTMLDivElement>(null)
   const isHorizontal = mode === 'horizontal'
-  const formatDepth = depth - (item.type === 'group' ? 1 : 0)
+  const formatDepth = depth - 1
   const pl = inlineCollapsed
     ? 12
     : formatDepth < 1
     ? 8
     : (isHorizontal ? 12 : 24) * formatDepth
-  const isHorizontalActive = isHorizontal && isActive
-  const isHorizontalOpen = isHorizontal && isOpen
+  return (
+    <StyleMenuItem
+      style={{
+        position: mode === 'horizontal' ? 'relative' : undefined,
+      }}
+    >
+      <div
+        className={groupCls}
+        style={{
+          paddingLeft: pl,
+        }}
+      >
+        <div className={itemWrapCls}>
+          <IconWrap size="lg">{item.icon}</IconWrap>
+          <div className={labelWrapCls}>
+            <span style={{ flex: 1 }}>{item.label}</span>
+          </div>
+        </div>
+      </div>
+      <div>{children}</div>
+    </StyleMenuItem>
+  )
+}
 
-  const props: HTMLAttributes<HTMLDivElement> = {}
+const InlineMenuItem: React.FC<MenuItemProps> = (props) => {
+  const { item, depth, mode, keyPath, children, onClick, clickable } = props
+  const { openKeys, activeKey, setActiveKey, setOpenKeys } =
+    useContext(MenuContext)!
 
-  useEffect(() => {
-    if (closeAll && defaultOpen === false) {
-      setIsOpen(false)
-    }
-  }, [closeAll])
-
-  props.onClick = (e) => {
-    if (item.type) {
+  const isActive = activeKey === item.key
+  const isOpen = item.key && openKeys.includes(item.key)
+  const pl = 12
+  const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!item.key) {
       return
     }
     e.stopPropagation()
-    if (mode === 'horizontal' || inlineCollapsed) {
-      if (item.children) {
-        setCloseAll(false)
-        setIsOpen(true)
+    if (item.children) {
+      if (depth === 1) {
+        setOpenKeys([item.key])
       } else {
-        setCloseAll(true)
+        setOpenKeys([...openKeys, item.key])
       }
     } else {
-      setIsOpen(!isOpen)
+      setOpenKeys([])
+    }
+    if (depth === 1) {
+      setActiveKey(item.key)
     }
 
-    setActiveKey(item.key)
     if (clickable) {
       onClick?.({ key: item.key, keyPath, domEvent: e })
     }
   }
+  console.log(children)
 
+  return (
+    <StyleMenuItem
+      className={clsx({
+        [disabledCls]: item.disabled,
+      })}
+      style={{
+        position: 'relative',
+      }}
+    >
+      <div
+        className={clsx({
+          [labelCls]: item.type === undefined,
+          [activeCls]: mode === 'inline' && isActive,
+        })}
+        style={{
+          paddingLeft: pl,
+          pointerEvents: item.disabled ? 'none' : undefined,
+        }}
+        onClick={clickHandler}
+      >
+        <div className={itemWrapCls}>
+          <IconWrap size="lg">{item.icon}</IconWrap>
+          <div className={clsx(labelWrapCls, { [collapsecls]: depth === 1 })}>
+            <span style={{ flex: 1 }}>{item.label}</span>
+          </div>
+          {item.children && depth > 1 && (
+            <IconWrap
+              className={clsx(iconCls, {
+                [route90Cls]: isOpen,
+              })}
+            >
+              <MaterialSymbolsKeyboardArrowDownRounded fontSize={20} />
+            </IconWrap>
+          )}
+        </div>
+      </div>
+      <div className={collapseChildencls}>{isOpen && children}</div>
+    </StyleMenuItem>
+  )
+}
+
+const MenuItem: React.FC<MenuItemProps> = (props) => {
+  const { item, depth, mode, keyPath, children, onClick, clickable } = props
+  const { openKeys, activeKey, setActiveKey, setOpenKeys, inlineCollapsed } =
+    useContext(MenuContext)!
+  if (item.type === 'divider') {
+    return <Divider style={{ marginTop: 6, marginBottom: 6 }} />
+  }
+  if (item.type === 'group') {
+    return <MenuGroup {...props} inlineCollapsed={inlineCollapsed} />
+  }
+  if (inlineCollapsed) {
+    return <InlineMenuItem {...props} />
+  }
+
+  const isActive = activeKey === item.key
+  const isOpen = item.key && openKeys.includes(item.key)
+  const isHorizontal = mode === 'horizontal'
+  const pl = depth < 1 ? 8 : (isHorizontal ? 12 : 24) * depth
+  const isHorizontalActive = isHorizontal && isActive
+  const isHorizontalOpen = isHorizontal && isOpen
+  const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!item.key) {
+      return
+    }
+    e.stopPropagation()
+    if (mode === 'horizontal') {
+      if (item.children) {
+        setOpenKeys([...openKeys, item.key])
+      } else {
+        setOpenKeys([])
+      }
+      if (depth === 1) {
+        setActiveKey(item.key)
+      }
+    } else {
+      if (openKeys.includes(item.key)) {
+        setOpenKeys(openKeys.filter((key) => key !== item.key))
+      } else {
+        setOpenKeys([...openKeys, item.key])
+      }
+      setActiveKey(item.key)
+    }
+
+    if (clickable) {
+      onClick?.({ key: item.key, keyPath, domEvent: e })
+    }
+  }
   return (
     <StyleMenuItem
       className={clsx({
@@ -115,32 +201,25 @@ const MenuItem: React.FC<MenuItemProps> = ({
         [disabledCls]: item.disabled,
       })}
       style={{
-        position:
-          inlineCollapsed || mode === 'horizontal' ? 'relative' : undefined,
+        position: isHorizontal ? 'relative' : undefined,
       }}
     >
       <div
         className={clsx({
           [labelCls]: item.type === undefined,
-          [groupCls]: item.type === 'group',
           [activeCls]: mode === 'inline' && isActive,
         })}
         style={{
           paddingLeft: pl,
           pointerEvents: item.disabled ? 'none' : undefined,
         }}
-        ref={ref}
-        {...props}
+        onClick={clickHandler}
       >
         <div className={itemWrapCls}>
           <IconWrap size="lg">{item.icon}</IconWrap>
-          <div
-            className={clsx(labelWrapCls, {
-              [collapsecls]: inlineCollapsed && depth === 1,
-            })}
-          >
+          <div className={labelWrapCls}>
             <span style={{ flex: 1 }}>{item.label}</span>
-            {item.children && item.type === undefined && (
+            {item.children && (
               <IconWrap
                 className={clsx(iconCls, {
                   [route90Cls]: isOpen,
@@ -153,12 +232,10 @@ const MenuItem: React.FC<MenuItemProps> = ({
         </div>
       </div>
       <div
-        className={clsx({
+        className={clsx(gridAnimationCls, {
           [gridAnimationItemCls]: isOpen,
           [horizontalMenuItemCls]: depth === 1 && isHorizontalOpen,
           [activeHorizontalOverflowCls]: isHorizontalOpen,
-          [collapseChildencls]: inlineCollapsed,
-          [gridAnimationCls]: !inlineCollapsed,
         })}
       >
         {isOpen && children}

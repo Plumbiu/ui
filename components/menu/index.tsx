@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { MenuItemType, MenuProps } from './types'
 import { horizontalCls, menuCls } from './styles'
 import MenuItem from './MenuItem'
-import { ActiveKeyContext, VisibleContext } from './context'
+import { MenuContext } from './context'
 
 const Menu: React.FC<MenuProps> = ({
   items,
@@ -11,11 +11,12 @@ const Menu: React.FC<MenuProps> = ({
   mode = 'inline',
   onClick,
   inlineCollapsed = false,
+  defaultOpenKeys,
   ...restProps
 }) => {
   const [activeKey, setActiveKey] = useState<string>()
-  const [closeAll, setCloseAll] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const [openKeys, setOpenKeys] = useState<string[]>(defaultOpenKeys || [])
 
   const render = (
     items: MenuItemType[] | undefined,
@@ -29,29 +30,22 @@ const Menu: React.FC<MenuProps> = ({
     const node = items.map((item) => {
       const newKeyPath =
         item.key && item.type === undefined ? [...keyPath, item.key] : keyPath
-      let param = item.children
-      if (inlineCollapsed && !item.children && depth === 1) {
-        param = [item]
-      }
       const children =
         inlineCollapsed && !item.children && depth === 1
-          ? render(param, depth + 1, keyPath, false)
+          ? render([item], depth + 1, keyPath, false)
           : render(
-              param,
+              item.children,
               item.type === undefined ? depth + 1 : depth,
               newKeyPath,
             )
       return (
         <MenuItem
-          inlineCollapsed={inlineCollapsed}
           item={item}
           depth={depth}
           mode={mode}
           keyPath={keyPath}
           onClick={onClick}
           clickable={clickable}
-          setActiveKey={setActiveKey}
-          setCloseAll={setCloseAll}
         >
           {children}
         </MenuItem>
@@ -60,6 +54,10 @@ const Menu: React.FC<MenuProps> = ({
 
     return node
   }
+
+  const node = useMemo(() => {
+    return render(items)
+  }, [items])
 
   const style: React.CSSProperties = {
     width: restProps?.style?.width,
@@ -76,7 +74,7 @@ const Menu: React.FC<MenuProps> = ({
       return
     }
     if (!current.contains(e.target as Node)) {
-      setCloseAll(true)
+      setOpenKeys([])
     }
   }
 
@@ -88,24 +86,28 @@ const Menu: React.FC<MenuProps> = ({
       shouldListenWindows && window.removeEventListener('click', handleCloseAll)
     }
   }, [])
-  const node = useMemo(() => {
-    return render(items)
-  }, [items])
+
   return (
-    <ActiveKeyContext.Provider value={activeKey}>
-      <VisibleContext.Provider value={closeAll}>
-        <div
-          ref={ref}
-          className={clsx(className, menuCls, {
-            [horizontalCls]: mode === 'horizontal',
-          })}
-          {...restProps}
-          style={style}
-        >
-          {node}
-        </div>
-      </VisibleContext.Provider>
-    </ActiveKeyContext.Provider>
+    <MenuContext.Provider
+      value={{
+        openKeys,
+        setActiveKey,
+        activeKey,
+        setOpenKeys,
+        inlineCollapsed,
+      }}
+    >
+      <div
+        ref={ref}
+        className={clsx(className, menuCls, {
+          [horizontalCls]: mode === 'horizontal',
+        })}
+        {...restProps}
+        style={style}
+      >
+        {node}
+      </div>
+    </MenuContext.Provider>
   )
 }
 

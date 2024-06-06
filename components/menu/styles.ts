@@ -138,6 +138,7 @@ export const disabledCls = css(({ theme }) => ({
 }))
 
 export const collapsecls = css(({ theme }) => ({
+  transition: '0.2s',
   width: 0,
   overflow: 'hidden',
 }))
