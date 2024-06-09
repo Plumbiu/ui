@@ -15,20 +15,20 @@ import {
 import { fcc_inline } from '@/_utils/styles'
 import { IconWrap } from '@/icon'
 import { useMounted } from '@/_utils/hooks'
+import { clsx } from 'clsx'
+import { inputDisabledCls, inputWrapperCls } from '@/_utils/styles/input'
+
+const focusStyle = css(({ theme }) => ({
+  '&:hover,&:focus-within': {
+    borderColor: theme['blue-4'],
+  },
+  '&:focus-within': {
+    boxShadow: `0 0 0 3px ${theme.vars['primary-6']}`,
+  },
+}))
 
 const StyledInputWrapper = styled('div')<InputProps>(({ theme }) => {
   return {
-    position: 'relative',
-    display: 'inline-flex',
-    color: theme.vars['text-1'],
-    alignItems: 'center',
-    fontSize: 14,
-    height: 30,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: theme.vars['info-4'],
-    transition: 'border-color 0.2s,box-shadow 0.2s',
     borderRadius: 4,
     '& > div': {
       margin: '0 auto',
@@ -41,17 +41,6 @@ const StyledInputWrapper = styled('div')<InputProps>(({ theme }) => {
       },
     },
     variants: [
-      {
-        props: { disabled: false },
-        style: {
-          '&:hover,&:focus-within': {
-            borderColor: theme['blue-4'],
-          },
-          '&:focus-within': {
-            boxShadow: `0 0 0 3px ${theme.vars['primary-6']}`,
-          },
-        },
-      },
       ...status.map((s) => ({
         props: { status: s },
         style: {
@@ -64,13 +53,6 @@ const StyledInputWrapper = styled('div')<InputProps>(({ theme }) => {
           },
         },
       })),
-      {
-        props: { disabled: true },
-        style: {
-          cursor: 'not-allowed',
-          backgroundColor: theme.vars['info-6'],
-        },
-      },
     ],
   }
 })
@@ -132,6 +114,7 @@ const Input: React.FC<InputProps> = (props) => {
     maxLength,
     status,
     type: customType = 'text',
+    onFocus,
     ...restProps
   } = props
 
@@ -184,8 +167,11 @@ const Input: React.FC<InputProps> = (props) => {
     }
   }
 
-  const focus = () => {
-    if (inputRef.current) {
+  const focus = (e?: React.FocusEvent<HTMLInputElement, Element>) => {
+    if (e) {
+      onFocus?.(e)
+    }
+    if (inputRef.current && maxLength) {
       inputRef.current.selectionEnd = inputValue.length
       setTimeout(() => {
         inputRef.current!.focus()
@@ -199,7 +185,13 @@ const Input: React.FC<InputProps> = (props) => {
   }
 
   return (
-    <StyledInputWrapper status={status} disabled={disabled}>
+    <StyledInputWrapper
+      status={status}
+      className={clsx(inputWrapperCls, {
+        [inputDisabledCls]: disabled,
+        [focusStyle]: !disabled,
+      })}
+    >
       {!!beforeNode && <div className={addonCls}>{beforeNode}</div>}
       {!!prefix && <div>{prefix}</div>}
       <StyledInput
@@ -210,6 +202,7 @@ const Input: React.FC<InputProps> = (props) => {
         onChange={handleChange}
         maxLength={maxLength}
         style={{ cursor: disabled ? 'not-allowed' : undefined }}
+        onFocus={focus}
         {...restProps}
       />
       {allowClear && (

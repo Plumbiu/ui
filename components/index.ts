@@ -46,4 +46,7 @@ export { default as Breadcrumb } from './breadcrumb'
 export * from './menu'
 export { default as Menu } from './menu'
 
+export * from './select'
+export { default as Select } from './select'
+
 export type * from './types'
