@@ -36,6 +36,7 @@ const Select: React.FC<SelectProps> = ({
     if (showCloseIcon && allowClear && selectedLabel) {
       return (
         <MaterialSymbolsCloseRounded
+          onMouseLeave={() => setShowCloseIcon(false)}
           onClick={() => {
             setSelectedLabel(null)
           }}
@@ -45,7 +46,6 @@ const Select: React.FC<SelectProps> = ({
     return (
       <ArrowDownOutlined
         onMouseEnter={() => setShowCloseIcon(true)}
-        onMouseLeave={() => setShowCloseIcon(false)}
       />
     )
   }, [allowClear, selectedLabel, showCloseIcon])
@@ -66,7 +66,6 @@ const Select: React.FC<SelectProps> = ({
         {item.label}
       </div>
     )),
-    offsetTop: 12,
     disabled,
   })
 
