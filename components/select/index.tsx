@@ -1,25 +1,93 @@
 import { useDropdown } from '@/_utils/hooks'
 import { SelectProps } from './types'
-import { useRef } from 'react'
-import { inputActiveCls, inputWrapperCls } from '@/_utils/styles/input'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import {
+  inputActiveCls,
+  inputDisabledCls,
+  inputWrapperCls,
+} from '@/_utils/styles/input'
 import { clsx } from 'clsx'
-import { selectTriggerCls, selectCls } from './styles'
+import { selectTriggerCls, selectCls, selectIconCls } from './styles'
+import { IconWrap, MaterialSymbolsCloseRounded } from '@/icon'
+import { ArrowDownOutlined } from '@ant-design/icons'
+import { activeDropownItemCls } from '@/_utils/styles/dropdown'
 
-const Select: React.FC<SelectProps> = ({ options }) => {
+const Select: React.FC<SelectProps> = ({
+  options,
+  onChange,
+  mode,
+  defaultValue,
+  disabled,
+  allowClear,
+}) => {
+  const [selectedLabel, setSelectedLabel] = useState<string | null>(
+    options?.find((item) => item.value === defaultValue)?.label ?? null,
+  )
+  const [showCloseIcon, setShowCloseIcon] = useState(false)
+
+  useEffect(() => {
+    onChange?.(selectedLabel)
+  }, [selectedLabel])
+
+  const iconNode = useMemo(() => {
+    if (!allowClear) {
+      return <ArrowDownOutlined />
+    }
+    if (showCloseIcon && allowClear && selectedLabel) {
+      return (
+        <MaterialSymbolsCloseRounded
+          onClick={() => {
+            setSelectedLabel(null)
+          }}
+        />
+      )
+    }
+    return (
+      <ArrowDownOutlined
+        onMouseEnter={() => setShowCloseIcon(true)}
+        onMouseLeave={() => setShowCloseIcon(false)}
+      />
+    )
+  }, [allowClear, selectedLabel, showCloseIcon])
+
   const triggerRef = useRef<HTMLDivElement>(null)
-  const { node, offset } = useDropdown({
+  const { node, isFocus } = useDropdown({
     triggerRef,
-    children: options?.map((item) => <div key={item.value}>{item.label}</div>),
+    children: options?.map((item) => (
+      <div
+        key={item.value}
+        className={clsx({
+          [activeDropownItemCls]: selectedLabel === item.label,
+        })}
+        onClick={() => {
+          setSelectedLabel(item.label)
+        }}
+      >
+        {item.label}
+      </div>
+    )),
     offsetTop: 12,
+    disabled,
   })
+
   return (
     <div>
       <div
         className={clsx(inputWrapperCls, selectTriggerCls, {
-          [inputActiveCls]: offset,
+          [inputActiveCls]: isFocus,
+          [inputDisabledCls]: disabled,
         })}
       >
-        <div ref={triggerRef} contentEditable className={selectCls}></div>
+        <div ref={triggerRef} className={selectCls}>
+          {selectedLabel}
+        </div>
+        <IconWrap
+          size="sm"
+          className={selectIconCls}
+          hoverBg={!disabled && showCloseIcon && !!selectedLabel}
+        >
+          {iconNode}
+        </IconWrap>
       </div>
       {node}
     </div>

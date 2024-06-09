@@ -3,8 +3,8 @@ import { css } from '@pigment-css/react'
 export const inputWrapperCls = css(({ theme }) => ({
   position: 'relative',
   display: 'inline-flex',
-  color: theme.vars['text-1'],
   alignItems: 'center',
+  color: theme.vars['text-1'],
   fontSize: 14,
   height: 30,
   overflow: 'hidden',
@@ -23,4 +23,5 @@ export const inputActiveCls = css(({ theme }) => ({
 export const inputDisabledCls = css(({ theme }) => ({
   cursor: 'not-allowed',
   backgroundColor: theme.vars['info-6'],
+  color: theme.vars['text-4'],
 }))

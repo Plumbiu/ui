@@ -56,21 +56,32 @@ export function useAnimation<T extends HTMLDivElement>(
 
 interface UseDropdown {
   triggerRef: RefObject<HTMLElement>
-  duration?: number
   children?: React.ReactNode
   widthArrow?: boolean
   offsetTop?: number
+  disabled?: boolean
 }
 
 export function useDropdown(props: UseDropdown) {
-  const { triggerRef, duration = 200, children, widthArrow, offsetTop } = props
+  const {
+    triggerRef,
+    children,
+    widthArrow,
+    offsetTop,
+    disabled,
+  } = props
+
+  if (disabled) {
+    return {}
+  }
 
   const formatOffsetTop = offsetTop ?? (widthArrow ? 8 : 4)
   const [offset, setOffset] = useState<{ x: number; y: number } | null>(null)
+  const [isFocus, setIsFocus] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const handleHidden = useAnimation(
     [{ ref: dropdownRef, cls: reverseDropdownCls }],
-    duration,
+    200,
     () => setOffset(null),
   )
   const rect = useMemo(
@@ -79,19 +90,26 @@ export function useDropdown(props: UseDropdown) {
   )
 
   useEventListener('click', (e) => {
-    if (!rect) {
+    if (!rect || disabled) {
       return
     }
-    const target = e.target
+    const target = e.target as Node
+    
     if (target === triggerRef.current) {
       if (offset) {
         return
       }
+      setIsFocus(true)
       setOffset({
         x: rect.x,
         y: rect.y + rect.height + formatOffsetTop,
       })
     } else {
+      if (dropdownRef.current?.contains(target)) {
+        setIsFocus(true)
+      } else {
+        setIsFocus(false)
+      }
       handleHidden()
     }
   })
@@ -115,5 +133,6 @@ export function useDropdown(props: UseDropdown) {
   return {
     offset,
     node,
+    isFocus,
   }
 }

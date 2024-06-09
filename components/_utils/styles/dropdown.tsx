@@ -32,6 +32,9 @@ export const dropdownCls = css(({ theme }) => {
       cursor: 'pointer',
       borderRadius: 4,
       transition: 'background-color 0.15s',
+      '& + div': {
+        marginTop: 2,
+      },
       '&:hover': {
         backgroundColor: theme.vars['info-6'],
       },
@@ -65,3 +68,10 @@ export const reverseDropdownAnimation = keyframes({
 export const reverseDropdownCls = css({
   animation: `0.1s ${reverseDropdownAnimation} forwards`,
 })
+
+export const activeDropownItemCls = css(({ theme }) => ({
+  backgroundColor: theme.vars['primary-6'],
+  '&:hover': {
+    backgroundColor: `${theme.vars['primary-5']}!important`,
+  },
+}))
