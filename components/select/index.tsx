@@ -8,8 +8,7 @@ import {
 } from '@/_utils/styles/input'
 import { clsx } from 'clsx'
 import { selectTriggerCls, selectCls, selectIconCls } from './styles'
-import { IconWrap, MaterialSymbolsCloseRounded } from '@/icon'
-import { ArrowDownOutlined } from '@ant-design/icons'
+import { IconWrap, MaterialSymbolsCloseRounded, MaterialSymbolsKeyboardArrowDownRounded } from '@/icon'
 import { activeDropownItemCls } from '@/_utils/styles/dropdown'
 
 const Select: React.FC<SelectProps> = ({
@@ -31,7 +30,7 @@ const Select: React.FC<SelectProps> = ({
 
   const iconNode = useMemo(() => {
     if (!allowClear) {
-      return <ArrowDownOutlined />
+      return <MaterialSymbolsKeyboardArrowDownRounded />
     }
     if (showCloseIcon && allowClear && selectedLabel) {
       return (
@@ -44,7 +43,7 @@ const Select: React.FC<SelectProps> = ({
       )
     }
     return (
-      <ArrowDownOutlined
+      <MaterialSymbolsKeyboardArrowDownRounded
         onMouseEnter={() => setShowCloseIcon(true)}
       />
     )
@@ -81,7 +80,6 @@ const Select: React.FC<SelectProps> = ({
           {selectedLabel}
         </div>
         <IconWrap
-          size="sm"
           className={selectIconCls}
           hoverBg={!disabled && showCloseIcon && !!selectedLabel}
         >
