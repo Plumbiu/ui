@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react-swc'
 import typescript from '@rollup/plugin-typescript'
 import { pigment } from '@pigment-css/vite-plugin'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import renameNodeModules from 'rollup-plugin-rename-node-modules'
+import commonjs from '@rollup/plugin-commonjs'
 
 import theme from './theme'
 
@@ -26,7 +26,7 @@ export const viteOptions: InlineConfig = {
       allowSyntheticDefaultImports: true,
     }),
     nodeResolve(),
-    renameNodeModules('_bundle'),
+    commonjs(),
   ],
   build: {
     lib: {
@@ -34,12 +34,17 @@ export const viteOptions: InlineConfig = {
       entry,
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react-router-dom', 'react/jsx-runtime'],
+      external: [/react\/?.*/, /react-dom\/?.*/],
       output: {
         preserveModules: true,
         assetFileNames: '[name].[ext]',
         chunkFileNames: '[name].mjs',
-        entryFileNames: '[name].mjs',
+        entryFileNames: (chunkInfo) => {
+          if (chunkInfo.name.includes('node_modules')) {
+            return chunkInfo.name.replace('node_modules', 'bundle') + '.mjs'
+          }
+          return '[name].mjs'
+        },
         globals: {
           react: 'React',
         },

@@ -1,6 +1,6 @@
 import { useDropdown } from '@/_utils/hooks'
 import { SelectProps } from './types'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import {
   inputActiveCls,
   inputDisabledCls,
@@ -8,8 +8,14 @@ import {
 } from '@/_utils/styles/input'
 import { clsx } from 'clsx'
 import { selectTriggerCls, selectCls, selectIconCls } from './styles'
-import { IconWrap, MaterialSymbolsCloseRounded, MaterialSymbolsKeyboardArrowDownRounded } from '@/icon'
+import {
+  IconWrap,
+  MaterialSymbolsCloseRounded,
+  MaterialSymbolsKeyboardArrowDownRounded,
+} from '@/icon'
 import { activeDropownItemCls } from '@/_utils/styles/dropdown'
+
+const ArrordownIcon = <MaterialSymbolsKeyboardArrowDownRounded />
 
 const Select: React.FC<SelectProps> = ({
   options,
@@ -22,32 +28,20 @@ const Select: React.FC<SelectProps> = ({
   const [selectedLabel, setSelectedLabel] = useState<string | null>(
     options?.find((item) => item.value === defaultValue)?.label ?? null,
   )
-  const [showCloseIcon, setShowCloseIcon] = useState(false)
-
-  useEffect(() => {
-    onChange?.(selectedLabel)
-  }, [selectedLabel])
-
-  const iconNode = useMemo(() => {
-    if (!allowClear) {
-      return <MaterialSymbolsKeyboardArrowDownRounded />
-    }
-    if (showCloseIcon && allowClear && selectedLabel) {
-      return (
-        <MaterialSymbolsCloseRounded
-          onMouseLeave={() => setShowCloseIcon(false)}
-          onClick={() => {
-            setSelectedLabel(null)
-          }}
-        />
-      )
-    }
-    return (
-      <MaterialSymbolsKeyboardArrowDownRounded
-        onMouseEnter={() => setShowCloseIcon(true)}
+  const showCloseIcon = !disabled && allowClear && selectedLabel !== null
+  const CloseIcon = useMemo(
+    () => (
+      <MaterialSymbolsCloseRounded
+        onClick={() => {
+          setSelectedLabel(null)
+          setIconNode(ArrordownIcon)
+        }}
       />
-    )
-  }, [allowClear, selectedLabel, showCloseIcon])
+    ),
+    [],
+  )
+
+  const [iconNode, setIconNode] = useState(ArrordownIcon)
 
   const triggerRef = useRef<HTMLDivElement>(null)
   const { node, isFocus } = useDropdown({
@@ -60,6 +54,7 @@ const Select: React.FC<SelectProps> = ({
         })}
         onClick={() => {
           setSelectedLabel(item.label)
+          onChange?.(item.value)
         }}
       >
         {item.label}
@@ -81,7 +76,15 @@ const Select: React.FC<SelectProps> = ({
         </div>
         <IconWrap
           className={selectIconCls}
-          hoverBg={!disabled && showCloseIcon && !!selectedLabel}
+          hoverBg={showCloseIcon}
+          onMouseEnter={() => {
+            if (showCloseIcon) {
+              setIconNode(CloseIcon)
+            }
+          }}
+          onMouseLeave={() => {
+            setIconNode(ArrordownIcon)
+          }}
         >
           {iconNode}
         </IconWrap>

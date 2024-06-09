@@ -20,5 +20,5 @@ export const selectIconCls = css(({ theme }) => ({
   top: '50%',
   bottom: 0,
   transform: 'translateY(-50%)',
-  color: theme.vars['text-4']
+  color: theme.vars['text-4'],
 }))
