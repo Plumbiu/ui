@@ -1,14 +1,14 @@
-type Value = string | number
+export type SelectValue = string | number
 
 interface SelectOption {
   label: string
-  value: Value
+  value: SelectValue
   disbaled?: boolean
 }
 
 export interface SelectProps {
   options: SelectOption[]
-  defaultValue?: Value | Value[]
+  defaultValue?: SelectValue | SelectValue[]
   onChange?: (value: any) => void
   mode?: 'multiple'
   disabled?: boolean

@@ -9,9 +9,17 @@ export const selectCls = css({
   display: 'flex',
   alignItems: 'center',
   outline: 'none',
-  padding: '0 12px',
+  paddingLeft: 12,
+  paddingRight: 64,
   minWidth: 126,
   height: '100%',
+  cursor: 'pointer',
+})
+
+export const selectItemCls = css({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
 })
 
 export const selectIconCls = css(({ theme }) => ({
@@ -21,4 +29,19 @@ export const selectIconCls = css(({ theme }) => ({
   bottom: 0,
   transform: 'translateY(-50%)',
   color: theme.vars['text-4'],
+}))
+
+export const multiSelectItemCls = css(({ theme }) => ({
+  backgroundColor: theme.vars['info-5'],
+  paddingLeft: 6,
+  borderRadius: 4,
+  height: '76%',
+  '&+div': {
+    marginLeft: 4,
+  },
+  '&>span': {
+    marginLeft: 3,
+    marginRight: 4,
+    color: theme.vars['text-4'],
+  },
 }))

@@ -1,18 +1,18 @@
-import { useDropdown } from '@/_utils/hooks'
-import {
-  IconWrap,
-  MaterialSymbolsCloseRounded,
-  MaterialSymbolsKeyboardArrowDownRounded,
-} from '@/icon'
 import { clsx } from 'clsx'
 import { useState, useMemo, useRef } from 'react'
 import { SelectProps } from './types'
+import { selectTriggerCls, selectCls, selectIconCls } from './styles'
 import {
   inputWrapperCls,
   inputActiveCls,
   inputDisabledCls,
 } from '@/_utils/styles/input'
-import { selectTriggerCls, selectCls, selectIconCls } from './styles'
+import {
+  IconWrap,
+  MaterialSymbolsCloseRounded,
+  MaterialSymbolsKeyboardArrowDownRounded,
+} from '@/icon'
+import { useDropdown } from '@/_utils/hooks'
 
 interface UseRenderSelect {
   disabled?: SelectProps['disabled']

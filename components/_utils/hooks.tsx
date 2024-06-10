@@ -7,13 +7,13 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import { clsx } from 'clsx'
 import { Portal } from './components'
 import {
   dropdownCls,
   dropdownWithArrowCls,
   reverseDropdownCls,
 } from './styles/dropdown'
-import { clsx } from 'clsx'
 
 export function useMounted() {
   const [mount, setMount] = useState(false)
@@ -63,13 +63,7 @@ interface UseDropdown {
 }
 
 export function useDropdown(props: UseDropdown) {
-  const {
-    triggerRef,
-    children,
-    widthArrow,
-    offsetTop,
-    disabled,
-  } = props
+  const { triggerRef, children, widthArrow, offsetTop, disabled } = props
 
   if (disabled) {
     return {}
@@ -94,16 +88,17 @@ export function useDropdown(props: UseDropdown) {
       return
     }
     const target = e.target as Node
-    
+
     if (target === triggerRef.current) {
       if (offset) {
-        return
+        handleHidden()
+      } else {
+        setOffset({
+          x: rect.x,
+          y: rect.y + rect.height + formatOffsetTop,
+        })
       }
       setIsFocus(true)
-      setOffset({
-        x: rect.x,
-        y: rect.y + rect.height + formatOffsetTop,
-      })
     } else {
       if (dropdownRef.current?.contains(target)) {
         setIsFocus(true)

@@ -1,6 +1,7 @@
 import { css } from '@pigment-css/react'
 import { useEffect, useState } from 'react'
-import Checkbox, { CheckboxChangeEvent } from '.'
+import { CheckboxChangeEvent } from './types'
+import Checkbox from '.'
 
 type StrOrNum = string | number
 
