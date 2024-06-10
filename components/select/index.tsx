@@ -43,7 +43,7 @@ const SelectItem: React.FC<{
     >
       {item.label}
       {isActive && (
-        <IconWrap color="primary">
+        <IconWrap color="primary" size="lg">
           <MaterialSymbolsCheckCircleRounded />
         </IconWrap>
       )}

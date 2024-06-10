@@ -89,7 +89,7 @@ export function useDropdown(props: UseDropdown) {
     }
     const target = e.target as Node
 
-    if (target === triggerRef.current) {
+    if (triggerRef.current?.contains(target)) {
       if (offset) {
         handleHidden()
       } else {
