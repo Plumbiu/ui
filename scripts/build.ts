@@ -10,7 +10,7 @@ const excludesCss = ['styles.css', 'vars-dark.css']
 
 async function autoImportCss() {
   const indexJs = await fsp.readFile(INDEX_JS_PATH, 'utf-8')
-  const indexJsWithInjectCss = `import './components/styles.css'\n${indexJs}`
+  const indexJsWithInjectCss = `import './styles.css'\n${indexJs}`
   await fsp.writeFile(INDEX_JS_PATH, indexJsWithInjectCss)
 
   const cssPath = (
@@ -26,7 +26,7 @@ async function autoImportCss() {
       const cssBaseName = cssName.replace(/\..*css/, '')
       const jsPath = path.join(DIST_PATH, cssDir, `${cssBaseName}.mjs`)
       const jsContent = await fsp.readFile(jsPath, 'utf-8')
-      await fsp.writeFile(jsPath, `import './${cssName}'\n${jsContent}`)
+      await fsp.writeFile(jsPath, `import './${cssName}';\n${jsContent}`)
     }),
   )
 }
