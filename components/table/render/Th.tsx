@@ -1,10 +1,12 @@
 /* eslint-disable @stylistic/indent */
+import { useContext } from 'react'
 import {
   ITableOperateParams,
   SortStatusEnum,
   TableSort,
   sortHoverTitle,
 } from '../types'
+import { TableContext } from '../context'
 import { SortAction } from './Action'
 import { fcb } from '@/_utils/styles'
 
@@ -13,7 +15,6 @@ interface ThItemProps {
   sorter: TableSort
   sortStatus: SortStatusEnum | undefined
   colIndex: number
-  setOperaParams?: React.Dispatch<React.SetStateAction<ITableOperateParams>>
 }
 
 function handleSort(
@@ -48,10 +49,10 @@ const ThItem: React.FC<ThItemProps> = ({
   sorter,
   title,
   sortStatus,
-  setOperaParams,
   colIndex,
   ...restProps
 }) => {
+  const { setOperaParams } = useContext(TableContext)!
   const commonProps: any = {}
   if (sorter) {
     commonProps.onClick = () =>

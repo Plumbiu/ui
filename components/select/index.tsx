@@ -42,7 +42,7 @@ const SelectItem: React.FC<{
       }}
     >
       {item.label}
-      {isActive && (
+      {isActive && mode === 'multiple' && (
         <IconWrap color="primary" size="lg">
           <MaterialSymbolsCheckCircleRounded />
         </IconWrap>

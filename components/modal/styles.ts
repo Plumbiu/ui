@@ -63,7 +63,7 @@ const GAP = 12
 
 export const titleCls = css(({ theme }) => ({
   fontSize: 16,
-  color: theme.vars['title-1'],
+  color: theme.vars['text-1'],
 }))
 
 export const footerCls = css(({ theme }) => ({

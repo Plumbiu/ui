@@ -4,6 +4,7 @@ import useColumns from './hooks/columns'
 import { TableTr } from './render'
 import { StyledTable, theadCls } from './styles'
 import { VirtualTableProps } from './types'
+import { TableContext } from './context'
 import { scrollBarCss } from '@/_utils/styles'
 
 const VirtualTable: React.FC<VirtualTableProps> = (props) => {
@@ -67,59 +68,61 @@ const VirtualTable: React.FC<VirtualTableProps> = (props) => {
   })
 
   return (
-    <div
-      ref={scrollRef}
-      className={scrollBarCss}
-      style={{ maxHeight: props.scroll?.y }}
-    >
-      <StyledTable
-        style={{
-          minWidth: props.scroll?.x,
-          tableLayout,
-        }}
-        {...tableProps}
+    <TableContext.Provider value={{}}>
+      <div
+        ref={scrollRef}
+        className={scrollBarCss}
+        style={{ maxHeight: props.scroll?.y }}
       >
-        {ColGroup}
-        {showHeader && (
-          <thead
-            className={theadCls}
+        <StyledTable
+          style={{
+            minWidth: props.scroll?.x,
+            tableLayout,
+          }}
+          {...tableProps}
+        >
+          {ColGroup}
+          {showHeader && (
+            <thead
+              className={theadCls}
+              style={{
+                zIndex: headZIndex,
+                position: sticky ? undefined : 'static',
+              }}
+            >
+              <TableTr
+                virtual
+                height={itemHeight}
+                rowIndex={0}
+                columns={columns}
+                head
+              />
+            </thead>
+          )}
+          <tbody
             style={{
-              zIndex: headZIndex,
-              position: sticky ? undefined : 'static',
+              height: total * itemHeight,
             }}
           >
-            <TableTr
-              virtual
-              height={itemHeight}
-              rowIndex={0}
-              columns={columns}
-              head
-            />
-          </thead>
-        )}
-        <tbody
-          style={{
-            height: total * itemHeight,
-          }}
-        >
-          {list.map((data, rowIndex) => (
-            <TableTr
-              height={itemHeight}
-              virtual
-              style={{
-                transform: `translateY(${
-                  (start + rowIndex + 1) * itemHeight
-                }px)`,
-              }}
-              rowIndex={rowIndex + 1}
-              data={data}
-              key={data?.[rowKey] ?? rowIndex}
-              columns={columns}
-            />
-          ))}
-        </tbody>
-      </StyledTable>
-    </div>
+            {list.map((data, rowIndex) => (
+              <TableTr
+                height={itemHeight}
+                virtual
+                style={{
+                  transform: `translateY(${
+                    (start + rowIndex + 1) * itemHeight
+                  }px)`,
+                }}
+                rowIndex={rowIndex + 1}
+                data={data}
+                key={data?.[rowKey] ?? rowIndex}
+                columns={columns}
+              />
+            ))}
+          </tbody>
+        </StyledTable>
+      </div>
+    </TableContext.Provider>
   )
 }
 

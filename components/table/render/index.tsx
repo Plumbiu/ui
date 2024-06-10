@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { clsx } from 'clsx'
 import { css } from '@pigment-css/react'
-import { CheckEnum, SortStatusEnum, TableProps } from '../types'
+import { CheckEnum, TableProps } from '../types'
+import { TableContext } from '../context'
 import TdItem from './Td'
 import ThItem from './Th'
 import { ITableTr } from './types'
@@ -22,21 +23,11 @@ const shadowRightCls = css({
 
 export const TableChildren: React.FC<
   ITableTr & {
-    sortStatus?: SortStatusEnum
     column: TableProps['columns'][number]
     colIndex: number
   }
 > = (props) => {
-  const {
-    column,
-    head,
-    colIndex,
-    data,
-    setOperaParams,
-    sortStatus,
-    virtual,
-    height,
-  } = props
+  const { column, head, colIndex, data, virtual, height } = props
   const {
     align,
     title,
@@ -58,6 +49,8 @@ export const TableChildren: React.FC<
   if (!(head || dataIndex || render)) {
     return null
   }
+  const { setOperaParams, operaParams } = useContext(TableContext)!
+  const sortStatus = operaParams?.sortStatusMap?.[colIndex]
 
   const style: React.CSSProperties = {
     zIndex,
@@ -141,7 +134,6 @@ export const TableTr: React.FC<ITableTr> = (props) => {
     columns,
     rowIndex,
     head = false,
-    operaParams,
     style,
     virtual,
     checkStatus,
@@ -162,7 +154,6 @@ export const TableTr: React.FC<ITableTr> = (props) => {
             {...props}
             colIndex={colIndex}
             column={column}
-            sortStatus={operaParams?.sortStatusMap?.[colIndex]}
             key={column['key'] ?? column['dataIndex'] ?? column['title']}
           />
         )

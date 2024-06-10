@@ -1,10 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from 'react'
 import { TableTr } from './render'
-import {
-  StyledFooter,
-  StyledTable,
-  theadCls,
-} from './styles'
+import { StyledFooter, StyledTable, theadCls } from './styles'
 import { TableProps } from './types'
 import useColumns from './hooks/columns'
 import useOperate from './hooks/operate'
@@ -13,6 +9,7 @@ import useCheck, {
   UpdateCheckeboxByRowIndex,
   UpdateCheckboxByKey,
 } from './hooks/check'
+import { TableContext } from './context'
 import { scrollBarCss } from '@/_utils/styles'
 
 export type TableRefProps = Partial<{
@@ -80,11 +77,6 @@ const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
     rowKey,
   })
 
-  const commonProps = {
-    updateCheckeboxByRowIndex,
-    operaParams,
-  }
-
   useImperativeHandle(ref, () => ({
     updateCheckeboxByRowIndex,
     updateCheckboxByKey,
@@ -93,60 +85,62 @@ const Table = forwardRef<TableRefProps, TableProps>((props, ref) => {
   }))
 
   return (
-    <div>
-      <div
-        className={scrollBarCss}
-        style={{ maxHeight: props.scroll?.y }}
-      >
-        <StyledTable
-          style={{
-            minWidth: props.scroll?.x,
-            tableLayout,
-          }}
-          {...tableProps}
-        >
-          {ColGroup}
-          {showHeader && (
-            <thead
-              className={theadCls}
-              style={{
-                zIndex: headZIndex,
-                position: sticky ? undefined : 'static',
-              }}
-            >
-              {groupHeaderColumns.map((columns, rowIndex) => (
+    <TableContext.Provider
+      value={{
+        setOperaParams,
+        operaParams,
+        isAllChecked,
+        isNoneChecked,
+        updateCheckeboxByRowIndex,
+      }}
+    >
+      <div>
+        <div className={scrollBarCss} style={{ maxHeight: props.scroll?.y }}>
+          <StyledTable
+            style={{
+              minWidth: props.scroll?.x,
+              tableLayout,
+            }}
+            {...tableProps}
+          >
+            {ColGroup}
+            {showHeader && (
+              <thead
+                className={theadCls}
+                style={{
+                  zIndex: headZIndex,
+                  position: sticky ? undefined : 'static',
+                }}
+              >
+                {groupHeaderColumns.map((columns, rowIndex) => (
+                  <TableTr
+                    checkStatus={checkArr?.[0]?.checkStatus}
+                    columns={columns}
+                    key={rowIndex}
+                    rowIndex={rowIndex}
+                    head
+                  />
+                ))}
+              </thead>
+            )}
+            <tbody>
+              {mergedDataSource.map((data, rowIndex) => (
                 <TableTr
-                  isAllChecked={isAllChecked}
-                  isNoneChecked={isNoneChecked}
-                  checkStatus={checkArr?.[0]?.checkStatus}
-                  setOperaParams={setOperaParams}
-                  columns={columns}
-                  key={rowIndex}
-                  rowIndex={rowIndex}
-                  head
-                  {...commonProps}
+                  disabled={rowSelection?.getDisabledProps?.(data)}
+                  checkStatus={checkArr?.[rowIndex + 1]?.checkStatus}
+                  rowIndex={rowIndex + 1}
+                  data={data}
+                  key={data?.[rowKey] ?? rowIndex}
+                  columns={flatColumns}
                 />
               ))}
-            </thead>
-          )}
-          <tbody>
-            {mergedDataSource.map((data, rowIndex) => (
-              <TableTr
-                disabled={rowSelection?.getDisabledProps?.(data)}
-                checkStatus={checkArr?.[rowIndex + 1]?.checkStatus}
-                rowIndex={rowIndex + 1}
-                data={data}
-                key={data?.[rowKey] ?? rowIndex}
-                columns={flatColumns}
-                {...commonProps}
-              />
-            ))}
-          </tbody>
-        </StyledTable>
-        {!!footer && <StyledFooter>{footer}</StyledFooter>}
+            </tbody>
+          </StyledTable>
+          {!!footer && <StyledFooter>{footer}</StyledFooter>}
+        </div>
+        {Pagintaion}
       </div>
-      {Pagintaion}
-    </div>
+    </TableContext.Provider>
   )
 })
 

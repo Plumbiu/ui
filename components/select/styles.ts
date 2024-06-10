@@ -38,7 +38,7 @@ export const multiSelectItemCls = css(({ theme }) => ({
   paddingTop: 2,
   paddingBottom: 3,
   '&+div': {
-    marginLeft: 4,
+    marginLeft: 6,
   },
   '&>span': {
     marginLeft: 3,

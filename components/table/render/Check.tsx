@@ -1,17 +1,19 @@
+import { useContext } from 'react'
 import { CheckEnum } from '../types'
+import { TableContext } from '../context'
 import { ITableTr } from './types'
 import Checkbox, { CheckboxProps } from '@/checkbox'
 
 export const CheckInput: React.FC<ITableTr> = ({
   checkStatus,
-  isAllChecked,
   head,
-  updateCheckeboxByRowIndex,
   rowIndex,
   disabled,
-  isNoneChecked,
   virtual,
 }) => {
+  const { updateCheckeboxByRowIndex, isAllChecked, isNoneChecked } =
+    useContext(TableContext)!
+
   if (virtual || !updateCheckeboxByRowIndex) {
     return null
   }

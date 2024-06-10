@@ -1,3 +1,4 @@
+import { TableContext } from './context'
 import useColumns from './hooks/columns'
 import { TableTr } from './render'
 import { StyledTable, theadCls, StyledFooter } from './styles'
@@ -31,46 +32,48 @@ const BaseTable: React.FC<BaseTableProps> = (props) => {
     bordered,
   })
   return (
-    <div className={scrollBarCss} style={{ maxHeight: props.scroll?.y }}>
-      <StyledTable
-        style={{
-          minWidth: props.scroll?.x,
-          tableLayout,
-        }}
-        {...tableProps}
-      >
-        {ColGroup}
-        {showHeader && (
-          <thead
-            className={theadCls}
-            style={{
-              zIndex: headZIndex,
-              position: sticky ? undefined : 'static',
-            }}
-          >
-            {groupHeaderColumns.map((columns, rowIndex) => (
+    <TableContext.Provider value={{}}>
+      <div className={scrollBarCss} style={{ maxHeight: props.scroll?.y }}>
+        <StyledTable
+          style={{
+            minWidth: props.scroll?.x,
+            tableLayout,
+          }}
+          {...tableProps}
+        >
+          {ColGroup}
+          {showHeader && (
+            <thead
+              className={theadCls}
+              style={{
+                zIndex: headZIndex,
+                position: sticky ? undefined : 'static',
+              }}
+            >
+              {groupHeaderColumns.map((columns, rowIndex) => (
+                <TableTr
+                  columns={columns}
+                  key={rowIndex}
+                  rowIndex={rowIndex}
+                  head
+                />
+              ))}
+            </thead>
+          )}
+          <tbody>
+            {dataSource.map((data, rowIndex) => (
               <TableTr
+                rowIndex={rowIndex + 1}
+                data={data}
+                key={data?.[rowKey] ?? rowIndex}
                 columns={columns}
-                key={rowIndex}
-                rowIndex={rowIndex}
-                head
               />
             ))}
-          </thead>
-        )}
-        <tbody>
-          {dataSource.map((data, rowIndex) => (
-            <TableTr
-              rowIndex={rowIndex + 1}
-              data={data}
-              key={data?.[rowKey] ?? rowIndex}
-              columns={columns}
-            />
-          ))}
-        </tbody>
-      </StyledTable>
-      {!!footer && <StyledFooter>{footer}</StyledFooter>}
-    </div>
+          </tbody>
+        </StyledTable>
+        {!!footer && <StyledFooter>{footer}</StyledFooter>}
+      </div>
+    </TableContext.Provider>
   )
 }
 

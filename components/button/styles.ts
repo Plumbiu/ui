@@ -77,14 +77,12 @@ export const primaryButtonCls = css(({ theme }) => ({
 export const borderlessCls = css(({ theme }) => ({
   border: 'none',
   boxShadow: 'none',
-  color: theme['gray-8'],
 }))
 
 export const defaultButtonCls = css(({ theme }) => {
   const primaryColor = theme['blue-4']
   return {
     borderColor: theme['gray-3'],
-    color: theme['gray-8'],
     '&:hover': {
       color: primaryColor,
       borderColor: primaryColor,
