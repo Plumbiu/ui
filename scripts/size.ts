@@ -10,7 +10,7 @@ async function run() {
     cwd: DIST_PATH,
     dot: true,
     absolute: true,
-    ignore: ['**/types/**']
+    ignore: ['**/types/**'],
   }
   const componentsJs = await glob('**/*.mjs', globOtpions)
   const componentsCss = await glob('**/*.css', globOtpions)
@@ -18,7 +18,11 @@ async function run() {
   let jsStr = ''
   await Promise.all(
     componentsJs.map(async (componentPath) => {
-      const content = await fsp.readFile(componentPath, 'utf-8')
+      const content = (await fsp.readFile(componentPath, 'utf-8')).replace(
+        /import \"@pigment-css\/react";\n?/,
+        '',
+      )
+      await fsp.writeFile(componentPath, content)
       jsStr += content
     }),
   )

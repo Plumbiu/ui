@@ -34,15 +34,18 @@ export const viteOptions: InlineConfig = {
       entry,
     },
     rollupOptions: {
-      external: [/react\/?.*/, /react-dom\/?.*/],
+      external: [
+        /^react\/?.*/,
+        /^react-dom\/?.*/,
+        'clsx',
+        'ahooks',
+        '@pigment-css/react',
+      ],
       output: {
         preserveModules: true,
         assetFileNames: '[name].[ext]',
         chunkFileNames: '[name].mjs',
         entryFileNames: (chunkInfo) => {
-          if (chunkInfo.name.includes('node_modules')) {
-            return chunkInfo.name.replace('node_modules', 'bundle') + '.mjs'
-          }
           return '[name].mjs'
         },
         globals: {

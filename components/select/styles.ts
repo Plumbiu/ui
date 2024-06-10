@@ -32,16 +32,17 @@ export const selectIconCls = css(({ theme }) => ({
 }))
 
 export const multiSelectItemCls = css(({ theme }) => ({
-  backgroundColor: theme.vars['info-5'],
+  backgroundColor: theme.vars['info-6'],
   paddingLeft: 6,
   borderRadius: 4,
-  height: '76%',
+  paddingTop: 2,
+  paddingBottom: 3,
   '&+div': {
     marginLeft: 4,
   },
   '&>span': {
     marginLeft: 3,
     marginRight: 4,
-    color: theme.vars['text-4'],
+    color: theme.vars['text-3'],
   },
 }))
