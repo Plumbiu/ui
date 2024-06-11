@@ -32,7 +32,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
   const [checkArr, setCheckArr] = useState<(StrOrNum | undefined)[]>(defaultArr)
 
   function onChange(e: CheckboxChangeEvent) {
-    if (!customOnChange || checkArr.length === 0) {
+    if (!customOnChange) {
       return
     }
     const value = e.target.value
