@@ -17,6 +17,11 @@ const dropdownAnimation = keyframes({
   '100%': dropdownEndPoint,
 })
 
+const topDropownAnimation = keyframes({
+  '0%': dropdownStartPoint,
+  '100%': topDropdownEndPoint,
+})
+
 export const dropdownHiddenCls = css({
   display: 'none',
   pointerEvents: 'none',
@@ -27,10 +32,7 @@ export const bottomDropdownAnimationCls = css({
 })
 export const topDropdownAnimationCls = css({
   transformOrigin: 'center 100%',
-  animation: `125ms ${keyframes({
-    '0%': dropdownStartPoint,
-    '100%': topDropdownEndPoint,
-  })} forwards`,
+  animation: `125ms ${topDropownAnimation} forwards`,
 })
 
 export const dropdownCls = css(({ theme }) => {
@@ -83,8 +85,16 @@ export const reverseDropdownAnimation = keyframes({
   '0%': dropdownEndPoint,
 })
 
+export const reverseTopDropdownAnimation = keyframes({
+  '100%': dropdownStartPoint,
+  '0%': topDropdownEndPoint,
+})
+
 export const reverseDropdownCls = css({
-  animation: `0.1s ${reverseDropdownAnimation} forwards`,
+  animation: `125ms ${reverseDropdownAnimation} forwards`,
+})
+export const reverseTopDropdownCls = css({
+  animation: `125ms ${reverseTopDropdownAnimation} forwards`,
 })
 
 export const activeDropownItemCls = css(({ theme }) => ({

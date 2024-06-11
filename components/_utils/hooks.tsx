@@ -13,6 +13,7 @@ import {
   dropdownHiddenCls,
   dropdownWithArrowCls,
   reverseDropdownCls,
+  reverseTopDropdownCls,
   topDropdownAnimationCls,
 } from './styles/dropdown'
 
@@ -100,8 +101,8 @@ export function useDropdown(props: UseDropdown) {
   const [isFocus, setIsFocus] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const handleHidden = useAnimation(
-    [{ ref: dropdownRef, cls: reverseDropdownCls }],
-    200,
+    [{ ref: dropdownRef, cls: placement === 'top' ? reverseTopDropdownCls : reverseDropdownCls }],
+    150,
     () => setOffset(null),
   )
   const rect = useMemo(
@@ -113,12 +114,10 @@ export function useDropdown(props: UseDropdown) {
     if (!rect) {
       return
     }
-    if (placement === 'bottom') {
-      setOffset(() => {
-        return {
-          x: rect.x,
-          y: rect.y - formatOffsetTop,
-        }
+    if (placement === 'top') {
+      setOffset({
+        x: rect.x,
+        y: rect.y - formatOffsetTop,
       })
     } else {
       setOffset({
