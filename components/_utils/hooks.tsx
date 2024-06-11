@@ -16,6 +16,7 @@ import {
   reverseTopDropdownCls,
   topDropdownAnimationCls,
 } from './styles/dropdown'
+import { useEventListener } from 'ahooks'
 
 export function useMounted() {
   const [mount, setMount] = useState(false)
@@ -127,7 +128,8 @@ export function useDropdown(props: UseDropdown) {
     }
   }
 
-  const hanleClick = (e: MouseEvent) => {
+
+  useEventListener('click', (e) => {
     if (!rect || disabled) {
       return
     }
@@ -144,12 +146,7 @@ export function useDropdown(props: UseDropdown) {
       setIsFocus(!!dropdownRef.current?.contains(target))
       handleHidden()
     }
-  }
-
-  useEffect(() => {
-    window.addEventListener('click', hanleClick)
-    return () => window.removeEventListener('click', hanleClick)
-  }, [rect, dropdownRef.current])
+  })
 
   const node = (
     <Portal>
