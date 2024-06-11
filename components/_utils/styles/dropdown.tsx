@@ -1,16 +1,36 @@
 import { keyframes, css } from '@pigment-css/react'
 
 const dropdownEndPoint = {
-  transform: 'rotateX(0)',
+  transform: 'scale(1)',
+}
+
+const topDropdownEndPoint = {
+  transform: 'scale(1) translateY(-100%)',
 }
 
 const dropdownStartPoint = {
-  transform: 'rotateX(90deg)',
+  transform: 'scale(0)',
 }
 
 const dropdownAnimation = keyframes({
   '0%': dropdownStartPoint,
   '100%': dropdownEndPoint,
+})
+
+export const dropdownHiddenCls = css({
+  display: 'none',
+  pointerEvents: 'none',
+})
+
+export const bottomDropdownAnimationCls = css({
+  animation: `125ms ${dropdownAnimation} forwards`,
+})
+export const topDropdownAnimationCls = css({
+  transformOrigin: 'center 100%',
+  animation: `125ms ${keyframes({
+    '0%': dropdownStartPoint,
+    '100%': topDropdownEndPoint,
+  })} forwards`,
 })
 
 export const dropdownCls = css(({ theme }) => {
@@ -23,8 +43,6 @@ export const dropdownCls = css(({ theme }) => {
     transformOrigin: 'center 0',
     borderRadius: 8,
     padding: 4,
-    animation: `200ms ${dropdownAnimation} forwards`,
-    margin: 'auto',
     fontSize: 14,
     minWidth: 120,
     '& > div': {

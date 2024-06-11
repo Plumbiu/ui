@@ -1,4 +1,3 @@
-import { useEventListener } from 'ahooks'
 import React, {
   RefObject,
   useCallback,
@@ -11,8 +10,10 @@ import { clsx } from 'clsx'
 import { Portal } from './components'
 import {
   dropdownCls,
+  dropdownHiddenCls,
   dropdownWithArrowCls,
   reverseDropdownCls,
+  topDropdownAnimationCls,
 } from './styles/dropdown'
 
 export function useMounted() {
@@ -36,6 +37,9 @@ export function useAnimation<T extends HTMLDivElement>(
   const formatPrams = Array.isArray(params) ? params : [params]
   const mounted = useMounted()
   const fn = useCallback(() => {
+    if (!mounted) {
+      return
+    }
     for (const { ref, cls } of formatPrams) {
       if (ref.current) {
         ref.current.classList.add(cls)
@@ -54,12 +58,34 @@ export function useAnimation<T extends HTMLDivElement>(
   return fn
 }
 
+type Placement =
+  | 'topLeft'
+  | 'top'
+  | 'topRight'
+  | 'leftTop'
+  | 'left'
+  | 'leftBottom'
+  | 'rightTop'
+  | 'right'
+  | 'rightBottom'
+  | 'bottomLeft'
+  | 'bottom'
+  | 'bottomRight'
+
 interface UseDropdown {
   triggerRef: RefObject<HTMLElement>
   children?: React.ReactNode
   widthArrow?: boolean
   offsetTop?: number
   disabled?: boolean
+  placement?: Placement
+}
+
+function getPlacement(placement: Placement | undefined) {
+  if (placement) {
+    return placement.startsWith('top') ? 'top' : 'bottom'
+  }
+  return 'bottom'
 }
 
 export function useDropdown(props: UseDropdown) {
@@ -68,7 +94,7 @@ export function useDropdown(props: UseDropdown) {
   if (disabled) {
     return {}
   }
-
+  const placement = getPlacement(props.placement)
   const formatOffsetTop = offsetTop ?? (widthArrow ? 8 : 4)
   const [offset, setOffset] = useState<{ x: number; y: number } | null>(null)
   const [isFocus, setIsFocus] = useState(false)
@@ -83,7 +109,26 @@ export function useDropdown(props: UseDropdown) {
     [triggerRef.current],
   )
 
-  useEventListener('click', (e) => {
+  const handleSetOffset = () => {
+    if (!rect) {
+      return
+    }
+    if (placement === 'bottom') {
+      setOffset(() => {
+        return {
+          x: rect.x,
+          y: rect.y - formatOffsetTop,
+        }
+      })
+    } else {
+      setOffset({
+        x: rect.x,
+        y: rect.y + rect.height + formatOffsetTop,
+      })
+    }
+  }
+
+  const hanleClick = (e: MouseEvent) => {
     if (!rect || disabled) {
       return
     }
@@ -93,31 +138,32 @@ export function useDropdown(props: UseDropdown) {
       if (offset) {
         handleHidden()
       } else {
-        setOffset({
-          x: rect.x,
-          y: rect.y + rect.height + formatOffsetTop,
-        })
+        handleSetOffset()
       }
       setIsFocus(true)
     } else {
-      if (dropdownRef.current?.contains(target)) {
-        setIsFocus(true)
-      } else {
-        setIsFocus(false)
-      }
+      setIsFocus(!!dropdownRef.current?.contains(target))
       handleHidden()
     }
-  })
+  }
 
-  const node = offset && (
+  useEffect(() => {
+    window.addEventListener('click', hanleClick)
+    return () => window.removeEventListener('click', hanleClick)
+  }, [rect, dropdownRef.current])
+
+  const node = (
     <Portal>
       <div
         className={clsx(dropdownCls, {
           [dropdownWithArrowCls]: widthArrow,
+          [dropdownHiddenCls]: !offset,
+          [topDropdownAnimationCls]: placement === 'top',
         })}
         ref={dropdownRef}
         style={{
-          inset: `${offset?.y}px auto auto ${offset?.x}px`,
+          top: offset?.y,
+          left: offset?.x,
         }}
       >
         {children}
