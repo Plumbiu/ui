@@ -2,7 +2,7 @@
  * @description 基本标签
  * @title 基本
  */
-import { TBaseColor, Tag } from '@plumbiu/ui'
+import { Space, TBaseColor, Tag } from '@plumbiu/ui'
 
 export default function Demo() {
   const colors: TBaseColor[] = [
@@ -13,7 +13,7 @@ export default function Demo() {
     'info',
   ]
   return (
-    <div className="tag-demo">
+    <Space>
       {colors.map((color) => (
         <Tag key={color} color={color}>
           {color}
@@ -25,6 +25,6 @@ export default function Demo() {
           {color}
         </Tag>
       ))}
-    </div>
+    </Space>
   )
 }

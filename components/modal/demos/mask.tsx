@@ -5,17 +5,17 @@
  */
 
 import { useState } from 'react'
-import { Button, Modal } from '@plumbiu/ui'
+import { Button, Modal, Space } from '@plumbiu/ui'
 
 export default function Demo() {
   const [v1, setV1] = useState(false)
   const [v2, setV2] = useState(false)
   return (
     <div>
-      <div className="button-demo">
+      <Space>
         <Button onClick={() => setV1(true)}>Modal(mask)</Button>
         <Button onClick={() => setV2(true)}>Modal(no mask)</Button>
-      </div>
+      </Space>
       <Modal
         visible={v1}
         onClose={() => setV1(false)}

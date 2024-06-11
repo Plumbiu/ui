@@ -50,4 +50,7 @@ export { default as Menu } from './menu'
 export type { SelectProps } from './select'
 export { default as Select } from './select'
 
+export type { SpaceProps } from './space'
+export { default as Space } from './space'
+
 export type * from './types'

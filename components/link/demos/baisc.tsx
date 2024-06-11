@@ -3,17 +3,16 @@
  * @description 基本链接
  * @title 基本
  */
-/* eslint-disable @stylistic/max-len */
-import { Link } from '@plumbiu/ui'
+import { Link, Space } from '@plumbiu/ui'
 
 export default function Demo() {
   return (
-    <>
+    <Space>
       <Link>Link</Link>
       <Link color="success">Link</Link>
       <Link color="warning">Link</Link>
       <Link color="danger">Link</Link>
       <Link disabled>Link</Link>
-    </>
+    </Space>
   )
 }

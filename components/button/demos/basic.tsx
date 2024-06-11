@@ -4,7 +4,7 @@
  * @title 基本
  */
 /* eslint-disable @stylistic/max-len */
-import { Button } from '@plumbiu/ui'
+import { Button, Space } from '@plumbiu/ui'
 
 const icon = (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
@@ -21,12 +21,12 @@ const icon = (
 
 export default function Demo() {
   return (
-    <div className="button-demo">
+    <Space>
       <Button type="primary">Primary Button</Button>
       <Button type="primary" disabled>Primary Button</Button>
       <Button>Default Button</Button>
       <Button borderless>Borderless Button</Button>
       <Button circle icon={icon} />
-    </div>
+    </Space>
   )
 }

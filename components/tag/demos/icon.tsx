@@ -4,7 +4,7 @@
  */
 /* eslint-disable @stylistic/max-len */
 import React from 'react'
-import { TBaseColor, Tag } from '@plumbiu/ui'
+import { Space, TBaseColor, Tag } from '@plumbiu/ui'
 
 const icon = (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
@@ -22,7 +22,7 @@ const icon = (
 export default function Demo() {
   const colors: TBaseColor[] = ['primary', 'success']
   return (
-    <div className="tag-demo">
+    <Space>
       {colors.map((color) => (
         <React.Fragment key={color}>
           <Tag icon={icon} color={color}>
@@ -44,6 +44,6 @@ export default function Demo() {
           </Tag>
         </React.Fragment>
       ))}
-    </div>
+    </Space>
   )
 }

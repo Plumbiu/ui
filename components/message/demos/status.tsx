@@ -4,13 +4,13 @@
  * @title 状态
  */
 
-import { useMessage, Button } from '@plumbiu/ui'
+import { useMessage, Button, Space } from '@plumbiu/ui'
 
 export default function Basic() {
   const [messageApi] = useMessage()
 
   return (
-    <div className="button-demo">
+    <Space>
       <Button onClick={() => messageApi.info('This is info message')}>
         info message
       </Button>
@@ -23,6 +23,6 @@ export default function Basic() {
       <Button onClick={() => messageApi.error('This is error message')}>
         error message
       </Button>
-    </div>
+    </Space>
   )
 }
