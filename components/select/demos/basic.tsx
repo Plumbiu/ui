@@ -4,14 +4,14 @@
  * @title 基本
  */
 
-import { Select } from '@plumbiu/ui'
+import { Select, Space } from '@plumbiu/ui'
 
 export default function Demo() {
   const handleChange = (value: number) => {
     console.log(value)
   }
   return (
-    <div>
+    <Space>
       <Select
         defaultValue={0}
         onChange={handleChange}
@@ -30,7 +30,6 @@ export default function Demo() {
           },
         ]}
       />
-      <br />
       <Select
         disabled
         defaultValue={0}
@@ -50,7 +49,6 @@ export default function Demo() {
           },
         ]}
       />
-      <br />
       <Select
         allowClear
         defaultValue={0}
@@ -70,6 +68,6 @@ export default function Demo() {
           },
         ]}
       />
-    </div>
+    </Space>
   )
 }

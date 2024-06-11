@@ -1,3 +1,5 @@
+import { Placement } from '@/_utils/dropdown'
+
 export type SelectValue = string | number
 
 interface SelectOption {
@@ -13,4 +15,5 @@ export interface SelectProps {
   mode?: 'multiple'
   disabled?: boolean
   allowClear?: boolean
+  placement?: Placement
 }

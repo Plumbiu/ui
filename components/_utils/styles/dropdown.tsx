@@ -1,15 +1,17 @@
 import { keyframes, css } from '@pigment-css/react'
 
 const dropdownEndPoint = {
-  transform: 'scale(1)',
+  transform: 'rotateX(0)',
 }
 
 const topDropdownEndPoint = {
-  transform: 'scale(1) translateY(-100%)',
+  transform: 'rotateX(0) translateY(-100%)',
 }
-
+const topDropdownStartPoint = {
+  transform: 'rotateX(90deg) translateY(-100%)',
+}
 const dropdownStartPoint = {
-  transform: 'scale(0)',
+  transform: 'rotateX(90deg)',
 }
 
 const dropdownAnimation = keyframes({
@@ -18,7 +20,7 @@ const dropdownAnimation = keyframes({
 })
 
 const topDropownAnimation = keyframes({
-  '0%': dropdownStartPoint,
+  '0%': topDropdownStartPoint,
   '100%': topDropdownEndPoint,
 })
 
@@ -28,11 +30,11 @@ export const dropdownHiddenCls = css({
 })
 
 export const bottomDropdownAnimationCls = css({
-  animation: `125ms ${dropdownAnimation} forwards`,
+  animation: `200ms ${dropdownAnimation} forwards`,
 })
 export const topDropdownAnimationCls = css({
   transformOrigin: 'center 100%',
-  animation: `125ms ${topDropownAnimation} forwards`,
+  animation: `200ms ${topDropownAnimation} forwards`,
 })
 
 export const dropdownCls = css(({ theme }) => {
@@ -86,15 +88,15 @@ export const reverseDropdownAnimation = keyframes({
 })
 
 export const reverseTopDropdownAnimation = keyframes({
-  '100%': dropdownStartPoint,
+  '100%': topDropdownStartPoint,
   '0%': topDropdownEndPoint,
 })
 
 export const reverseDropdownCls = css({
-  animation: `125ms ${reverseDropdownAnimation} forwards`,
+  animation: `200ms ${reverseDropdownAnimation} forwards`,
 })
 export const reverseTopDropdownCls = css({
-  animation: `125ms ${reverseTopDropdownAnimation} forwards`,
+  animation: `200ms ${reverseTopDropdownAnimation} forwards`,
 })
 
 export const activeDropownItemCls = css(({ theme }) => ({

@@ -16,7 +16,7 @@ import {
   MaterialSymbolsCloseRounded,
   MaterialSymbolsKeyboardArrowDownRounded,
 } from '@/icon'
-import { useDropdown } from '@/_utils/hooks'
+import { useDropdown } from '@/_utils/dropdown'
 import {
   inputWrapperCls,
   inputActiveCls,
@@ -75,7 +75,15 @@ const DropdownChildren: React.FC<{
 })
 
 const Select: React.FC<SelectProps> = (props) => {
-  const { options, onChange, defaultValue, disabled, allowClear, mode } = props
+  const {
+    options,
+    onChange,
+    defaultValue,
+    disabled,
+    allowClear,
+    mode,
+    placement,
+  } = props
   const [selectedLabel, setSelectedLabel] = useState<SelectValue[]>(
     options
       ?.filter((item) => {
@@ -104,6 +112,7 @@ const Select: React.FC<SelectProps> = (props) => {
     triggerRef,
     children: <DropdownChildren options={options} onChange={onChange} />,
     disabled,
+    placement,
   })
 
   const showCloseIcon = !disabled && allowClear && selectedLabel !== null

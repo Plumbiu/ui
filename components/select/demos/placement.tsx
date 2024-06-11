@@ -1,7 +1,7 @@
 /**
- * @order 2
- * @description 基本选择器
- * @title 多选
+ * @order 3
+ * @description Select 选择器有上下两种弹出位置
+ * @title 弹出位置
  */
 
 import { Select, Space } from '@plumbiu/ui'
@@ -13,8 +13,8 @@ export default function Demo() {
   return (
     <Space>
       <Select
-        mode="multiple"
-        defaultValue={[0]}
+        defaultValue={0}
+        placement="top"
         onChange={handleChange}
         options={[
           {
@@ -29,9 +29,24 @@ export default function Demo() {
             label: 'baz',
             value: 2,
           },
+        ]}
+      />
+      <Select
+        allowClear
+        defaultValue={0}
+        onChange={handleChange}
+        options={[
           {
-            label: 'test',
-            value: 3,
+            label: 'foo',
+            value: 0,
+          },
+          {
+            label: 'bar',
+            value: 1,
+          },
+          {
+            label: 'baz',
+            value: 2,
           },
         ]}
       />

@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import Button from '../button'
 import { DropdownProps } from './types'
-import { useDropdown } from '@/_utils/hooks'
+import { useDropdown } from '@/_utils/dropdown'
 
 const Dropdown: React.FC<DropdownProps> = (props) => {
   const btnRef = useRef<HTMLButtonElement>(null)
