@@ -1,15 +1,29 @@
-import { memo, useContext, useState } from 'react'
+import { memo, useContext, useMemo, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import { SelectProps, SelectValue } from './types'
-import { useRenderSelect } from './hooks'
 import { SelectContext } from './context'
-import { multiSelectItemCls, selectItemCls } from './styles'
+import {
+  multiSelectItemCls,
+  selectCls,
+  selectIconCls,
+  selectItemCls,
+  selectTriggerCls,
+} from './styles'
 import { activeDropownItemCls } from '@/_utils/styles/dropdown'
 import {
   IconWrap,
   MaterialSymbolsCheckCircleRounded,
   MaterialSymbolsCloseRounded,
+  MaterialSymbolsKeyboardArrowDownRounded,
 } from '@/icon'
+import { useDropdown } from '@/_utils/hooks'
+import {
+  inputWrapperCls,
+  inputActiveCls,
+  inputDisabledCls,
+} from '@/_utils/styles/input'
+
+const ArrordownIcon = <MaterialSymbolsKeyboardArrowDownRounded />
 
 const SelectItem: React.FC<{
   item: SelectProps['options'][number]
@@ -72,35 +86,27 @@ const Select: React.FC<SelectProps> = (props) => {
       })
       ?.map((item) => item.label) ?? [],
   )
-  const returnedNode = useRenderSelect({
-    disabled,
-    closeCallback: () => setSelectedLabel([]),
-    dropdownChildren: (
-      <DropdownChildren options={options} onChange={onChange} />
+
+  const CloseIcon = useMemo(
+    () => (
+      <MaterialSymbolsCloseRounded
+        onClick={() => {
+          setSelectedLabel([])
+          setIconNode(ArrordownIcon)
+        }}
+      />
     ),
-    labelChildren: selectedLabel.map((item) => (
-      <div
-        className={clsx({
-          [multiSelectItemCls]: mode === 'multiple',
-        })}
-        key={item}
-      >
-        {item}
-        {mode === 'multiple' && (
-          <IconWrap
-            hoverBg
-            size="sm"
-            onClick={() => {
-              setSelectedLabel(selectedLabel.filter((label) => label !== item))
-            }}
-          >
-            <MaterialSymbolsCloseRounded />
-          </IconWrap>
-        )}
-      </div>
-    )),
-    showCloseIcon: !disabled && allowClear && selectedLabel !== null,
+    [],
+  )
+  const [iconNode, setIconNode] = useState(ArrordownIcon)
+  const triggerRef = useRef<HTMLDivElement>(null)
+  const { node, isFocus } = useDropdown({
+    triggerRef,
+    children: <DropdownChildren options={options} onChange={onChange} />,
+    disabled,
   })
+
+  const showCloseIcon = !disabled && allowClear && selectedLabel !== null
 
   return (
     <SelectContext.Provider
@@ -111,7 +117,61 @@ const Select: React.FC<SelectProps> = (props) => {
         options,
       }}
     >
-      {returnedNode}
+      <div>
+        <div
+          className={clsx(inputWrapperCls, selectTriggerCls, {
+            [inputActiveCls]: isFocus,
+            [inputDisabledCls]: disabled,
+          })}
+        >
+          <div
+            ref={triggerRef}
+            className={selectCls}
+            style={{
+              paddingLeft: mode === 'multiple' ? 6 : undefined,
+            }}
+          >
+            {selectedLabel.map((item) => (
+              <div
+                className={clsx({
+                  [multiSelectItemCls]: mode === 'multiple',
+                })}
+                key={item}
+              >
+                {item}
+                {mode === 'multiple' && (
+                  <IconWrap
+                    hoverBg
+                    size="sm"
+                    onClick={() => {
+                      setSelectedLabel(
+                        selectedLabel.filter((label) => label !== item),
+                      )
+                    }}
+                  >
+                    <MaterialSymbolsCloseRounded />
+                  </IconWrap>
+                )}
+              </div>
+            ))}
+          </div>
+          <IconWrap
+            className={selectIconCls}
+            hoverBg={showCloseIcon}
+            onMouseEnter={() => {
+              if (showCloseIcon) {
+                setIconNode(CloseIcon)
+              }
+            }}
+            onMouseLeave={() => {
+              setIconNode(ArrordownIcon)
+            }}
+          >
+            {iconNode}
+          </IconWrap>
+        </div>
+        {node}
+      </div>
     </SelectContext.Provider>
   )
 }
