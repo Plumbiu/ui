@@ -10,7 +10,6 @@ import {
   InputChangeEvent,
   InputProps,
   InputProxy,
-  status,
 } from './types'
 import { fcc_inline } from '@/_utils/styles'
 import { IconWrap } from '@/icon'
@@ -40,20 +39,6 @@ const StyledInputWrapper = styled('div')<InputProps>(({ theme }) => {
         paddingRight: 12,
       },
     },
-    variants: [
-      ...status.map((s) => ({
-        props: { status: s },
-        style: {
-          borderColor: theme[s],
-          '&:hover,&:focus-within': {
-            borderColor: theme.vars[`${s}-2`],
-          },
-          '&:focus-within': {
-            boxShadow: `0 0 0 2px ${theme.vars[`${s}-6`]}`,
-          },
-        },
-      })),
-    ],
   }
 })
 
@@ -112,7 +97,6 @@ const Input: React.FC<InputProps> = (props) => {
     value,
     defaultValue,
     maxLength,
-    status,
     type: customType = 'text',
     onFocus,
     ...restProps
@@ -186,7 +170,6 @@ const Input: React.FC<InputProps> = (props) => {
 
   return (
     <StyledInputWrapper
-      status={status}
       className={clsx(inputWrapperCls, {
         [inputDisabledCls]: disabled,
         [focusStyle]: !disabled,

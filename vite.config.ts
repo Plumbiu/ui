@@ -33,6 +33,7 @@ export const viteOptions: InlineConfig = {
       formats: ['es'],
       entry,
     },
+    reportCompressedSize: false,
     rollupOptions: {
       external: [
         /^react\/?.*/,

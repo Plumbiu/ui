@@ -176,4 +176,6 @@ const Select: React.FC<SelectProps> = (props) => {
   )
 }
 
+export type { SelectProps } from './types'
+
 export default Select

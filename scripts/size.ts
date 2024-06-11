@@ -15,7 +15,7 @@ async function run() {
   const componentsJs = await glob('**/*.mjs', globOtpions)
   const componentsCss = await glob('**/*.css', globOtpions)
 
-  let jsStr = ''
+  let jsTotal = 0
   await Promise.all(
     componentsJs.map(async (componentPath) => {
       const content = (await fsp.readFile(componentPath, 'utf-8')).replace(
@@ -23,23 +23,23 @@ async function run() {
         '',
       )
       await fsp.writeFile(componentPath, content)
-      jsStr += content
+      const len = await gzipSize(content)
+      jsTotal += len
     }),
   )
-  let cssStr = ''
+  let cssTotal = 0
   await Promise.all(
     componentsCss.map(async (componentPath) => {
       const content = await fsp.readFile(componentPath, 'utf-8')
-      cssStr += content
+      const len = await gzipSize(content)
+      cssTotal += len
     }),
   )
 
-  const jsSize = await gzipSize(jsStr)
-  const cssSize = await gzipSize(cssStr)
 
-  console.log('js gziped size: ', jsSize / 1024, 'kb')
-  console.log('css gziped size: ', cssSize / 1024, 'kb')
-  console.log('total gziped size: ', (cssSize + jsSize) / 1024, 'kb')
+  console.log('js gziped size: ', jsTotal / 1024, 'kb')
+  console.log('css gziped size: ', cssTotal / 1024, 'kb')
+  console.log('total gziped size: ', (cssTotal + jsTotal) / 1024, 'kb')
 }
 
 run()
