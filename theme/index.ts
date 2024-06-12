@@ -1,3 +1,4 @@
+import { ExtendTheme } from '@pigment-css/react/theme'
 import { extendTheme } from '@pigment-css/vite-plugin'
 
 const themeVars = {
@@ -63,7 +64,7 @@ const themeVars = {
 const colorSchemes: Record<'light' | 'dark', any> = {
   light: {},
   dark: {},
-}
+} as const
 
 for (const [color, hexs] of Object.entries(themeVars)) {
   for (let i = 0; i < hexs.length; i++) {
@@ -120,10 +121,13 @@ for (const [key, value] of Object.entries(tokens)) {
 
 export { colorSchemes, tokens }
 
-const theme = extendTheme({
+const theme: ExtendTheme<{
+  colorScheme: string
+  tokens: typeof tokens
+}> = extendTheme({
   colorSchemes,
   ...tokens,
-  getSelector: function getSelector(colorScheme, css) {
+  getSelector(colorScheme, css) {
     return colorScheme === 'light' ? ':root' : '.theme-dark'
   },
 })
