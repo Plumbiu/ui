@@ -15,8 +15,8 @@ export type { TagProps } from './tag'
 export { default as Tag } from './tag'
 
 export { VirtualTable, BaseTable } from './table'
-export type { TableCheckEnum, TableColumnTypes, TableProps } from './table'
-export { default as Table } from './table'
+export type { TableColumnTypes, TableProps, TableRefProps } from './table'
+export { default as Table, TableCheckEnum } from './table'
 
 export type { ModalProps } from './modal'
 export { default as Modal } from './modal'

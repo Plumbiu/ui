@@ -7,8 +7,8 @@ import { useRef, useState } from 'react'
 import {
   Button,
   Table,
-  TableColumnTypes,
   TableRefProps,
+  TableColumnTypes,
   Tag,
   TableCheckEnum,
 } from '@plumbiu/ui'
