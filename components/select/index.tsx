@@ -9,7 +9,7 @@ import {
   selectItemCls,
   selectTriggerCls,
 } from './styles'
-import { activeDropownItemCls } from '@/_utils/styles/dropdown'
+import { activeDropownItemCls } from '@/_utils/dropdown/styles'
 import {
   IconWrap,
   MaterialSymbolsCheckCircleRounded,

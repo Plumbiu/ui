@@ -1,8 +1,8 @@
 import { useEventListener } from 'ahooks'
 import { clsx } from 'clsx'
-import { RefObject, useState, useRef, useMemo } from 'react'
-import { Portal } from './components'
-import { useAnimation } from './hooks'
+import { RefObject, useState, useRef } from 'react'
+import { Portal } from '../components'
+import { useAnimation } from '../hooks'
 import {
   reverseTopDropdownCls,
   reverseDropdownCls,
@@ -11,7 +11,7 @@ import {
   dropdownHiddenCls,
   topDropdownAnimationCls,
   bottomDropdownAnimationCls,
-} from './styles/dropdown'
+} from './styles'
 
 export type Placement =
   | 'topLeft'
@@ -64,30 +64,10 @@ export function useDropdown(props: UseDropdown) {
     225,
     () => setOffset(null),
   )
-  const rect = useMemo(
-    () => triggerRef.current?.getBoundingClientRect(),
-    [triggerRef.current],
-  )
-
-  const handleSetOffset = () => {
-    if (!rect) {
-      return
-    }
-    if (placement === 'top') {
-      setOffset({
-        x: rect.x,
-        y: rect.y - formatOffsetTop,
-      })
-    } else {
-      setOffset({
-        x: rect.x,
-        y: rect.y + rect.height + formatOffsetTop,
-      })
-    }
-  }
 
   useEventListener('click', (e) => {
-    if (!rect || disabled) {
+    const rect = triggerRef.current?.getBoundingClientRect()
+    if (!rect) {
       return
     }
     const target = e.target as Node
@@ -96,7 +76,14 @@ export function useDropdown(props: UseDropdown) {
       if (offset) {
         handleHidden()
       } else {
-        handleSetOffset()
+        setOffset({
+          x: rect.x,
+          y:
+            rect.y +
+            (placement === 'top'
+              ? -formatOffsetTop
+              : rect.height + formatOffsetTop),
+        })
       }
       setIsFocus(true)
     } else {
