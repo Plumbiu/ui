@@ -53,4 +53,7 @@ export { default as Select } from './select'
 export type { SpaceProps } from './space'
 export { default as Space } from './space'
 
+export type { CalendarProps } from './calendar'
+export { default as Calendar } from './calendar'
+
 export type * from './types'

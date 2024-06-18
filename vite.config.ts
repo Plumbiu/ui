@@ -41,6 +41,7 @@ export const viteOptions: InlineConfig = {
         'clsx',
         'ahooks',
         '@pigment-css/react',
+        'dayjs',
       ],
       output: {
         preserveModules: true,
