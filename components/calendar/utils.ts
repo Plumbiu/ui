@@ -9,20 +9,15 @@ interface DayArr {
 export const getDaysOfMonth = (dayInstance: Dayjs) => {
   const year = dayInstance.year()
   const month = dayInstance.month()
-  const dayjsDate = dayjs(`${year}-${month}-1`)
-  let lastDayjsMonthNum: number
-  if (month > 1) {
-    lastDayjsMonthNum = dayjs(`${year}-${month - 1}-1`).daysInMonth()
-  } else {
-    lastDayjsMonthNum = 31
-  }
+  const dayjsDate = dayjs(`${year}-${month + 1}-1`)
+  const lastDayjsMonthNum = dayjs(`${year}-${month}-1`).daysInMonth()
   const dayNum = dayjsDate.daysInMonth()
   const day = dayjsDate.date()
   const arr: DayArr[][] = [[]]
   let idx = 0
   let current = arr[idx]
   for (let i = 0; i < 6 - day; i++) {
-    current.push({ day: lastDayjsMonthNum - i, step: MonthStep.prev })
+    current.unshift({ day: lastDayjsMonthNum - i, step: MonthStep.prev })
   }
 
   function updateCurrent() {
@@ -38,10 +33,6 @@ export const getDaysOfMonth = (dayInstance: Dayjs) => {
   }
 
   let i = 0
-  do {
-    updateCurrent()
-    current.push({ day: ++i, step: MonthStep.next })
-  } while (current.length % 7 !== 0)
   do {
     updateCurrent()
     current.push({ day: ++i, step: MonthStep.next })

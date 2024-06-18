@@ -26,3 +26,27 @@ export const tableCls = css(({ theme }) => ({
   borderRadius: 6,
   boxShadow: theme['boxShadow'],
 }))
+
+export const actionHeadCls = css(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  fontSize: 14,
+  paddingBottom: 8,
+  marginBottom: 3,
+  paddingTop: 4,
+  textAlign: 'center',
+  borderBottom: `1px solid ${theme.vars['info-5']}`,
+  gap: 2,
+  '& > div': {
+    flex: 1,
+    fontWeight: 600,
+  },
+  '& svg': {
+    cursor: 'pointer',
+    transition: 'color 0.2s',
+    '&:hover': {
+      color: theme['primary'],
+    },
+  },
+}))

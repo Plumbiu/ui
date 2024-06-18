@@ -5,7 +5,7 @@ import { DefaultData } from '../types'
 import {
   MaterialSymbolsLightChevronLeftRounded,
   MaterialSymbolsLightChevronRightRounded,
-} from '../icons'
+} from '@/icon'
 import Input from '@/input'
 
 const StyledPagintaion = styled('div')(({ theme }) => ({
