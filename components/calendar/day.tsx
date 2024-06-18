@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import dayjs from 'dayjs'
 import { ceilCls, ceilHoverCls } from './styles'
 import CalendarContext from './context'
-import { MonthStep } from './constant'
+import { MonthStep, TIME_FORMAT } from './constant'
 
 interface DayProps {
   num: number
@@ -22,17 +22,17 @@ const fadeColor = css(({ theme }) => ({
 }))
 
 const Day: React.FC<DayProps> = ({ num, step }) => {
-  const { activeTime, setActiveTime } = useContext(CalendarContext)!
+  const { activeTime, setActiveTime, onChange } = useContext(CalendarContext)!
   const isActive = dayjs(activeTime).date() === num && step === MonthStep.curr
   return (
     <td
       onClick={() => {
-        const newDay = dayjs(activeTime.set('date', num))
-        if (step === MonthStep.curr) {
-          setActiveTime(newDay)
-        } else {
-          setActiveTime(newDay.set('month', activeTime.month() + step))
+        let newDay = dayjs(activeTime.set('date', num))
+        if (step !== MonthStep.curr) {
+          newDay = newDay.set('month', activeTime.month() + step)
         }
+        setActiveTime(newDay)
+        onChange && onChange(newDay, newDay.format(TIME_FORMAT))
       }}
     >
       <div

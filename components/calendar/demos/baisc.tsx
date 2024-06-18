@@ -9,7 +9,7 @@ import { Calendar, Space } from '@plumbiu/ui'
 export default function Demo() {
   return (
     <Space>
-      <Calendar />
+      <Calendar onChange={(...arg) => console.log(arg)} />
     </Space>
   )
 }

@@ -63,15 +63,17 @@ const ActionHeader = memo(() => {
   )
 })
 
-const Calendar: React.FC<CalendarProps> = () => {
+const Calendar: React.FC<CalendarProps> = ({ onChange }) => {
   const now = dayjs()
   const [activeTime, setActiveTime] = useState<Dayjs>(now)
   const arr = useMemo(() => getDaysOfMonth(activeTime), [activeTime])
+
   return (
     <CalendarContext.Provider
       value={{
         activeTime,
         setActiveTime,
+        onChange,
       }}
     >
       <div className={tableCls}>
