@@ -1,13 +1,5 @@
 import { keyframes, styled, css } from '@pigment-css/react'
-
-export const showAnimation = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`
+import { maskShowAnimation } from '@/_utils/components'
 
 const endPointStatus = {
   opacity: 0,
@@ -19,26 +11,6 @@ export const fadeAnimation = keyframes({
 
 export const fadeCls = css(endPointStatus)
 
-export const StyledMask = styled('div')({
-  position: 'fixed',
-  overflow: 'auto',
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
-  zIndex: 9999,
-  transition: 'opacity 0.15s',
-  animation: `0.15s ${showAnimation}`,
-  lineHeight: 1.575,
-  textAlign: 'center',
-  '&::after': {
-    content: '""',
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    height: '100%',
-  },
-})
-
 export const StyledModal = styled('div')(({ theme }) => ({
   position: 'relative',
   display: 'inline-block',
@@ -47,9 +19,9 @@ export const StyledModal = styled('div')(({ theme }) => ({
   textAlign: 'left',
   margin: '0 auto',
   minWidth: 380,
-  animation: `0.15s ${showAnimation}`,
   maxWidth: 'calc(100vw - 32px)',
   width: 'max-content',
+  animation: `0.15s ${maskShowAnimation}`,
   backgroundColor: theme.vars['background-1'],
   borderRadius: 8,
   padding: '12px 16px',

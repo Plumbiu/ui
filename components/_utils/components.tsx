@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { styled } from '@pigment-css/react'
+import { keyframes, styled } from '@pigment-css/react'
 
 interface PortalProps {
   children: React.ReactNode
@@ -31,3 +31,32 @@ export const StyledUnderlined = styled('div')(({ theme }) => ({
     backgroundColor: theme.vars['info-5'],
   },
 }))
+
+export const maskShowAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
+export const StyledMask = styled('div')({
+  position: 'fixed',
+  overflow: 'auto',
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+  zIndex: 9999,
+  transition: 'opacity 0.15s',
+  animation: `0.15s ${maskShowAnimation}`,
+  lineHeight: 1.575,
+  textAlign: 'center',
+  '&::after': {
+    content: '""',
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    height: '100%',
+  },
+})

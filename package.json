@@ -40,7 +40,7 @@
   "author": "Plumbiu",
   "license": "MIT",
   "dependencies": {
-    "@pigment-css/react": "^0.0.12",
+    "@pigment-css/react": "^0.0.16",
     "ahooks": "^3.8.0",
     "clsx": "^2.1.1",
     "react": "18.2.0",
@@ -50,7 +50,7 @@
   "devDependencies": {
     "@ant-design/icons": "^5.3.7",
     "@mdx-js/react": "^3.0.1",
-    "@pigment-css/vite-plugin": "^0.0.11",
+    "@pigment-css/vite-plugin": "^0.0.16",
     "@plumbiu/eslint-config": "^0.2.1",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -63,7 +63,7 @@
     "fast-glob": "^3.3.2",
     "gzip-size": "^7.0.0",
     "typescript": "^5.4.5",
-    "vite": "^5.2.12",
+    "vite": "^5.3.3",
     "vite-pages-theme-doc": "^5.0.0",
     "vite-plugin-react-pages": "^5.0.0"
   }
