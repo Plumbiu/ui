@@ -40,3 +40,16 @@ export const getDaysOfMonth = (dayInstance: Dayjs) => {
 
   return arr
 }
+
+export function getYears(year: number) {
+  year = year - 5
+  const result: number[][] = []
+  for (let i = 0; i < 4; i++) {
+    result.push([])
+    for (let j = 0; j < 3; j++) {
+      result[i].push(year++)
+    }
+  }
+
+  return result
+}

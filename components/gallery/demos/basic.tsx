@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/max-len */
 /**
  * @order 1
  * @description 基本提示框

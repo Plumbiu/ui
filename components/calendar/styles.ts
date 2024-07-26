@@ -2,8 +2,8 @@ import { css } from '@pigment-css/react'
 
 export const ceilCls = css(({ theme }) => ({
   color: theme['text-1'],
-  width: 24,
-  height: 24,
+  minWidth: 24,
+  minHeight: 24,
   lineHeight: '24px',
   borderRadius: 6,
   textAlign: 'center',
@@ -13,12 +13,18 @@ export const ceilCls = css(({ theme }) => ({
   backgroundColor: theme['background-1'],
   fontSize: 14,
   fontWeight: 400,
+  userSelect: 'none',
 }))
 
 export const ceilHoverCls = css(({ theme }) => ({
   '&:hover': {
     backgroundColor: theme.vars['info-5'],
   },
+}))
+
+export const activeCeilCls = css(({ theme }) => ({
+  color: '#fff',
+  backgroundColor: theme['primary'],
 }))
 
 export const tableCls = css(({ theme }) => ({
@@ -50,3 +56,20 @@ export const actionHeadCls = css(({ theme }) => ({
     },
   },
 }))
+
+export const actionModeCls = css(({ theme }) => ({
+  cursor: 'pointer',
+  transition: 'color .2s',
+  '&:hover': {
+    color: theme.vars['text-3'],
+  },
+}))
+
+export const tdH50 = css({
+  height: 50,
+})
+
+export const w60m = css({
+  width: 60,
+  margin: '17.5px 10px',
+})
