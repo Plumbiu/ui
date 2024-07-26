@@ -56,4 +56,7 @@ export { default as Space } from './space'
 export type { IGallery } from './gallery'
 export { default as Gallery } from './gallery'
 
+export type { CalendarProps } from './calendar'
+export { default as Calendar } from './calendar'
+
 export type * from './types'

@@ -1,5 +1,4 @@
-import { IconWrap, MaterialSymbolsKeyboardArrowDownRounded } from '@/icon'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { useContext } from 'react'
 import { MenuContext } from './context'
 import {
@@ -22,6 +21,7 @@ import {
   gridAnimationCls,
 } from './styles'
 import { MenuItemType, MenuMode, MenuProps } from './types'
+import { IconWrap, MaterialSymbolsKeyboardArrowDownRounded } from '@/icon'
 import Divider from '@/divider'
 
 interface MenuItemProps {
