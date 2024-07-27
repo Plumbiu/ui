@@ -7,6 +7,7 @@ import {
   MaterialSymbolsLightChevronRightRounded,
 } from '@/icon'
 import Input from '@/input'
+import { SetState } from '@/types'
 
 const StyledPagintaion = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -56,7 +57,7 @@ const paginationCls = css(({ theme }) => ({
 
 const PaginationItem: React.FC<{
   current: number
-  setCurrent: React.Dispatch<React.SetStateAction<number>>
+  setCurrent: SetState<number>
   isHighlihgt: boolean
 }> = ({ current, setCurrent, isHighlihgt }) => {
   const cls = clsx({
@@ -79,7 +80,7 @@ interface IUsePagination {
   pagination: boolean
   pageCount: number
   current: number
-  setCurrent: React.Dispatch<React.SetStateAction<number>>
+  setCurrent: SetState<number>
 }
 
 const usePagination = (props: IUsePagination) => {

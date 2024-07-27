@@ -1,8 +1,7 @@
 import { Dayjs } from 'dayjs'
 import { createContext } from 'react'
 import { CalendarMode, CalendarProps } from './types'
-
-type SetState<T> = React.Dispatch<React.SetStateAction<T>>
+import { SetState } from '@/types'
 
 const CalendarContext = createContext<{
   activeTime: Dayjs

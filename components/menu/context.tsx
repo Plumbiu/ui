@@ -1,16 +1,16 @@
 import { createContext } from 'react'
+import { SetState } from '@/types'
 
 export const ActiveKeyContext = createContext<string | undefined>(undefined)
 
 export const VisibleContext = createContext<boolean | undefined>(undefined)
 
-type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>
 
 interface IMenuContext {
   activeKey: string | undefined
-  setActiveKey: SetStateType<IMenuContext['activeKey']>
+  setActiveKey: SetState<IMenuContext['activeKey']>
   openKeys: string[]
-  setOpenKeys: SetStateType<IMenuContext['openKeys']>
+  setOpenKeys: SetState<IMenuContext['openKeys']>
   inlineCollapsed: boolean
 }
 

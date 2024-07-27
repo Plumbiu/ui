@@ -1,4 +1,5 @@
 import { CSSProperties } from 'react'
+import { SetState } from '@/types'
 
 export type DefaultData = Record<'key' | string, any>
 
@@ -81,9 +82,7 @@ export const sortHoverTitle = {
   [SortStatusEnum.origin]: '点击降序',
 }
 
-export type SetOperaParams = React.Dispatch<
-  React.SetStateAction<ITableOperateParams>
->
+export type SetOperaParams = SetState<ITableOperateParams>
 
 export enum CheckEnum {
   on = '1',
