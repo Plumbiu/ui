@@ -1,6 +1,6 @@
 /* eslint-disable @stylistic/max-len */
 import { styled } from '@pigment-css/react'
-import { HTMLAttributes, SVGProps } from 'react'
+import { HTMLAttributes, memo, SVGProps } from 'react'
 import { fcc_inline } from '@/_utils/styles'
 import { colorsVar } from '@/_utils/vars'
 import { TColor, TSize } from '@/types'
@@ -114,14 +114,14 @@ export function MaterialSymbolsInfoRounded(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-export const IconWrap: React.FC<IconProps> = (props) => {
+export const IconWrap: React.FC<IconProps> = memo((props) => {
   const { color, size = 'md', ...restProps } = props
   return (
     <StyledIcon className={fcc_inline} {...restProps} color={color} size={size}>
       {props.children}
     </StyledIcon>
   )
-}
+})
 
 export function MaterialSymbolsCloseRounded(props: SVGProps<SVGSVGElement>) {
   return (
