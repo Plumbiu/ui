@@ -13,7 +13,9 @@ import Year from './year'
 
 const Days = memo(() => {
   const { activeTime } = useContext(CalendarContext)!
-  const data = useMemo(() => getDaysOfMonth(activeTime), [activeTime])
+  const data = useMemo(() => {
+    return getDaysOfMonth(activeTime.year(), activeTime.month())
+  }, [activeTime.year(), activeTime.month()])
   return data.map((item, idx) => (
     <tr key={idx}>
       {item.map(({ day, step }, subIdx) => (
@@ -23,15 +25,18 @@ const Days = memo(() => {
   ))
 })
 
-const Months = memo(() => {
-  return monthArr.map((item, idx) => (
-    <tr key={idx}>
-      {item.map((num, subIdx) => (
-        <Month key={subIdx} num={num} />
-      ))}
-    </tr>
-  ))
-})
+const Months = memo(
+  () => {
+    return monthArr.map((item, idx) => (
+      <tr key={idx}>
+        {item.map((num, subIdx) => (
+          <Month key={subIdx} num={num} />
+        ))}
+      </tr>
+    ))
+  },
+  () => true,
+)
 
 const Years = memo((props: { year: number }) => {
   const years = getYears(props.year)

@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { MonthStep } from './constant'
 
 interface DayArr {
@@ -6,9 +6,7 @@ interface DayArr {
   step: MonthStep
 }
 
-export const getDaysOfMonth = (dayInstance: Dayjs) => {
-  const year = dayInstance.year()
-  const month = dayInstance.month()
+export const getDaysOfMonth = (year: number, month: number) => {
   const dayjsDate = dayjs(`${year}-${month + 1}-1`)
   const lastDayjsMonthNum = dayjs(`${year}-${month}-1`).daysInMonth()
   const dayNum = dayjsDate.daysInMonth()
@@ -35,7 +33,6 @@ export const getDaysOfMonth = (dayInstance: Dayjs) => {
   let i = 0
   do {
     updateCurrent(++i, MonthStep.next)
-    console.log(arr.length)
   } while (current.length % 7 !== 0 || arr.length <= 5)
 
   return arr

@@ -5,7 +5,6 @@ export const ActiveKeyContext = createContext<string | undefined>(undefined)
 
 export const VisibleContext = createContext<boolean | undefined>(undefined)
 
-
 interface IMenuContext {
   activeKey: string | undefined
   setActiveKey: SetState<IMenuContext['activeKey']>

@@ -70,7 +70,7 @@ const CenterNode = memo(() => {
 
 export const ActionHeader = memo(() => {
   const { activeTime, setActiveTime, mode } = useContext(CalendarContext)!
-  const isYear = mode === CalendarMode.Year
+  const isDay = mode === CalendarMode.Day
 
   return (
     <div className={actionHeadCls}>
@@ -80,7 +80,7 @@ export const ActionHeader = memo(() => {
           fontSize={20}
         />
       </IconWrap>
-      {!isYear && (
+      {isDay && (
         <IconWrap color="info">
           <MaterialSymbolsChevronLeftRounded
             onClick={() => setActiveTime(activeTime.add(-1, 'month'))}
@@ -91,7 +91,7 @@ export const ActionHeader = memo(() => {
       <div>
         <CenterNode />
       </div>
-      {!isYear && (
+      {isDay && (
         <IconWrap color="info">
           <MaterialSymbolsChevronRightRounded
             onClick={() => setActiveTime(activeTime.add(1, 'month'))}
