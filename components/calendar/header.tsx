@@ -1,7 +1,7 @@
 import { memo, useContext } from 'react'
-import CalendarContext from '../context'
-import { ceilCls, actionHeadCls, actionModeCls } from '../styles'
-import { CalendarMode } from '../types'
+import CalendarContext from './context'
+import { ceilCls, actionHeadCls, actionModeCls } from './styles'
+import { CalendarMode } from './types'
 import {
   IconWrap,
   IcRoundKeyboardDoubleArrowLeft,
@@ -27,6 +27,8 @@ export const CalendarHeader = memo(() => {
 
 const CenterNode = memo(() => {
   const { activeTime, setMode, mode } = useContext(CalendarContext)!
+  const currentYear = activeTime.year()
+
   if (mode === CalendarMode.Year) {
     return (
       <>
@@ -34,14 +36,14 @@ const CenterNode = memo(() => {
           className={actionModeCls}
           onClick={() => setMode(CalendarMode.Year)}
         >
-          {activeTime.year() - 5}年
+          {currentYear - 5}年
         </span>
         <span>-</span>
         <span
           className={actionModeCls}
           onClick={() => setMode(CalendarMode.Month)}
         >
-          {activeTime.year() + 6}年
+          {currentYear + 6}年
         </span>
       </>
     )
@@ -52,7 +54,7 @@ const CenterNode = memo(() => {
         className={actionModeCls}
         onClick={() => setMode(CalendarMode.Year)}
       >
-        {activeTime.year()}年{' '}
+        {currentYear}年{' '}
       </span>
       {mode !== CalendarMode.Month && (
         <span
@@ -68,7 +70,7 @@ const CenterNode = memo(() => {
 
 export const ActionHeader = memo(() => {
   const { activeTime, setActiveTime, mode } = useContext(CalendarContext)!
-  const isMonthMode = mode === CalendarMode.Month
+  const isYear = mode === CalendarMode.Year
 
   return (
     <div className={actionHeadCls}>
@@ -78,7 +80,7 @@ export const ActionHeader = memo(() => {
           fontSize={20}
         />
       </IconWrap>
-      {isMonthMode && (
+      {!isYear && (
         <IconWrap color="info">
           <MaterialSymbolsChevronLeftRounded
             onClick={() => setActiveTime(activeTime.add(-1, 'month'))}
@@ -89,7 +91,7 @@ export const ActionHeader = memo(() => {
       <div>
         <CenterNode />
       </div>
-      {isMonthMode && (
+      {!isYear && (
         <IconWrap color="info">
           <MaterialSymbolsChevronRightRounded
             onClick={() => setActiveTime(activeTime.add(1, 'month'))}

@@ -47,7 +47,7 @@ const Years = memo((props: { year: number }) => {
 const Calendar: React.FC<CalendarProps> = ({ onChange }) => {
   const now = dayjs()
   const [activeTime, setActiveTime] = useState<Dayjs>(now)
-  const [mode, setMode] = useState(CalendarMode.Month)
+  const [mode, setMode] = useState(CalendarMode.Day)
 
   return (
     <CalendarContext.Provider

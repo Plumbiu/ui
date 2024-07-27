@@ -20,23 +20,23 @@ export const getDaysOfMonth = (dayInstance: Dayjs) => {
     current.unshift({ day: lastDayjsMonthNum - i, step: MonthStep.prev })
   }
 
-  function updateCurrent() {
+  function updateCurrent(day: number, step: MonthStep) {
     if (current.length === 7) {
       const currentIdx = ++idx
       arr[currentIdx] = []
       current = arr[currentIdx]
     }
+    current.push({ day, step })
   }
   for (let i = 1; i <= dayNum; i++) {
-    updateCurrent()
-    current.push({ day: i, step: MonthStep.curr })
+    updateCurrent(i, MonthStep.curr)
   }
 
   let i = 0
   do {
-    updateCurrent()
-    current.push({ day: ++i, step: MonthStep.next })
-  } while (current.length % 7 !== 0)
+    updateCurrent(++i, MonthStep.next)
+    console.log(arr.length)
+  } while (current.length % 7 !== 0 || arr.length <= 5)
 
   return arr
 }
