@@ -1,7 +1,6 @@
 import { useContext } from 'react'
 import { clsx } from 'clsx'
 import CalendarContext from './context'
-import { TIME_FORMAT } from './constant'
 import { activeCeilCls, ceilCls, ceilHoverCls, tdH50, w60m } from './styles'
 import { CalendarMode } from './types'
 
@@ -10,8 +9,7 @@ interface YearProps {
 }
 
 const Year: React.FC<YearProps> = ({ num }) => {
-  const { setActiveTime, onChange, activeTime, setMode } =
-    useContext(CalendarContext)!
+  const { setActiveTime, activeTime, setMode } = useContext(CalendarContext)!
   const isActive = activeTime.month() === num
 
   return (
@@ -21,7 +19,6 @@ const Year: React.FC<YearProps> = ({ num }) => {
         const newDay = activeTime.set('year', num)
         setMode(CalendarMode.Month)
         setActiveTime(newDay)
-        onChange && onChange(newDay, newDay.format(TIME_FORMAT))
       }}
     >
       <div

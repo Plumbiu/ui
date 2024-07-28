@@ -10,11 +10,12 @@ export const getDaysOfMonth = (year: number, month: number) => {
   const dayjsDate = dayjs(`${year}-${month + 1}-1`)
   const lastDayjsMonthNum = dayjs(`${year}-${month}-1`).daysInMonth()
   const dayNum = dayjsDate.daysInMonth()
-  const day = dayjsDate.date()
+  const day = dayjsDate.day()
+
   const arr: DayArr[][] = [[]]
   let idx = 0
   let current = arr[idx]
-  for (let i = 0; i < 6 - day; i++) {
+  for (let i = 1; i < day; i++) {
     current.unshift({ day: lastDayjsMonthNum - i, step: MonthStep.prev })
   }
 
