@@ -26,8 +26,8 @@ export const CalendarHeader = memo(() => {
 })
 
 const CenterNode = memo(() => {
-  const { activeTime, setMode, mode } = useContext(CalendarContext)!
-  const currentYear = activeTime.year()
+  const { activeYear, setMode, mode, activeMonth } =
+    useContext(CalendarContext)!
 
   if (mode === CalendarMode.Year) {
     return (
@@ -36,14 +36,14 @@ const CenterNode = memo(() => {
           className={actionModeCls}
           onClick={() => setMode(CalendarMode.Year)}
         >
-          {currentYear - 5}年
+          {activeYear - 5}年
         </span>
         <span>-</span>
         <span
           className={actionModeCls}
           onClick={() => setMode(CalendarMode.Month)}
         >
-          {currentYear + 6}年
+          {activeYear + 6}年
         </span>
       </>
     )
@@ -54,14 +54,14 @@ const CenterNode = memo(() => {
         className={actionModeCls}
         onClick={() => setMode(CalendarMode.Year)}
       >
-        {currentYear}年{' '}
+        {activeYear}年{' '}
       </span>
       {mode !== CalendarMode.Month && (
         <span
           className={actionModeCls}
           onClick={() => setMode(CalendarMode.Month)}
         >
-          {activeTime.month() + 1}月
+          {activeMonth + 1}月
         </span>
       )}
     </>
@@ -69,21 +69,21 @@ const CenterNode = memo(() => {
 })
 
 export const ActionHeader = memo(() => {
-  const { activeTime, setActiveTime, mode } = useContext(CalendarContext)!
+  const { setActiveYear, setActiveMonth, mode } = useContext(CalendarContext)!
   const isDay = mode === CalendarMode.Day
 
   return (
     <div className={actionHeadCls}>
       <IconWrap color="info">
         <IcRoundKeyboardDoubleArrowLeft
-          onClick={() => setActiveTime(activeTime.add(-1, 'year'))}
+          onClick={() => setActiveYear((prev) => prev - 1)}
           fontSize={20}
         />
       </IconWrap>
       {isDay && (
         <IconWrap color="info">
           <MaterialSymbolsChevronLeftRounded
-            onClick={() => setActiveTime(activeTime.add(-1, 'month'))}
+            onClick={() => setActiveMonth(-1, true)}
             fontSize={20}
           />
         </IconWrap>
@@ -94,14 +94,14 @@ export const ActionHeader = memo(() => {
       {isDay && (
         <IconWrap color="info">
           <MaterialSymbolsChevronRightRounded
-            onClick={() => setActiveTime(activeTime.add(1, 'month'))}
+            onClick={() => setActiveMonth(1, true)}
             fontSize={20}
           />
         </IconWrap>
       )}
       <IconWrap color="info">
         <IcRoundKeyboardDoubleArrowRight
-          onClick={() => setActiveTime(activeTime.add(1, 'year'))}
+          onClick={() => setActiveYear((prev) => prev + 1)}
           fontSize={20}
         />
       </IconWrap>

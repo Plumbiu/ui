@@ -9,16 +9,15 @@ interface YearProps {
 }
 
 const Year: React.FC<YearProps> = ({ num }) => {
-  const { setActiveTime, activeTime, setMode } = useContext(CalendarContext)!
-  const isActive = activeTime.month() === num
+  const { setActiveYear, activeYear, setMode } = useContext(CalendarContext)!
+  const isActive = activeYear === num
 
   return (
     <td
       className={tdH50}
       onClick={() => {
-        const newDay = activeTime.set('year', num)
         setMode(CalendarMode.Month)
-        setActiveTime(newDay)
+        setActiveYear(num)
       }}
     >
       <div
