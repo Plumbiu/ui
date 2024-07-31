@@ -29,6 +29,8 @@ export interface ModalProps {
   width?: number | string
   centered?: boolean
   style?: React.CSSProperties
+  header?: React.ReactNode
+  wrapper?: boolean
   maskClosable?: boolean
   mask?: boolean
   maskStyle?: React.CSSProperties
@@ -69,6 +71,8 @@ const Modal: React.FC<ModalProps> & {
     onClose: customOnClose,
     keyboard = true,
     top,
+    wrapper,
+    header,
   } = props
 
   const maskRef = useRef<HTMLDivElement>(null)
@@ -149,15 +153,23 @@ const Modal: React.FC<ModalProps> & {
   let children: React.ReactNode = (
     <StyledMask ref={maskRef} onClick={handleClose} style={maskStyles}>
       <StyledModal ref={modalRef} style={modalStyles}>
-        <div className={`${fcb} ${modalHeadCls}`}>
-          <div className={titleCls}>{title}</div>
-          {closable ? (
-            <IconWrap size="lg" hover onClick={() => onClose?.()}>
-              <MaterialSymbolsCloseRounded />
-            </IconWrap>
-          ) : null}
-        </div>
-        <div className={contentCls}>{props.children}</div>
+        {header === undefined ? (
+          <div className={`${fcb} ${modalHeadCls}`}>
+            <div className={titleCls}>{title}</div>
+            {closable ? (
+              <IconWrap size="lg" hover onClick={() => onClose?.()}>
+                <MaterialSymbolsCloseRounded />
+              </IconWrap>
+            ) : null}
+          </div>
+        ) : (
+          header
+        )}
+        {wrapper ? (
+          <div className={contentCls}>{props.children}</div>
+        ) : (
+          props.children
+        )}
         {footer === undefined ? (
           <div className={footerCls}>
             <Button

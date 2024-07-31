@@ -11,16 +11,11 @@ interface MonthProps {
 const Month: React.FC<MonthProps> = ({ num }) => {
   const { activeMonth, setActiveMonth, setMode } = useContext(CalendarContext)!
   const isActive = activeMonth === num
-
-  console.log('month')
-
   return (
     <td
       className={tdH50}
       onClick={() => {
         setMode(CalendarMode.Day)
-        console.log(num)
-
         setActiveMonth(num)
       }}
     >

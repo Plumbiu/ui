@@ -76,7 +76,7 @@ export const ActionHeader = memo(() => {
     <div className={actionHeadCls}>
       <IconWrap color="info">
         <IcRoundKeyboardDoubleArrowLeft
-          onClick={() => setActiveYear((prev) => prev - 1)}
+          onClick={() => setActiveYear((prev) => prev - 12)}
           fontSize={20}
         />
       </IconWrap>
@@ -101,7 +101,7 @@ export const ActionHeader = memo(() => {
       )}
       <IconWrap color="info">
         <IcRoundKeyboardDoubleArrowRight
-          onClick={() => setActiveYear((prev) => prev + 1)}
+          onClick={() => setActiveYear((prev) => prev + 12)}
           fontSize={20}
         />
       </IconWrap>

@@ -66,8 +66,6 @@ const Calendar: React.FC<CalendarProps> = ({ onChange }) => {
   }, [activeDate])
 
   const daysData = useMemo(() => {
-    console.log(123)
-
     if (mode !== CalendarMode.Day) {
       return []
     }

@@ -1,5 +1,5 @@
 import { useEffect, cloneElement, useState, useRef } from 'react'
-import { Portal, StyledMask } from '@/_utils/components'
+import Modal from '@/modal'
 
 export interface IGallery {
   node: JSX.Element
@@ -24,18 +24,24 @@ const Gallery = (props: IGallery) => {
   return (
     <>
       {img}
-      <Portal>
-        {visible && (
-          <StyledMask
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.45)',
-            }}
-            onClick={() => setVisible(false)}
-          >
-            {img}
-          </StyledMask>
-        )}
-      </Portal>
+      <Modal
+        style={{
+          minWidth: 'unset',
+          padding: 0,
+          boxShadow: 'none',
+          backgroundColor: 'transparent',
+        }}
+        header={null}
+        footer={null}
+        centered
+        wrapper={false}
+        visible={visible}
+        onClose={() => setVisible(false)}
+      >
+        <div draggable onClick={() => setVisible(false)}>
+          {img}
+        </div>
+      </Modal>
     </>
   )
 }
