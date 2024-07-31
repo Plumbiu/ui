@@ -1,38 +1,83 @@
 import { css } from '@pigment-css/react'
 import { clsx } from 'clsx'
-import { memo } from 'react'
+import { memo, useContext, useRef } from 'react'
 import { activeCeilCls, ceilCls, ceilHoverCls } from './styles'
 import { MonthStep } from './constant'
+import CalendarContext from './context'
+import { DayArr } from './utils'
 
 interface DayProps {
   num: number
   step: MonthStep
-  isActive: boolean
-  clickHandler: () => void
+  clickHandler: (e: React.MouseEvent) => void
+}
+
+interface DaysProps {
+  data: DayArr[][]
 }
 
 const fadeColor = css(({ theme }) => ({
   color: theme.vars['text-4'],
 }))
 
-const Day: React.FC<DayProps> = memo(
-  ({ num, step, isActive, clickHandler }) => {
-    console.log(1)
+const todayCls = css(({ theme }) => ({
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: theme['primary'],
+}))
 
-    return (
-      <td onClick={clickHandler}>
-        <div
-          className={clsx(ceilCls, {
-            [fadeColor]: step !== MonthStep.curr,
-            [activeCeilCls]: isActive,
-            [ceilHoverCls]: !isActive,
-          })}
-        >
-          {num}
-        </div>
-      </td>
-    )
-  },
-)
+const Days: React.FC<DaysProps> = memo(({ data }) => {
+  const { setActiveMonth, setActiveDate } = useContext(CalendarContext)!
+  const ref = useRef<any>(null)
 
-export default Day
+  return data.map((item, idx) => (
+    <tr key={idx}>
+      {item.map(({ day, step }, subIdx) => (
+        <Day
+          clickHandler={(e) => {
+            if (step !== MonthStep.curr) {
+              setActiveMonth(step, true)
+            }
+            setActiveDate(day)
+            // handle active
+            const refCurrent = ref.current
+            if (refCurrent) {
+              refCurrent.classList.remove(activeCeilCls)
+            }
+
+            if (step !== MonthStep.curr) {
+              ref.current = null
+              return
+            }
+            const target = e.target as any
+            target.classList.add(activeCeilCls)
+            target.classList.remove(ceilHoverCls)
+            ref.current = target
+          }}
+          key={subIdx}
+          step={step}
+          num={day}
+        />
+      ))}
+    </tr>
+  ))
+})
+
+const Day: React.FC<DayProps> = memo(({ num, step, clickHandler }) => {
+  return (
+    <td>
+      <div
+        onClick={(e) => {
+          clickHandler(e)
+        }}
+        className={clsx(ceilCls, ceilHoverCls, todayCls, {
+          [fadeColor]: step !== MonthStep.curr,
+        })}
+      >
+        {num}
+      </div>
+    </td>
+  )
+})
+
+export default Days

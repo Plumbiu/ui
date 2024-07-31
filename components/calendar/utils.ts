@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { MonthStep } from './constant'
 
-interface DayArr {
+export interface DayArr {
   day: number
   step: MonthStep
 }
