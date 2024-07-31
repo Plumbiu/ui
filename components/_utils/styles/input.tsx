@@ -4,6 +4,7 @@ export const inputWrapperCls = css(({ theme }) => ({
   position: 'relative',
   display: 'inline-flex',
   alignItems: 'center',
+  boxSizing: 'border-box',
   color: theme.vars['text-1'],
   fontSize: 14,
   height: 30,

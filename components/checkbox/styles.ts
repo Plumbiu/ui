@@ -13,6 +13,7 @@ export const wrapperCls = css(({ theme }) => ({
       backgroundColor: theme['blue-4'],
       borderColor: theme['blue-4'],
       '&::before': {
+        boxSizing: 'border-box',
         opacity: 1,
         width: 9,
         height: 5,
@@ -41,6 +42,7 @@ export const wrapperCls = css(({ theme }) => ({
     transition: '0.2s',
     '&::before': {
       content: '""',
+      boxSizing: 'border-box',
       position: 'absolute',
       display: 'block',
       opacity: 0,

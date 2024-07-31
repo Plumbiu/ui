@@ -5,6 +5,7 @@ export const StyledButton = styled('button')<ButtonProps>(({ theme }) => {
   return {
     position: 'relative',
     cursor: 'pointer',
+    boxSizing: 'border-box',
     outline: 'none',
     color: theme.vars['text-1'],
     transition: '0.175s',

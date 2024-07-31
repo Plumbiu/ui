@@ -35,6 +35,7 @@ const wrapperCls = css(({ theme }) => ({
   },
   '> span': {
     display: 'inline-block',
+    boxSizing: 'border-box',
     position: 'relative',
     width: SIZE,
     height: SIZE,

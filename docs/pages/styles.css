@@ -1,10 +1,15 @@
 .vp-local-demo {
-  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
   p {
     font-size: 14px;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: unset;
   }
 }

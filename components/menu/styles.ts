@@ -5,8 +5,8 @@ export const itemWrapCls = css({
   alignItems: 'center',
   width: '100%',
   '&>span+div': {
-    marginLeft: 8
-  }
+    marginLeft: 8,
+  },
 })
 
 export const labelWrapCls = css({
@@ -65,7 +65,6 @@ export const groupCls = css(({ theme }) => ({
   fontWeight: 500,
   cursor: 'text',
   color: theme.vars['text-4'],
-
 }))
 
 export const iconCls = css(({ theme }) => ({
@@ -124,11 +123,11 @@ export const horizontalMenuItemCls = css(({ theme }) => ({
 }))
 
 export const activeHorizontalOverflowCls = css(({ theme }) => ({
-  overflow: 'unset',
+  overflow: 'hidden',
 }))
 
 export const activeHorizontalCls = css(({ theme }) => ({
-  borderBottomColor: theme.vars['primary-1']
+  borderBottomColor: theme.vars['primary-1'],
 }))
 
 export const disabledCls = css(({ theme }) => ({

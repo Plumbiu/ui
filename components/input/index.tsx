@@ -1,20 +1,15 @@
 import { css, styled } from '@pigment-css/react'
 import React, { useMemo, useRef, useState } from 'react'
+import { clsx } from 'clsx'
 import {
   IconoirEye,
   IconoirEyeClosed,
   MaterialSymbolsCloseSmallOutlineRounded,
 } from './icons'
-import {
-  EventKey,
-  InputChangeEvent,
-  InputProps,
-  InputProxy,
-} from './types'
+import { EventKey, InputChangeEvent, InputProps, InputProxy } from './types'
 import { fcc_inline } from '@/_utils/styles'
 import { IconWrap } from '@/icon'
 import { useMounted } from '@/_utils/hooks'
-import { clsx } from 'clsx'
 import { inputDisabledCls, inputWrapperCls } from '@/_utils/styles/input'
 
 const focusStyle = css(({ theme }) => ({

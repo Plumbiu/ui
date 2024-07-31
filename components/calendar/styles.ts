@@ -2,8 +2,8 @@ import { css } from '@pigment-css/react'
 
 export const ceilCls = css(({ theme }) => ({
   color: theme['text-1'],
-  minWidth: 24,
-  minHeight: 24,
+  width: 24,
+  height: 24,
   lineHeight: '24px',
   borderRadius: 6,
   textAlign: 'center',

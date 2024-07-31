@@ -1,7 +1,7 @@
-import { slsx } from '@/_utils/util'
-import { TSize } from '@/types'
 import { styled } from '@pigment-css/react'
 import { Children } from 'react'
+import { slsx } from '@/_utils/util'
+import { TSize } from '@/types'
 
 export interface SpaceProps {
   size?: TSize | number
