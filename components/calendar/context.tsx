@@ -1,8 +1,10 @@
 import { createContext } from 'react'
+import { Dayjs } from 'dayjs'
 import { CalendarMode, CalendarProps } from './types'
 import { SetState } from '@/types'
 
 const CalendarContext = createContext<{
+  now: Dayjs
   onChange: CalendarProps['onChange']
   activeDate: number
   setActiveDate: SetState<number>
